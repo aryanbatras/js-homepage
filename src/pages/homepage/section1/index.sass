@@ -53,6 +53,30 @@
         -webkit-text-fill-color: transparent
         background-clip: text
 
+    .homepage__section1__dashboard-btn
+      padding: 1rem 2rem
+      font-size: 1.1rem
+      font-weight: 600
+      color: white
+      background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%)
+      border: none
+      border-radius: 50px
+      cursor: pointer
+      transition: all 0.3s ease
+      box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3)
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+      letter-spacing: 0.5px
+      text-decoration: none
+      
+      &:hover
+        transform: translateY(-4px) scale(1.05)
+        box-shadow: 0 6px 20px rgba(243, 156, 18, 0.4)
+        // background: linear-gradient(135deg, #e67e22 0%, #f39c12 100%)
+      
+      &:active
+        transform: translateY(0)
+        box-shadow: 0 2px 10px rgba(243, 156, 18, 0.3)
+
 @keyframes jsicon-subtle
   0%, 100%
     transform: translateY(0)

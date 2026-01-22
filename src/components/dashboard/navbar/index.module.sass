@@ -9,6 +9,10 @@
   padding: 0.5rem 0.75rem
   position: relative
   border-bottom: 1px solid rgba(0, 0, 0, 0.04)
+  // overflow-x: scroll
+  // overflow-y: hidden
+  // &::-webkit-scrollbar
+  //   display: none
   &::before
     content: ''
     position: absolute
@@ -23,11 +27,16 @@
     &::before
       opacity: 1
 
+@media (max-width: 1024px)
+  .navbar
+    flex-direction: column-reverse
+
 .container
   display: flex
   align-items: start 
   justify-content: start
-  gap: 1rem
+  gap: 1.25rem
+  
 
 .section 
   gap: 0.25rem

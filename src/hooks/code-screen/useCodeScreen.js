@@ -77,6 +77,9 @@ export function useCodeScreen(files) {
         }
       } finally {
         console.log = originalLog;
+        if (outputs.length === 0) {
+          setConsoleOutput(["Please use console.log() to see output"]);
+        }
       }
     } else {
       setConsoleOutput(["Error: No .js file found!"]);

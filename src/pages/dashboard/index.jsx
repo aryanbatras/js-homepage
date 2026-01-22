@@ -21,7 +21,7 @@ export default function Dashboard() {
 
   const toggleProblemsPanel = () => {
     setIsProblemsPanelOpen(!isProblemsPanelOpen);
-    setScreenResizer(isProblemsPanelOpen ? 100 : 30);
+    setScreenResizer(window.innerWidth >= 768 ? (isProblemsPanelOpen ? 100 : 30) : (isProblemsPanelOpen ? 100 : 0));
   };
 
   const goToPreviousProblem = () => {

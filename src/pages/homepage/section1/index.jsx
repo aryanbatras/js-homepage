@@ -1,4 +1,5 @@
 import { FaSquareJs } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 import "./index.sass";
 function Section1({insideMac = false}) {
   return (
@@ -9,6 +10,19 @@ function Section1({insideMac = false}) {
             The <span>challenging</span> <br /> 
             way to learn <span>JavaScript</span>
           </span>
+          {insideMac === false && ( 
+            <Link 
+              className="homepage__section1__dashboard-btn"
+              to='/dashboard'
+              onClick={() => {
+                setTimeout(() => {
+                  window.location.reload();
+                }, 1000);
+              }}
+            >
+              Start Coding Challenges
+            </Link>
+          )}
         </div>
       </div>
   );

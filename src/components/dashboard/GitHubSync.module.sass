@@ -10,6 +10,7 @@
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1)
   position: relative
   overflow: hidden
+  z-index: 50
   
   &::before
     content: ''
@@ -19,17 +20,17 @@
     right: 0
     height: 1px
     background: linear-gradient(90deg, transparent, rgba(234, 88, 12, 0.15), transparent)
-    opacity: 0
+    opacity: 1
     transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1)
   
-  &:hover
-    background: rgba(255, 255, 255, 0.98)
-    border-color: rgba(234, 88, 12, 0.15)
-    transform: translateY(-2px)
-    box-shadow: 0 8px 24px rgba(234, 88, 12, 0.12)
+  // &:hover
+    // background: rgba(255, 255, 255, 0.98)
+    // border-color: rgba(234, 88, 12, 0.15)
+    // transform: translateY(-2px)
+    // box-shadow: 0 8px 24px rgba(234, 88, 12, 0.12)
     
-    &::before
-      opacity: 1
+    // &::before
+    //   opacity: 1
 
 .syncInfo
   display: flex

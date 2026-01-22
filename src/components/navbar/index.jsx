@@ -11,7 +11,7 @@ function Navbar() {
     // Then reload the page after a short delay to ensure navigation completes
     setTimeout(() => {
       window.location.reload();
-    }, 250);
+    }, 500);
   };
   
   return (

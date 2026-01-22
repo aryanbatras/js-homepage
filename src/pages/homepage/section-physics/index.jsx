@@ -165,7 +165,7 @@ function PhysicsBox({ position, rad, texture }) {
   );
 }
 function Attractor() {
-  const attractorRef = useRef();
+  const attractorRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const vec = useMemo(() => new Vector3(), []);
 
@@ -182,14 +182,16 @@ function Attractor() {
   const handlePointerDown = (e) => {
     e.stopPropagation();
     setIsDragging(true);
-    attractorRef.current.setType("kinematic");
+    // if (attractorRef?.current) {
+    //   attractorRef?.current?.setType("kinematic");
+    // }
   };
 
   const handlePointerUp = () => {
     setIsDragging(false);
-    if (attractorRef.current) {
-      attractorRef.current.setType("dynamic");
-    }
+    // if (attractorRef?.current) {
+    //   attractorRef?.current?.setType("dynamic");
+    // }
   };
 
   const handlePointerMove = (e) => {
@@ -207,9 +209,9 @@ function Attractor() {
   useEffect(() => {
     const handleGlobalPointerUp = () => {
       setIsDragging(false);
-      if (attractorRef.current) {
-        attractorRef.current.setType("dynamic");
-      }
+      // if (attractorRef?.current) {
+      //   attractorRef?.current?.setType("dynamic");
+      // }
     };
 
     window.addEventListener("pointerup", handleGlobalPointerUp);
