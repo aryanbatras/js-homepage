@@ -355,40 +355,57 @@ export default function GitHubSync({ selectedProblem, files, onFilesUpdated, onF
         .github-sync {
           display: flex;
           align-items: center;
-          gap: 12px;
-          padding: 8px 16px;
-          background: rgba(255, 255, 255, 0.1);
+          gap: 8px;
+          padding: 6px 12px;
+          background: rgba(248, 248, 248, 0.8);
+          border: 1px solid rgba(0, 0, 0, 0.06);
           border-radius: 8px;
-          backdrop-filter: blur(10px);
+          transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .github-sync:hover {
+          background: rgba(250, 250, 250, 0.9);
+          border-color: rgba(0, 0, 0, 0.1);
+          transform: translateY(-1px);
         }
 
         .sync-info {
           display: flex;
           align-items: center;
-          gap: 8px;
-          color: white;
-          font-size: 12px;
+          gap: 6px;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 11px;
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+          font-weight: 400;
         }
 
         .github-icon {
           color: #24292e;
           background: white;
-          border-radius: 4px;
-          padding: 4px;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          border-radius: 6px;
+          padding: 3px;
+          transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .github-icon:hover {
+          transform: scale(1.05);
+          border-color: rgba(0, 0, 0, 0.2);
         }
 
         .repo-name {
-          font-family: monospace;
-          opacity: 0.8;
+          font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+          color: rgba(0, 0, 0, 0.8);
+          font-weight: 500;
         }
 
         .problem-name {
-          font-family: monospace;
-          font-size: 11px;
-          opacity: 0.7;
+          font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+          font-size: 10px;
+          color: rgba(0, 0, 0, 0.6);
           display: flex;
           align-items: center;
-          gap: 4px;
+          gap: 3px;
         }
 
         .stored-indicator {
@@ -404,53 +421,70 @@ export default function GitHubSync({ selectedProblem, files, onFilesUpdated, onF
 
         .sync-actions {
           display: flex;
-          gap: 4px;
+          gap: 3px;
         }
 
         .sync-btn {
           display: flex;
           align-items: center;
-          gap: 4px;
-          padding: 6px 10px;
-          background: rgba(255, 255, 255, 0.2);
-          border: 1px solid rgba(255, 255, 255, 0.3);
+          gap: 3px;
+          padding: 4px 8px;
+          background: white;
+          border: 1px solid rgba(0, 0, 0, 0.1);
           border-radius: 6px;
-          color: white;
-          font-size: 11px;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 10px;
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+          font-weight: 400;
           cursor: pointer;
-          transition: all 0.2s;
+          transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .sync-btn:hover:not(:disabled) {
-          background: rgba(255, 255, 255, 0.3);
+          background: rgba(248, 248, 248, 0.9);
+          border-color: rgba(0, 0, 0, 0.2);
+          color: rgba(0, 0, 0, 0.9);
           transform: translateY(-1px);
         }
 
         .sync-btn:disabled {
-          opacity: 0.5;
+          opacity: 0.4;
           cursor: not-allowed;
+          background: rgba(248, 248, 248, 0.5);
         }
 
         .push-btn:hover:not(:disabled) {
-          background: rgba(34, 197, 94, 0.8);
+          background: rgba(34, 197, 94, 0.1);
+          border-color: rgba(34, 197, 94, 0.3);
+          color: rgba(34, 197, 94, 0.8);
         }
 
         .pull-btn:hover:not(:disabled) {
-          background: rgba(59, 130, 246, 0.8);
+          background: rgba(59, 130, 246, 0.1);
+          border-color: rgba(59, 130, 246, 0.3);
+          color: rgba(59, 130, 246, 0.8);
         }
 
         .info-btn:hover:not(:disabled) {
-          background: rgba(242, 92, 92, 0.8);
+          background: rgba(242, 92, 92, 0.1);
+          border-color: rgba(242, 92, 92, 0.3);
+          color: rgba(242, 92, 92, 0.8);
         }
 
         .sync-message {
           display: flex;
           align-items: center;
-          gap: 6px;
-          padding: 6px 12px;
+          gap: 4px;
+          padding: 4px 8px;
           border-radius: 6px;
-          font-size: 11px;
-          margin-top: 8px;
+          font-size: 10px;
+          margin-top: 6px;
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+          font-weight: 400;
+          background: rgba(248, 248, 248, 0.8);
+          border: 1px solid rgba(0, 0, 0, 0.06);
+          color: rgba(0, 0, 0, 0.7);
+        }
           animation: slideIn 0.3s ease;
         }
 

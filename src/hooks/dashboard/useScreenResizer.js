@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import styles from "../../pages/dashboard/index.module.sass";
 
 export function useScreenResizer() {
- const [screenResizer, setScreenResizer] = useState(30);
+ const [screenResizer, setScreenResizer] = useState(100);
   const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {

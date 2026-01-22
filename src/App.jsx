@@ -4,7 +4,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Dashboard from './pages/dashboard';
 import GitHubLogin from './components/auth/GitHubLogin';
 import AuthCallback from './components/auth/AuthCallback';
-
+import Homepage from './pages/homepage';
 function ProtectedRoute({ children }) {
   const { user, isLoading } = useAuth();
   
@@ -22,7 +22,8 @@ function AppRoutes() {
           <Dashboard />
         </ProtectedRoute>
       } />
-      <Route path="/" element={<Navigate to="/dashboard" />} />
+      <Route path="/" element={<Homepage />} />
+      <Route path="/homepage" element={<Homepage />} />
     </Routes>
   );
 }

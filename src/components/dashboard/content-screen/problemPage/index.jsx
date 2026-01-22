@@ -6,7 +6,8 @@ export default function ProblemPage({
   selectProblem, 
   setSelectProblem, 
   selectedProblemIndex, 
-  setSelectedProblemIndex, 
+  setSelectedProblemIndex,
+  onToggleProblemsPanel,
   data 
 }) {
   const [navbarOption, setNavbarOption] = useState("description");
@@ -31,7 +32,7 @@ export default function ProblemPage({
   return (
     <div className={styles.container}>
       <Navbar setNavbarOption={setNavbarOption} currentOption={navbarOption} />
-      <button className={styles.button} onClick={() => setSelectedProblemIndex(null)}>
+      <button className={styles.button} onClick={() => {setSelectedProblemIndex(null); onToggleProblemsPanel();}}>
         <MdOutlineArrowBackIosNew />
         <span>Back to Problems</span>
       </button>

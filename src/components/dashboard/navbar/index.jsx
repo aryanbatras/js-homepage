@@ -10,6 +10,7 @@ import { VscRunCoverage } from "react-icons/vsc";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { IoSettings } from "react-icons/io5";
 import GitHubSync from "../GitHubSync";
+import { Link } from "react-router-dom";
 
 export default function DashboardNavbar({ 
   isProblemsPanelOpen, 
@@ -21,10 +22,11 @@ export default function DashboardNavbar({
   onFilesUpdated,
   onFilesFromGitHub,
   selectedProblem,
-  hasStoredVersion
+  hasStoredVersion,
+  isTimerVisible,
+  onToggleTimer
 }) {
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
-  const [isTimerVisible, setIsTimerVisible] = useState(false);
   const [isProfileVisible, setIsProfileVisible] = useState(false);
 
   const handleRun = () => {
@@ -54,7 +56,7 @@ export default function DashboardNavbar({
   };
 
   const toggleTimer = () => {
-    setIsTimerVisible(!isTimerVisible);
+    onToggleTimer();
     window.dispatchEvent(new CustomEvent('toggleTimer', { detail: { isTimerVisible: !isTimerVisible } }));
   };
 
@@ -65,7 +67,9 @@ export default function DashboardNavbar({
   return (
     <nav className={styles.navbar}>
       <div className={styles.container}>
-        <IoLogoJavascript className={styles.icon__large} />
+        <Link to="/" style={{ textDecoration: 'none', color: 'darkorange' }}>
+          <IoLogoJavascript className={styles.icon__large} />
+        </Link>
         <div className={styles.section}>
           <div className={styles.icon__small} onClick={onToggleProblemsPanel}>
             <CiMenuFries />

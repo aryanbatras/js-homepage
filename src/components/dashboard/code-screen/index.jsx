@@ -148,7 +148,7 @@ export default function DashboardCodeScreen({ screenResizer, selectedProblem, ha
         className={styles.verticalResizer}
         onMouseDown={(e) => setIsDragging(true)}
       >
-        <CiMenuKebab />
+        <CiMenuKebab className={styles.verticalResizerIcon} />
       </div>
     );
   }

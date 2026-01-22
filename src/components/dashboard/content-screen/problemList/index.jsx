@@ -1,22 +1,49 @@
-import { useState } from "react";
 import styles from "./index.module.sass";
 import ProblemPage from "../problemPage";
-import Navbar from "../navbar";
-export default function ProblemList({ data, selectedProblemIndex, setSelectedProblemIndex }) {
+import CategorySelector from "../categorySelector";
+import { problemsByCategory } from "../store/categories";
+
+export default function ProblemList({ 
+  selectedProblemIndex, 
+  setSelectedProblemIndex,
+  selectedCategory,
+  setSelectedCategory,
+  onToggleProblemsPanel
+}) {
+  const currentCategoryData = selectedCategory ? problemsByCategory[selectedCategory] || [] : [];
+
   return (
     <div className={styles.container}>
       <div className={styles.problems}>
         {selectedProblemIndex === null ? (
-          data.map((item, index) => (
-            Problem(index, item)
-          ))
+          selectedCategory === null ? (
+            <CategorySelector onCategorySelect={setSelectedCategory} />
+          ) : (
+            <>
+              <div className={styles.categoryHeader}>
+                <button 
+                  className={styles.backButton}
+                  onClick={() => setSelectedCategory(null)}
+                >
+                  ← Back to Categories
+                </button>
+                <h2 className={styles.categoryTitle}>
+                  {selectedCategory.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                </h2>
+              </div>
+              {currentCategoryData.map((item, index) => (
+                Problem(index, item)
+              ))}
+            </>
+          )
         ) : (
           <ProblemPage 
-            selectProblem={data[selectedProblemIndex]} 
+            selectProblem={currentCategoryData[selectedProblemIndex]} 
             setSelectProblem={() => setSelectedProblemIndex(null)}
             selectedProblemIndex={selectedProblemIndex}
             setSelectedProblemIndex={setSelectedProblemIndex}
-            data={data}
+            onToggleProblemsPanel={onToggleProblemsPanel}
+            data={currentCategoryData}
           />
         )}
       </div>
@@ -24,7 +51,7 @@ export default function ProblemList({ data, selectedProblemIndex, setSelectedPro
   );
 
   function Problem(index, item) {
-    return <div key={index} className={styles.problem} onClick={() => setSelectedProblemIndex(index)}>
+    return <div key={index} className={styles.problem} onClick={() => {setSelectedProblemIndex(index); onToggleProblemsPanel();}}>
       <h1 className={styles.title}>{item?.title}</h1>
       <p className={styles.description}>{item?.description}</p>
     </div>;
