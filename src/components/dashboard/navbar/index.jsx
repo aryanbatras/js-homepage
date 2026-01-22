@@ -1,0 +1,133 @@
+import { useState } from "react";
+import styles from "./index.module.sass";
+import { IoLogoJavascript, IoShuffle } from "react-icons/io5";
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import { CiMenuFries } from "react-icons/ci";
+import { FaPlay, FaStopwatch, FaUser } from "react-icons/fa";
+import { FaRegNoteSticky } from "react-icons/fa6";
+import { VscPreview } from "react-icons/vsc";
+import { VscRunCoverage } from "react-icons/vsc";
+import { LuLayoutDashboard } from "react-icons/lu";
+import { IoSettings } from "react-icons/io5";
+import GitHubSync from "../GitHubSync";
+
+export default function DashboardNavbar({ 
+  isProblemsPanelOpen, 
+  onToggleProblemsPanel, 
+  goToPreviousProblem, 
+  goToNextProblem, 
+  shuffleProblems,
+  files,
+  onFilesUpdated,
+  onFilesFromGitHub,
+  selectedProblem,
+  hasStoredVersion
+}) {
+  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+  const [isTimerVisible, setIsTimerVisible] = useState(false);
+  const [isProfileVisible, setIsProfileVisible] = useState(false);
+
+  const handleRun = () => {
+    window.dispatchEvent(new CustomEvent('runCode'));
+  };
+
+  const togglePreview = () => {
+    window.dispatchEvent(new CustomEvent('togglePreview'));
+  };
+
+  const toggleDebugMode = () => {
+    window.dispatchEvent(new CustomEvent('toggleDebug'));
+  };
+
+  const toggleNotesPanel = () => {
+    // Create and open index.md file
+    window.dispatchEvent(new CustomEvent('createNotesFile'));
+  };
+
+  const navigateToDashboard = () => {
+    window.location.href = '/dashboard';
+  };
+
+  const toggleSettingsModal = () => {
+    setIsSettingsModalOpen(!isSettingsModalOpen);
+    window.dispatchEvent(new CustomEvent('toggleSettings', { detail: { isSettingsModalOpen: !isSettingsModalOpen } }));
+  };
+
+  const toggleTimer = () => {
+    setIsTimerVisible(!isTimerVisible);
+    window.dispatchEvent(new CustomEvent('toggleTimer', { detail: { isTimerVisible: !isTimerVisible } }));
+  };
+
+  const toggleProfile = () => {
+    setIsProfileVisible(!isProfileVisible);
+    window.dispatchEvent(new CustomEvent('toggleProfile', { detail: { isProfileVisible: !isProfileVisible } }));
+  };
+  return (
+    <nav className={styles.navbar}>
+      <div className={styles.container}>
+        <IoLogoJavascript className={styles.icon__large} />
+        <div className={styles.section}>
+          <div className={styles.icon__small} onClick={onToggleProblemsPanel}>
+            <CiMenuFries />
+            <div className={styles.icon__overlay}>Problems Panel</div>
+          </div>
+          <div className={styles.icon__small} onClick={goToPreviousProblem}>
+            <MdKeyboardArrowLeft />
+            <div className={styles.icon__overlay}>Previous Problem</div>
+          </div>
+          <div className={styles.icon__small} onClick={goToNextProblem}>
+            <MdKeyboardArrowRight />
+            <div className={styles.icon__overlay}>Next Problem</div>
+          </div>
+          <div className={styles.icon__small} onClick={shuffleProblems}>
+            <IoShuffle />
+            <div className={styles.icon__overlay}>Shuffle</div>
+          </div>
+        </div>
+      </div>
+      <div className={styles.section}>
+        <div className={styles.icon__small} onClick={handleRun}>
+          <VscRunCoverage />
+          <div className={styles.icon__overlay}>Run</div>
+        </div>
+        <div className={styles.icon__small} onClick={togglePreview}>
+          <VscPreview />
+          <div className={styles.icon__overlay}>Preview</div>
+        </div>
+        <div className={styles.icon__small} onClick={toggleNotesPanel}>
+          <FaRegNoteSticky />
+          <div className={styles.icon__overlay}>Notes</div>
+        </div>
+      </div>
+      <div className={styles.container}>
+        <div className={styles.section}>
+          <div className={styles.icon__small} onClick={navigateToDashboard}>
+            <LuLayoutDashboard />
+            <div className={styles.icon__overlay}>Dashboard</div>
+          </div>
+          <div className={styles.icon__small} onClick={toggleSettingsModal}>
+            <IoSettings />
+            <div className={styles.icon__overlay}>Settings</div>
+          </div>
+        </div>
+        <div className={styles.section}>
+          <div className={styles.icon__small} onClick={toggleTimer}>
+            <FaStopwatch />
+            <div className={styles.icon__overlay}>Timer</div>
+          </div>
+          <div className={styles.icon__small__left} onClick={toggleProfile}>
+            <FaUser />
+            <div className={styles.icon__overlay}>Profile</div>
+          </div>
+        </div>
+        <GitHubSync 
+          files={files || []} 
+          onFilesUpdated={onFilesUpdated} 
+          onFilesFromGitHub={onFilesFromGitHub}
+          selectedProblem={selectedProblem}
+          hasStoredVersion={hasStoredVersion}
+        />
+      </div>
+    </nav>
+  );
+}

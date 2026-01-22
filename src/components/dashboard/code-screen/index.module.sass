@@ -1,0 +1,278 @@
+.code_screen
+  height: 92vh
+  // width: 50vw
+  display: flex
+  flex-direction: column
+  border: 0.25px solid rgb(128, 128, 128, 0.32)
+  border-radius: 5px
+  background: rgb(128, 128, 128, 0.32)
+  // background: red
+  color: white
+  font-size: 0.75rem
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+  font-weight: 500
+  margin: 15px
+  position: relative
+  overflow-y: hidden
+  overflow-x: hidden
+  // overflow: auto
+  .files_wrapper
+    position: relative
+    .menu
+      position: absolute
+      top: 75%
+      // left: -10%
+      right: 0%
+      border: 1px solid black
+      border-radius: 0px
+      background: rgb(0, 0, 0, 0.62)
+      margin: 2.5px
+      margin-top: 0.2rem
+      display: flex
+      flex-direction: column
+      font: 0.6rem 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+      gap: 0.5rem
+      opacity: 1
+      display: flex
+      transition: all 0.4s ease-in-out
+      z-index: 1000
+      .option
+        display: flex
+        flex-direction: row
+        gap: 0.5rem
+        padding: 0.6rem 1rem
+        cursor: pointer
+        &:first-child
+          &:hover
+            // background: rgb(0, 106, 255)
+            background: rgb(255, 0, 0, 0.75)
+        // &:nth-child(2)
+        //   &:hover
+        //     background: rgb(255, 0, 0, 0.85)
+  .files
+    display: flex
+    flex-direction: row
+    justify-content: start
+    align-items: center
+    gap: 0.5rem
+    padding: 0.5rem 0.25rem
+    margin: 5px 0px
+    background: transparent
+    // background: red
+    // width: 150%
+    width: auto
+    overflow-y: hidden
+    overflow-x: auto
+    scrollbar-width: none
+    height: 2vh
+    &__add_icon
+      font-size: 0.75rem
+      opacity: 0.5
+      // width: 25vw
+      // background: purple
+      transform: translateY(2px)
+      cursor: pointer
+      &:hover
+        opacity: 1
+    &__setting_icon
+      position: absolute
+      // background: red
+      right: 2.5%      
+      font-size: 0.75rem
+      opacity: 0.5
+      transform: translateY(2px)
+      cursor: pointer
+      &:hover
+        opacity: 1
+    &__input_container
+      display: flex
+      flex-direction: row
+      justify-content: space-evenly
+      align-items: center
+      gap: 0.25rem
+      color: white
+      background: rgb(0, 0, 0, 0.88)
+      border: 0.25px solid rgb(0, 0, 0, 0.32)
+      border-radius: 5px
+      padding: 0.40rem 0.5rem
+      padding-left: 0.5rem
+    &__input
+      // background: rgb(128, 128, 128, 0.25)
+      background: transparent
+      border-radius: 2.5px
+      border: none
+      opacity: 0.8
+      color: white
+      outline: none
+      font-size: 0.75rem
+      font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+      font-weight: 500
+      width: 50px
+    &__input_icon
+      font-size: 0.75rem
+      opacity: 0.5
+      cursor: pointer
+      transform: translateY(1px)
+      &:hover
+        opacity: 1
+    .file
+      display: flex
+      flex-direction: row
+      justify-content: start
+      align-items: center
+      padding: 0.45rem 0.5rem
+      // padding-left: 0.5rem
+      border: 0.25px solid rgb(0, 0, 0, 0.32)
+      border-radius: 5px
+      background: rgb(0, 0, 0, 0.2)
+      color: white
+      font-size: 0.75rem
+      font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+      font-weight: 500 
+      transition: all 0.2s ease-in-out
+      position: relative
+      z-index: 999
+      cursor: pointer
+      &[data-selected=true]
+        background: rgb(0, 0, 0, 1)
+      .icon
+        opacity: 0
+        transform: translateY(1px)
+      &:hover
+        transform: translateY(1px)
+        // .icon
+        //   opacity: 1
+        // .menu
+        //   opacity: 1
+        //   display: flex
+
+.preview_iframe
+  flex: 1
+  width: 100%
+  border: none
+  overflow: hidden 
+
+.console
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  align-items: stretch
+  margin: 0.15rem 0rem
+  padding: 0.5rem 0.25rem
+  gap: 0.5rem
+  &[data-console-expanded="true"]
+    height: 20vh
+    &[data-preview-selected="true"]
+      height: 40vh
+
+.preview_console_container
+  flex: 1
+  display: flex
+  flex-direction: column
+  gap: 0.5rem
+
+.control_bar
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  gap: 0.5rem
+  width: 20px
+  background: rgba(0, 0, 0, 0.3)
+  border-radius: 5px
+  padding: 0.5rem 0
+  overflow-y: scroll
+
+.vertical_button
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  width: 25px
+  height: 80px
+  background: rgba(0, 0, 0, 0.6)
+  border: none
+  border-radius: 5px
+  color: white
+  font-size: 0.7rem
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+  font-weight: 500
+  cursor: pointer
+  transition: all 0.1s ease-in-out
+  &:hover
+    background: rgba(128, 128, 128, 0.2)
+    transform: translateX(-1px)
+  &:active
+    transform: translateX(-1px) scale(0.98)
+    background: rgba(128, 128, 128, 0.6)
+
+.vertical_text
+  writing-mode: vertical-rl
+  text-orientation: mixed
+  transform: rotate(180deg)
+  margin-top: 0.5rem
+  font-size: 0.5rem
+
+.icon
+  font-size: 1rem
+  margin-bottom: 0.25rem
+  &[data-console-expanded="true"]
+    transform: rotate(180deg)
+
+.preview_panel
+  width: 100%
+  flex: 1
+  background: white
+  border-left: 1px solid rgb(128, 128, 128, 0.32)
+  z-index: 1000
+  display: flex
+  flex-direction: column
+  min-height: 0
+  .preview_header
+    display: flex
+    justify-content: end
+    align-items: center
+    padding: 0.5rem
+    border-bottom: 1px solid rgb(128, 128, 128, 0.32)
+    button
+      background: rgb(0, 0, 0, 0.2)
+      border-radius: 5px
+      cursor: pointer
+      &:hover
+        background: rgb(0, 0, 0, 0.8)
+
+.console_output
+  flex: 1
+  width: 98%
+  background: black
+  margin: 1px
+  padding: 5px
+  border: 2px solid rgb(0, 0, 0, 0.5)
+  display: flex
+  flex-direction: column
+  gap: 0.5rem
+  position: relative
+  min-height: 0
+  overflow-y: auto
+  .console_button
+    position: absolute
+    top: 0
+    right: 0
+    padding: 0.5rem
+
+.verticalResizer
+  height: 2vh
+  width: 100%
+  display: flex
+  justify-content: center
+  align-items: center
+  background: rgba(255, 255, 255, 0.05)
+  border-radius: 1rem
+  cursor: ns-resize
+  margin: 0
+  &:hover
+    background: rgba(255, 255, 255, 0.25)
+  svg
+    font-size: 0.75rem
+    opacity: 0.5
+    transform: rotate(90deg)

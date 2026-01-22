@@ -1,0 +1,193 @@
+.container
+  background: transparent
+  width: auto
+  height: 80vh
+  padding: 2rem
+  overflow-y: auto
+  overflow-x: hidden
+  scrollbar-width: none
+  &::-webkit-scrollbar
+    display: none
+
+  .button
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04))
+    color: rgba(255, 255, 255, 0.8)
+    font-size: 0.8125rem
+    border: 1px solid rgba(255, 255, 255, 0.1)
+    cursor: pointer
+    border-radius: 12px
+    padding: 0.75rem 1.5rem
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1)
+    display: inline-flex
+    align-items: center
+    gap: 0.625rem
+    margin-bottom: 2rem
+    margin-top: 2rem
+    font-weight: 500
+    letter-spacing: 0.025em
+    backdrop-filter: blur(20px)
+    position: relative
+    overflow: hidden
+    &::before
+      content: ''
+      position: absolute
+      inset: 0
+      background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(79, 70, 229, 0.1))
+      opacity: 0
+      transition: opacity 0.4s ease
+    &:hover
+      color: #ffffff
+      border-color: rgba(147, 51, 234, 0.4)
+      transform: translateY(-2px)
+      box-shadow: 0 10px 30px rgba(147, 51, 234, 0.15)
+      &::before
+        opacity: 1
+
+  .title
+    font-size: 1.625rem
+    font-weight: 700
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif
+    color: rgba(255, 255, 255, 0.95)
+    margin: 0 0 2rem 0
+    line-height: 1.2
+    letter-spacing: 0.025em
+
+  .description
+    font-size: 0.9375rem
+    font-weight: 400
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif
+    line-height: 1.7
+    color: rgba(255, 255, 255, 0.85)
+    margin: 0 0 2.5rem 0
+    text-align: justify
+    letter-spacing: 0.0125em
+
+  .code_examples
+    border: 1px solid rgba(255, 255, 255, 0.08)
+    border-radius: 16px
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2))
+    padding: 2rem
+    margin: 2rem 0
+    overflow-x: auto
+    backdrop-filter: blur(20px)
+    position: relative
+    &::before
+      content: ''
+      position: absolute
+      top: 0
+      left: 0
+      right: 0
+      height: 1px
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent)
+    p
+      font-size: 0.8125rem
+      font-weight: 400
+      font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace
+      line-height: 1.6
+      color: rgba(255, 255, 255, 0.9)
+      margin: 0.75rem 0
+      letter-spacing: 0.0125em
+      &:first-child
+        color: rgba(147, 51, 234, 0.9)
+        font-weight: 600
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif
+
+  .hints
+    padding: 2rem
+    text-align: left
+    display: flex
+    flex-direction: column
+    gap: 1rem
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01))
+    border-radius: 16px
+    border: 1px solid rgba(255, 255, 255, 0.08)
+    margin: 2rem 0
+    backdrop-filter: blur(20px)
+    .hint
+      border-radius: 12px
+      border: 1px solid rgba(255, 255, 255, 0.08)
+      background: transparent
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1)
+      cursor: pointer
+      position: relative
+      overflow: hidden
+      &::before
+        content: ''
+        position: absolute
+        inset: 0
+        background: linear-gradient(135deg, rgba(147, 51, 234, 0.1), rgba(79, 70, 229, 0.05))
+        opacity: 0
+        transition: opacity 0.4s ease
+      &:hover
+        transform: translateX(6px)
+        border-color: rgba(147, 51, 234, 0.3)
+        &::before
+          opacity: 1
+    span
+      padding: 1rem 1.25rem
+      font-size: 0.875rem
+      font-weight: 600
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif
+      color: rgba(255, 255, 255, 0.9)
+      display: block
+      letter-spacing: 0.025em
+      position: relative
+      z-index: 1
+    p
+      font-size: 0.8125rem
+      font-weight: 400
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif
+      line-height: 1.6
+      color: rgba(255, 255, 255, 0.8)
+      padding: 0 1.25rem 1rem 1.25rem
+      margin: 0
+      background: rgba(0, 0, 0, 0.3)
+      border-top: 1px solid rgba(255, 255, 255, 0.08)
+      position: relative
+      z-index: 1
+
+.solution
+  border: 1px solid rgba(255, 255, 255, 0.08)
+  border-radius: 16px
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.15))
+  padding: 2rem
+  margin: 2rem 0
+  backdrop-filter: blur(20px)
+  position: relative
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    height: 1px
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent)
+  .approach
+    border: 1px solid rgba(255, 255, 255, 0.08)
+    border-radius: 12px
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01))
+    padding: 1.75rem
+    margin: 1.5rem 0
+    overflow-x: auto
+    backdrop-filter: blur(20px)
+    h3
+      font-size: 1.125rem
+      font-weight: 600
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif
+      color: rgba(147, 51, 234, 0.9)
+      margin: 0 0 1.25rem 0
+      letter-spacing: 0.025em
+  .code
+    font-size: 0.8125rem
+    font-weight: 400
+    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace
+    line-height: 1.6
+    color: rgba(255, 255, 255, 0.9)
+    background: rgba(0, 0, 0, 0.4)
+    padding: 1.25rem
+    border-radius: 8px
+    overflow-x: auto
+    white-space: pre-wrap
+    word-wrap: break-word
+    letter-spacing: 0.0125em
+    border: 1px solid rgba(255, 255, 255, 0.05)

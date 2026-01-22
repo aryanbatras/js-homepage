@@ -1,0 +1,69 @@
+.navbar 
+  height: auto
+  width: 100vw
+  background: black
+  color: white
+  display: flex
+  align-items: center
+  justify-content: space-between
+  padding: 2px
+
+.container
+  display: flex
+  align-items: center
+  justify-content: space-between
+  gap: 1rem
+
+.section 
+  gap: 1rem
+  display: flex
+  align-items: center
+  justify-content: space-around
+  border: 2px solid rgba(255, 255, 255, 0.05)
+  border-radius: 5px
+  &:hover
+    cursor: pointer
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.12))
+
+@mixin icon
+  font-family: "Material Icons"
+  font-size: 1.5rem
+  margin: 2px
+  padding: 2px
+  position: relative
+  opacity: 0.75
+  &__overlay
+    font-size: 0.75rem
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+    opacity: 0
+    position: absolute
+    top: 125%
+    left: 0%
+    border: 0.25px solid transparent
+    border-radius: 5px
+    padding: 5px 10px
+    pointer-events: none
+    background: rgba(0, 0, 0, 0.64)
+  &:hover
+    cursor: pointer
+    z-index: 999
+    transform: translateY(-1px)
+    opacity: 1
+    transition: all 0.2s ease-in-out
+    .icon__overlay
+      opacity: 1
+
+.icon
+  @include icon
+.icon__small
+  @include icon
+  font-size: 1rem
+.icon__large
+  @include icon
+  font-size: 3rem
+  padding: 0 10px
+.icon__small__left
+  @include icon
+  font-size: 1rem
+  .icon__overlay
+    left: -150%

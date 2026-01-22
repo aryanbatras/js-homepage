@@ -1,0 +1,197 @@
+.github-login-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.login-card {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.login-card h1 {
+  color: #333;
+  margin-bottom: 8px;
+  font-size: 28px;
+}
+
+.login-card p {
+  color: #666;
+  margin-bottom: 30px;
+  font-size: 14px;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.feature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #555;
+}
+
+.feature-icon {
+  font-size: 24px;
+}
+
+.github-login-btn {
+  width: 100%;
+  padding: 12px 24px;
+  background: #24292e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background-color 0.2s;
+}
+
+.github-login-btn:hover {
+  background: #0366d6;
+}
+
+.login-note {
+  margin-top: 16px;
+  font-size: 12px;
+  color: #666;
+}
+
+.permission-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.permission-dialog {
+  background: white;
+  border-radius: 12px;
+  padding: 32px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.permission-dialog h2 {
+  margin-bottom: 24px;
+  color: #333;
+}
+
+.permissions-list {
+  margin-bottom: 24px;
+}
+
+.permission-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.permission-item.granted {
+  background: #f0f9ff;
+  border: 1px solid #0ea5e9;
+}
+
+.permission-item.denied {
+  background: #fef2f2;
+  border: 1px solid #ef4444;
+}
+
+.permission-icon {
+  font-size: 18px;
+  margin-top: 2px;
+}
+
+.permission-item div {
+  flex: 1;
+}
+
+.permission-item strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #333;
+}
+
+.permission-item p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.permission-item code {
+  background: #f1f5f9;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 12px;
+}
+
+.permission-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.accept-btn {
+  flex: 1;
+  padding: 12px 24px;
+  background: #22c55e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  flex: 1;
+  padding: 12px 24px;
+  background: #f1f5f9;
+  color: #333;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.accept-btn:hover {
+  background: #16a34a;
+}
+
+.cancel-btn:hover {
+  background: #e5e7eb;
+}
