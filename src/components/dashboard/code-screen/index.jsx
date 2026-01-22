@@ -5,10 +5,15 @@ import { Console } from "./components/Console";
 import { useFileManagement } from "../../../hooks/code-screen/useFileManagement";
 import { useCodeScreen } from "../../../hooks/code-screen/useCodeScreen";
 import { useVerticalResizer } from "../../../hooks/code-screen/useVerticalResizer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
+import { TestRunner } from "../../../utils/testRunner";
+import { FaPlay, FaVial, FaTerminal } from "react-icons/fa";
 
 export default function DashboardCodeScreen({ screenResizer, selectedProblem, hasStoredVersion, onHasStoredVersionChange, onFilesUpdated, onFilesFromGitHub, githubFiles }) {
+  const [testResults, setTestResults] = useState(null);
+  const [isRunningTests, setIsRunningTests] = useState(false);
+  const testRunner = new TestRunner();
   const { verticalResizer, setIsDragging } = useVerticalResizer();
   const {
     inputRef,
@@ -31,6 +36,7 @@ export default function DashboardCodeScreen({ screenResizer, selectedProblem, ha
     consoleState,
     setConsoleState,
     consoleOutput,
+    setConsoleOutput,
     runCode,
     showPreview,
     toggleConsole,
@@ -50,6 +56,35 @@ export default function DashboardCodeScreen({ screenResizer, selectedProblem, ha
 
   const handleRun = () => {
     runCode(files);
+  };
+
+  const handleRunTests = async () => {
+    if (!selectedProblem || !selectedProblem.tests) {
+      console.log('No tests available for this problem');
+      return;
+    }
+
+    setIsRunningTests(true);
+    setTestResults(null);
+    hidePreview();
+
+    try {
+      const userCode = files.map(file => file.content).join('\n\n');
+      const results = await testRunner.runTests(userCode, selectedProblem.tests);
+      
+      setTestResults(results);
+      
+      const formattedOutput = testRunner.formatTestResults(results);
+      
+      setConsoleOutput(prev => [...prev, { type: 'test', content: formattedOutput, timestamp: new Date().toISOString() }]);
+      setConsoleState(true);
+    } catch (error) {
+      console.error('Test execution error:', error);
+      setConsoleOutput(prev => [...prev, { type: 'error', content: `Test execution failed: ${error.message}`, timestamp: new Date().toISOString() }]);
+      setConsoleState(true);
+    } finally {
+      setIsRunningTests(false);
+    }
   };
 
   const handlePreviewClick = () => {
@@ -138,7 +173,35 @@ export default function DashboardCodeScreen({ screenResizer, selectedProblem, ha
         verticalResizer={verticalResizer}
       />
 
-      <div className={styles.testcases}></div>
+      <div className={styles.testcases}>
+        {selectedProblem && selectedProblem.tests && (
+          <button 
+            className={styles.testButton}
+            onClick={handleRunTests}
+            disabled={isRunningTests}
+            title="Run Tests"
+          >
+            {isRunningTests ? (
+              <>
+                <FaPlay className={styles.spinning} />
+                <span>Running...</span>
+              </>
+            ) : (
+              <>
+                <FaVial />
+                <span>Run Tests</span>
+              </>
+            )}
+          </button>
+        )}
+        {/* <button 
+          className={`${styles.consoleToggle} ${consoleState ? styles.glowing : ''}`}
+          onClick={handleToggleConsole}
+          title="Toggle Console"
+        >
+          <FaTerminal />
+        </button> */}
+      </div>
     </div>
   );
 

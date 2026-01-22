@@ -5,6 +5,7 @@ import { BackSide } from "three";
 import { useRef, useState, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Link, useNavigate } from "react-router-dom";
 import "./index.sass";
 import jsLogo from "../../../assets/js.png";
 import downArrow from "../../../assets/down-arrow.png";
@@ -33,14 +34,14 @@ function SectionThreeJs({ insideMac = false }) {
       t.from(dragRef.current, {
         opacity: 0,
         duration: 1,
+      });
+      t.to(boxRef.current.scale, {
+        x: 0.5,
+        y: 0.5,
+        z: 0.5,
+        duration: 2,
+        ease: "none",
       })
-        t.to(boxRef.current.scale, {
-          x: 0.5,
-          y: 0.5,
-          z: 0.5,
-          duration: 2,
-          ease: "none",
-        })
         .to(
           boxRef.current.position,
           {
@@ -81,6 +82,12 @@ function SectionThreeJs({ insideMac = false }) {
       };
     }
   }, [ready]);
+
+  const navigate = useNavigate();
+  const handleChallengesClick = (e) => {
+    window.location.reload();
+  };
+
   return (
     <div
       className={`canvas__container ${insideMac ? "canvas__container--insideMac" : ""}`}
@@ -128,7 +135,13 @@ function SectionThreeJs({ insideMac = false }) {
             directly in your browser
           </div>
           <button ref={buttonRef} className="canvas__button">
-            <span>Start Learning</span> <FaArrowRight />
+            <a
+              href="/dashboard"
+              className="navbar__link canvas__button"
+              onClick={handleChallengesClick}
+            >
+              <span>Start Learning</span> <FaArrowRight />
+            </a>
           </button>
           <div ref={dragRef} className="canvas__drag-indicator">
             <span>Drag me</span>
@@ -158,7 +171,9 @@ function MeshBox({ rotation, boxRef, setReady, drag }) {
     <mesh
       ref={boxRef}
       rotation={[rotation.x, rotation.y, rotation.z]}
-      onPointerEnter={() => (document.body.style.cursor = drag ? "grabbing" : "grab")}
+      onPointerEnter={() =>
+        (document.body.style.cursor = drag ? "grabbing" : "grab")
+      }
       onPointerLeave={() => (document.body.style.cursor = "auto")}
     >
       <boxGeometry args={[2, 2, 2]} />

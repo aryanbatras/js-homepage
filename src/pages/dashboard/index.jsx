@@ -58,13 +58,13 @@ export default function Dashboard() {
 
   const handleFilesUpdated = (updatedFiles) => {
     setFiles(updatedFiles);
-    console.log('Files updated in Dashboard:', updatedFiles);
+    // console.log('Files updated in Dashboard:', updatedFiles);
   };
 
   const handleFilesFromGitHub = (pulledFiles) => {
     setFiles(pulledFiles);
     setGithubFiles(pulledFiles); // Store GitHub files to pass to code screen
-    console.log('Files pulled from GitHub:', pulledFiles);
+    // console.log('Files pulled from GitHub:', pulledFiles);
   };
 
   const handleHasStoredVersionChange = (hasStored) => {

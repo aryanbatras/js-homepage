@@ -36,7 +36,7 @@ export default function Navbar({ setNavbarOption, currentOption }) {
             <span>Solution</span>
           </button>
         </div>
-        <div className={styles.navbar__overlay}>
+        {/* <div className={styles.navbar__overlay}>
           <div className={styles.navbar__overlay__item}>
             <MdFullscreen />
             <span>Fullscreen</span>
@@ -45,7 +45,7 @@ export default function Navbar({ setNavbarOption, currentOption }) {
             <MdOutlineKeyboardArrowLeft />
             <span>Fold</span>
           </div>
-        </div>
+        </div> */}
       </div>
   );
 }

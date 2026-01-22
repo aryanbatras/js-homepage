@@ -12,11 +12,11 @@ import { IoSettings } from "react-icons/io5";
 import GitHubSync from "../GitHubSync";
 import { Link } from "react-router-dom";
 
-export default function DashboardNavbar({ 
-  isProblemsPanelOpen, 
-  onToggleProblemsPanel, 
-  goToPreviousProblem, 
-  goToNextProblem, 
+export default function DashboardNavbar({
+  isProblemsPanelOpen,
+  onToggleProblemsPanel,
+  goToPreviousProblem,
+  goToNextProblem,
   shuffleProblems,
   files,
   onFilesUpdated,
@@ -24,50 +24,62 @@ export default function DashboardNavbar({
   selectedProblem,
   hasStoredVersion,
   isTimerVisible,
-  onToggleTimer
+  onToggleTimer,
 }) {
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isProfileVisible, setIsProfileVisible] = useState(false);
 
   const handleRun = () => {
-    window.dispatchEvent(new CustomEvent('runCode'));
+    window.dispatchEvent(new CustomEvent("runCode"));
   };
 
   const togglePreview = () => {
-    window.dispatchEvent(new CustomEvent('togglePreview'));
+    window.dispatchEvent(new CustomEvent("togglePreview"));
   };
 
   const toggleDebugMode = () => {
-    window.dispatchEvent(new CustomEvent('toggleDebug'));
+    window.dispatchEvent(new CustomEvent("toggleDebug"));
   };
 
   const toggleNotesPanel = () => {
     // Create and open index.md file
-    window.dispatchEvent(new CustomEvent('createNotesFile'));
+    window.dispatchEvent(new CustomEvent("createNotesFile"));
   };
 
   const navigateToDashboard = () => {
-    window.location.href = '/dashboard';
+    window.location.href = "/dashboard";
   };
 
   const toggleSettingsModal = () => {
     setIsSettingsModalOpen(!isSettingsModalOpen);
-    window.dispatchEvent(new CustomEvent('toggleSettings', { detail: { isSettingsModalOpen: !isSettingsModalOpen } }));
+    window.dispatchEvent(
+      new CustomEvent("toggleSettings", {
+        detail: { isSettingsModalOpen: !isSettingsModalOpen },
+      }),
+    );
   };
 
   const toggleTimer = () => {
     onToggleTimer();
-    window.dispatchEvent(new CustomEvent('toggleTimer', { detail: { isTimerVisible: !isTimerVisible } }));
+    window.dispatchEvent(
+      new CustomEvent("toggleTimer", {
+        detail: { isTimerVisible: !isTimerVisible },
+      }),
+    );
   };
 
   const toggleProfile = () => {
     setIsProfileVisible(!isProfileVisible);
-    window.dispatchEvent(new CustomEvent('toggleProfile', { detail: { isProfileVisible: !isProfileVisible } }));
+    window.dispatchEvent(
+      new CustomEvent("toggleProfile", {
+        detail: { isProfileVisible: !isProfileVisible },
+      }),
+    );
   };
   return (
     <nav className={styles.navbar}>
       <div className={styles.container}>
-        <Link to="/" style={{ textDecoration: 'none', color: 'darkorange' }}>
+        <Link to="/" style={{ textDecoration: "none", color: "darkorange" }}>
           <IoLogoJavascript className={styles.icon__large} />
         </Link>
         <div className={styles.section}>
@@ -88,22 +100,20 @@ export default function DashboardNavbar({
             <div className={styles.icon__overlay}>Shuffle</div>
           </div>
         </div>
-      </div>
-      <div className={styles.section}>
-        <div className={styles.icon__small} onClick={handleRun}>
-          <VscRunCoverage />
-          <div className={styles.icon__overlay}>Run</div>
+        <div className={styles.section}>
+          <div className={styles.icon__small} onClick={handleRun}>
+            <VscRunCoverage />
+            <div className={styles.icon__overlay}>Run</div>
+          </div>
+          <div className={styles.icon__small} onClick={togglePreview}>
+            <VscPreview />
+            <div className={styles.icon__overlay}>Preview</div>
+          </div>
+          <div className={styles.icon__small} onClick={toggleNotesPanel}>
+            <FaRegNoteSticky />
+            <div className={styles.icon__overlay}>Notes</div>
+          </div>
         </div>
-        <div className={styles.icon__small} onClick={togglePreview}>
-          <VscPreview />
-          <div className={styles.icon__overlay}>Preview</div>
-        </div>
-        <div className={styles.icon__small} onClick={toggleNotesPanel}>
-          <FaRegNoteSticky />
-          <div className={styles.icon__overlay}>Notes</div>
-        </div>
-      </div>
-      <div className={styles.container}>
         <div className={styles.section}>
           <div className={styles.icon__small} onClick={navigateToDashboard}>
             <LuLayoutDashboard />
@@ -124,9 +134,12 @@ export default function DashboardNavbar({
             <div className={styles.icon__overlay}>Profile</div>
           </div>
         </div>
-        <GitHubSync 
-          files={files || []} 
-          onFilesUpdated={onFilesUpdated} 
+      </div>
+
+      <div className={styles.container}>
+        <GitHubSync
+          files={files || []}
+          onFilesUpdated={onFilesUpdated}
           onFilesFromGitHub={onFilesFromGitHub}
           selectedProblem={selectedProblem}
           hasStoredVersion={hasStoredVersion}
