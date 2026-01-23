@@ -3,9 +3,8 @@ import { Link } from "react-router-dom";
 import "./index.sass";
 function Section1({insideMac = false}) {
   const handleDashboardClick = () => {
-    setTimeout(() => {
+      window.location.href = "/js-homepage/dashboard";
       window.location.reload();
-    }, 250);
   };
   return (
     <div className={`homepage__section1 ${insideMac ? 'homepage__section1--insideMac' : ''}`}>

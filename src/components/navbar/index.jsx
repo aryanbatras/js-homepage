@@ -15,9 +15,8 @@ function Navbar() {
   // };
 
   const handleDashboardClick = () => {
-    setTimeout(() => {
+      window.location.href = "/js-homepage/dashboard";
       window.location.reload();
-    }, 250);
   };
   
   return (
