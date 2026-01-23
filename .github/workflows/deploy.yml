@@ -69,7 +69,7 @@ jobs:
           echo "=== VITE CONFIG ==="
           cat vite.config.js
           echo "=== RUNNING BUILD ==="
-          npm run build 2>&1 | tee build.log
+          NODE_OPTIONS="--max-old-space-size=8192" npm run build 2>&1 | tee build.log
           echo "=== BUILD COMPLETED ==="
           echo "Build completed. Directory structure:"
           ls -la dist/ || echo "dist directory not found!"

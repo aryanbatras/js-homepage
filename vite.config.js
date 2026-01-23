@@ -6,6 +6,15 @@ export default defineConfig({
   base: '/js-homepage/',
   build: {
     outDir: 'dist',
-    emptyOutDir: true
+    emptyOutDir: true,
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          monaco: ['@monaco-editor/react'],
+          three: ['three', '@react-three/fiber', '@react-three/drei', '@react-three/rapier']
+        }
+      }
+    }
   }
 })
