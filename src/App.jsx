@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  HashRouter as Router,
+  BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
@@ -39,7 +39,7 @@ function AppRoutes() {
 function App() {
   const isDev = import.meta.env.DEV;
   const pathname = window.location.pathname;
-  const basename = !isDev && pathname.startsWith('/js-homepage') ? '/js-homepage' : '';
+  const basename = pathname.startsWith('/js-homepage') ? '/js-homepage' : '';
   
   return (
     <AuthProvider>
