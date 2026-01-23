@@ -38,7 +38,10 @@ function AppRoutes() {
 function App() {
     return (
     <AuthProvider>
-      <Router basename="/js-homepage/">
+      <Router 
+      // basename="/js-homepage/"
+      basename={import.meta.env.BASE_URL}
+      >
         <AppRoutes />
       </Router>
     </AuthProvider>
