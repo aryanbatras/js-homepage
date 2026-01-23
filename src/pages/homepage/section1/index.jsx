@@ -2,6 +2,11 @@ import { FaSquareJs } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import "./index.sass";
 function Section1({insideMac = false}) {
+  const handleDashboardClick = () => {
+    setTimeout(() => {
+      window.location.reload();
+    }, 250);
+  };
   return (
     <div className={`homepage__section1 ${insideMac ? 'homepage__section1--insideMac' : ''}`}>
         <div className="homepage__section1__content">
@@ -14,9 +19,7 @@ function Section1({insideMac = false}) {
             <a 
               className="homepage__section1__dashboard-btn"
               href="/js-homepage/dashboard"
-              onClick={() => {
-                window.location.reload();
-              }}  
+              onClick={handleDashboardClick}  
               // reloadDocument
             >
               Start Coding Challenges

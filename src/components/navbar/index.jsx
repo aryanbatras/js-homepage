@@ -13,6 +13,12 @@ function Navbar() {
   //     window.location.reload();
   //   }, 500);
   // };
+
+  const handleDashboardClick = () => {
+    setTimeout(() => {
+      window.location.reload();
+    }, 250);
+  };
   
   return (
     <nav className="navbar__container">
@@ -21,9 +27,7 @@ function Navbar() {
         <a 
           href="/js-homepage/dashboard"
           className="navbar__link"
-          onClick={() => {
-            window.location.reload();
-          }}
+          onClick={handleDashboardClick}
           // onClick={handleChallengesClick}
           // reloadDocument
         >
