@@ -2,11 +2,22 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { ghPages } from 'vite-plugin-gh-pages'
 
+// export default defineConfig({
+//   plugins: [react(), ghPages()],
+//   base: '/js-homepage/',
+//   build: {
+//     outDir: 'dist',
+//     emptyOutDir: true
+//   }
+// })
+
 export default defineConfig({
   plugins: [react(), ghPages()],
   base: '/js-homepage/',
   build: {
     outDir: 'dist',
-    emptyOutDir: true
-  }
+    emptyOutDir: true,
+    assetsDir: 'assets'
+  },
+  publicDir: 'public'
 })

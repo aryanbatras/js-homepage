@@ -33,13 +33,108 @@ jobs:
         env:
           NODE_OPTIONS: '--max-old-space-size=4096'
 
+      - name: 🔍 DEBUG - List source files before build
+        run: |
+          echo "📁 Source directory structure:"
+          find . -type f -name "*.html" -o -name "*.jsx" -o -name "*.js" -o -name "*.css" -o -name "*.json" | head -20
+          echo ""
+          echo "📦 Package.json contents:"
+          cat package.json
+          echo ""
+          echo "🔧 Vite config:"
+          cat vite.config.js
+          echo ""
+          echo "🌐 Public directory:"
+          ls -la public/ || echo "No public directory"
+
       - name: Build
         run: |
+          echo "🚀 Starting build process..."
           NODE_OPTIONS="--max-old-space-size=8192" npm run build
+          echo "✅ Build completed"
           touch ./dist/.nojekyll
+
+      - name: 🔍 DEBUG - Analyze build output
+        run: |
+          echo "📁 Build output directory structure:"
+          find ./dist -type f | head -30
+          echo ""
+          echo "📊 Build directory size:"
+          du -sh ./dist
+          echo ""
+          echo "📋 All files in dist:"
+          ls -la ./dist/
+          echo ""
+          echo "🗂️ Subdirectories in dist:"
+          find ./dist -type d
+          echo ""
+          echo "📄 HTML files in dist:"
+          find ./dist -name "*.html" -exec echo "File: {}" \; -exec head -10 {} \;
+          echo ""
+          echo "🔗 Check for asset references in HTML:"
+          find ./dist -name "*.html" -exec grep -H "src\|href\|url" {} \;
+          echo ""
+          echo "🎯 Check index.html specifically:"
+          if [ -f "./dist/index.html" ]; then
+            echo "✅ index.html found"
+            cat ./dist/index.html
+          else
+            echo "❌ index.html NOT found"
+          fi
+          echo ""
+          echo "📦 Check assets directory:"
+          if [ -d "./dist/assets" ]; then
+            echo "✅ assets directory found"
+            ls -la ./dist/assets/
+          else
+            echo "❌ assets directory NOT found"
+          fi
+          echo ""
+          echo "🔍 Check for .nojekyll:"
+          if [ -f "./dist/.nojekyll" ]; then
+            echo "✅ .nojekyll found"
+          else
+            echo "❌ .nojekyll NOT found"
+          fi
+
+      - name: 🔍 DEBUG - Check file sizes and content
+        run: |
+          echo "📏 File sizes in dist:"
+          find ./dist -type f -exec ls -lh {} \; | sort -k5 -hr
+          echo ""
+          echo "🔍 Check for any missing file references:"
+          if [ -f "./dist/index.html" ]; then
+            echo "Checking referenced files in index.html:"
+            grep -o 'href="[^"]*"' ./dist/index.html | while read href; do
+              file=$(echo "$href" | sed 's/href="//' | sed 's/"//')
+              if [ -f "./dist/$file" ]; then
+                echo "✅ Found: $file"
+              else
+                echo "❌ Missing: $file"
+              fi
+            done
+            grep -o 'src="[^"]*"' ./dist/index.html | while read src; do
+              file=$(echo "$src" | sed 's/src="//' | sed 's/"//')
+              if [ -f "./dist/$file" ]; then
+                echo "✅ Found: $file"
+              else
+                echo "❌ Missing: $file"
+              fi
+            done
+          fi
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
+
+      - name: 🔍 DEBUG - Upload artifact details
+        run: |
+          echo "📦 Preparing to upload artifact..."
+          echo "📁 Total files to upload:"
+          find ./dist -type f | wc -l
+          echo "📊 Total size:"
+          du -sh ./dist
+          echo "📋 File list:"
+          find ./dist -type f | sort
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -53,6 +148,35 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - name: 🔍 DEBUG - Pre-deployment check
+        run: |
+          echo "🚀 About to deploy to GitHub Pages"
+          echo "🌐 Deployment URL will be: ${{ steps.deployment.outputs.page_url }}"
+          echo "📋 Repository: ${{ github.repository }}"
+          echo "🌟 Branch: ${{ github.ref_name }}"
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: 🔍 DEBUG - Post-deployment verification
+        run: |
+          echo "✅ Deployment completed!"
+          echo "🌐 Live URL: ${{ steps.deployment.outputs.page_url }}"
+          echo "📊 Deployment status: ${{ job.status }}"
+          echo "🕐 Deployment time: $(date)"
+          
+          # Wait a moment for deployment to propagate
+          sleep 10
+          
+          # Try to access the deployed site
+          echo "🔍 Testing deployment URL..."
+          if command -v curl >/dev/null 2>&1; then
+            echo "🌐 Testing: ${{ steps.deployment.outputs.page_url }}"
+            curl -I "${{ steps.deployment.outputs.page_url }}" || echo "❌ Failed to access deployed site"
+            echo ""
+            echo "🌐 Testing: ${{ steps.deployment.outputs.page_url }}/index.html"
+            curl -I "${{ steps.deployment.outputs.page_url }}/index.html" || echo "❌ Failed to access index.html"
+          else
+            echo "curl not available for testing"
+          fi
