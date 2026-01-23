@@ -4,7 +4,7 @@ export function useCodeScreen(files) {
   const [consoleState, setConsoleState] = useState(false);
   const [consoleOutput, setConsoleOutput] = useState([]);
   const [previewContent, setPreviewContent] = useState("");
-  const [previewVisible, setPreviewVisible] = useState(true);
+  const [previewVisible, setPreviewVisible] = useState(false);
 
   const generatePreview = (files) => {
     const htmlFile = files.find((f) => f.name === "index.html");

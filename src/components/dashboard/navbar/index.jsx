@@ -47,16 +47,17 @@ export default function DashboardNavbar({
   };
 
   const navigateToDashboard = () => {
-    window.location.href = "/dashboard";
+    window.location.href = "/js-homepage/dashboard";
   };
 
   const toggleSettingsModal = () => {
-    setIsSettingsModalOpen(!isSettingsModalOpen);
-    window.dispatchEvent(
-      new CustomEvent("toggleSettings", {
-        detail: { isSettingsModalOpen: !isSettingsModalOpen },
-      }),
-    );
+    // setIsSettingsModalOpen(!isSettingsModalOpen);
+    // window.dispatchEvent(
+    //   new CustomEvent("toggleSettings", {
+    //     detail: { isSettingsModalOpen: !isSettingsModalOpen },
+    //   }),
+    // );
+    alert("Settings & Customizations are only available in the paid plan.");
   };
 
   const toggleTimer = () => {
@@ -115,6 +116,10 @@ export default function DashboardNavbar({
           </div>
         </div>
         <div className={styles.section}>
+          <div className={styles.icon__small} onClick={toggleTimer}>
+            <FaStopwatch />
+            <div className={styles.icon__overlay}>Timer</div>
+          </div>
           <div className={styles.icon__small} onClick={navigateToDashboard}>
             <LuLayoutDashboard />
             <div className={styles.icon__overlay}>Dashboard</div>
@@ -123,16 +128,12 @@ export default function DashboardNavbar({
             <IoSettings />
             <div className={styles.icon__overlay}>Settings</div>
           </div>
-        </div>
-        <div className={styles.section}>
-          <div className={styles.icon__small} onClick={toggleTimer}>
-            <FaStopwatch />
-            <div className={styles.icon__overlay}>Timer</div>
-          </div>
-          <div className={styles.icon__small__left} onClick={toggleProfile}>
+          {/* </div>
+        <div className={styles.section}> */}
+          {/* <div className={styles.icon__small__left} onClick={toggleProfile}>
             <FaUser />
             <div className={styles.icon__overlay}>Profile</div>
-          </div>
+          </div> */}
         </div>
       </div>
 
