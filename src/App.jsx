@@ -37,9 +37,13 @@ function AppRoutes() {
 }
 
 function App() {
+  const isDev = import.meta.env.DEV;
+  const isGitHubPages = window.location.hostname === 'aryanbatras.github.io';
+  const shouldUseBasename = !isDev && isGitHubPages;
+  
   return (
     <AuthProvider>
-      <Router basename={import.meta.env.DEV ? "" : "/js-homepage"}>
+      <Router basename={shouldUseBasename ? "/js-homepage" : ""}>
         <AppRoutes />
       </Router>
     </AuthProvider>
