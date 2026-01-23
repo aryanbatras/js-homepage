@@ -18,15 +18,18 @@ function Navbar() {
     <nav className="navbar__container">
       <FaSquareJs className="navbar__jsicon" />
       <div className="navbar__links">
-        <Link 
-          to="/dashboard" 
+        <a 
+          href="/js-homepage/dashboard"
           className="navbar__link"
+          onClick={() => {
+            window.location.reload();
+          }}
           // onClick={handleChallengesClick}
           // reloadDocument
         >
           <span>Challenges</span>
           <IoIosArrowDown className="navbar__icon" />
-        </Link>
+        </a>
       </div>
     </nav>
   );

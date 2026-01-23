@@ -11,18 +11,16 @@ function Section1({insideMac = false}) {
             way to learn <span>JavaScript</span>
           </span>
           {insideMac === false && ( 
-            <Link 
+            <a 
               className="homepage__section1__dashboard-btn"
-              to='/dashboard'
-              // onClick={() => {
-              //   setTimeout(() => {
-              //     window.location.reload();
-              //   }, 1000);
-              // }}  
+              href="/js-homepage/dashboard"
+              onClick={() => {
+                window.location.reload();
+              }}  
               // reloadDocument
             >
               Start Coding Challenges
-            </Link>
+            </a>
           )}
         </div>
       </div>
