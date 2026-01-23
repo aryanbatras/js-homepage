@@ -32,9 +32,9 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
-      <Route path="*" element={<Navigate to="/" />} />
       <Route path="/test" element={<div>Testing 1..2..3</div>} />
       <Route path="/test2" element={<Section1 />} />
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 }
