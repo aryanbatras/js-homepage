@@ -37,13 +37,9 @@ function AppRoutes() {
 }
 
 function App() {
-  const isDev = import.meta.env.DEV;
-  const pathname = window.location.pathname;
-  const basename = pathname.startsWith('/js-homepage') ? '/js-homepage' : '';
-  
-  return (
+    return (
     <AuthProvider>
-      <Router basename={basename}>
+      <Router basename="/js-homepage">
         <AppRoutes />
       </Router>
     </AuthProvider>
