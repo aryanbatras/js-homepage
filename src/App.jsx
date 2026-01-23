@@ -9,6 +9,7 @@ import Dashboard from "./pages/dashboard";
 import GitHubLogin from "./components/auth/GitHubLogin";
 import AuthCallback from "./components/auth/AuthCallback";
 import Homepage from "./pages/homepage";
+import Section1 from "./pages/homepage/section1";
 function ProtectedRoute({ children }) {
   const { user, isLoading } = useAuth();
 
@@ -31,6 +32,9 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+      <Route path="*" element={<Navigate to="/" />} />
+      <Route path="/test" element={<div>Testing 1..2..3</div>} />
+      <Route path="/test2" element={<Section1 />} />
     </Routes>
   );
 }
