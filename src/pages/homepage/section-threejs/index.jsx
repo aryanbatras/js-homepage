@@ -136,7 +136,7 @@ function SectionThreeJs({ insideMac = false }) {
           </div>
           <button ref={buttonRef} className="canvas__button">
             <a
-              href="js-homepage/dashboard"
+              href="/js-homepage/dashboard"
               className="navbar__link canvas__button"
               onClick={handleChallengesClick}
             >
