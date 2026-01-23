@@ -3,16 +3,16 @@ import { FaSquareJs } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import "./index.sass";
 function Navbar() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   
-  const handleChallengesClick = () => {
-    // Navigate to dashboard first
-    navigate('/dashboard');
-    // Then reload the page after a short delay to ensure navigation completes
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
-  };
+  // const handleChallengesClick = () => {
+  //   // Navigate to dashboard first
+  //   navigate('/dashboard');
+  //   // Then reload the page after a short delay to ensure navigation completes
+  //   setTimeout(() => {
+  //     window.location.reload();
+  //   }, 500);
+  // };
   
   return (
     <nav className="navbar__container">
@@ -21,7 +21,8 @@ function Navbar() {
         <Link 
           to="/dashboard" 
           className="navbar__link"
-          onClick={handleChallengesClick}
+          // onClick={handleChallengesClick}
+          reloadDocument
         >
           <span>Challenges</span>
           <IoIosArrowDown className="navbar__icon" />

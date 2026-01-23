@@ -14,11 +14,12 @@ function Section1({insideMac = false}) {
             <Link 
               className="homepage__section1__dashboard-btn"
               to='/dashboard'
-              onClick={() => {
-                setTimeout(() => {
-                  window.location.reload();
-                }, 1000);
-              }}
+              // onClick={() => {
+              //   setTimeout(() => {
+              //     window.location.reload();
+              //   }, 1000);
+              // }}  
+              reloadDocument
             >
               Start Coding Challenges
             </Link>
