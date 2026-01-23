@@ -7,15 +7,15 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     emptyOutDir: true,
-    chunkSizeWarningLimit: 1000,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          monaco: ['@monaco-editor/react'],
-          three: ['three', '@react-three/fiber', '@react-three/drei', '@react-three/rapier']
-        }
-      }
-    }
+    // chunkSizeWarningLimit: 1000,
+    // rollupOptions: {
+    //   output: {
+    //     manualChunks: {
+    //       monaco: ['@monaco-editor/react'],
+    //       three: ['three', '@react-three/fiber', '@react-three/drei', '@react-three/rapier']
+    //     }
+    //   }
+    // }
   },
   server: {
     historyApiFallback: true
