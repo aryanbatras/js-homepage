@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -37,6 +37,14 @@ function AppRoutes() {
 }
 
 function App() {
+    useEffect(() => {
+        const redirectPath = sessionStorage.getItem('redirect');
+        if (redirectPath && redirectPath !== '/') {
+            sessionStorage.removeItem('redirect');
+            window.location.replace('/js-homepage' + redirectPath);
+        }
+    }, []);
+
     return (
     <AuthProvider>
       <Router basename="/js-homepage/">
