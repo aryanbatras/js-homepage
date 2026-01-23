@@ -3,12 +3,9 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: process.env.NODE_ENV === 'production' ? '/js-homepage/' : '/',
+  base: '/js-homepage/',
   build: {
-    rollupOptions: {
-      output: {
-        manualChunks: undefined,
-      }
-    }
+    outDir: 'dist',
+    emptyOutDir: true
   }
 })
