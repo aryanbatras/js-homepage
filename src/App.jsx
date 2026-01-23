@@ -39,7 +39,7 @@ function AppRoutes() {
 function App() {
     return (
     <AuthProvider>
-      <Router basename="/js-homepage">
+      <Router basename="/js-homepage/">
         <AppRoutes />
       </Router>
     </AuthProvider>
