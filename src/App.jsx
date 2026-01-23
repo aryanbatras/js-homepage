@@ -39,7 +39,9 @@ function AppRoutes() {
 function App() {
     useEffect(() => {
         const redirectPath = sessionStorage.getItem('redirect');
-        if (redirectPath && redirectPath !== '/') {
+        const currentPath = window.location.pathname.replace('/js-homepage', '');
+        
+        if (redirectPath && redirectPath !== '/' && currentPath !== redirectPath) {
             sessionStorage.removeItem('redirect');
             window.location.replace('/js-homepage' + redirectPath);
         }
