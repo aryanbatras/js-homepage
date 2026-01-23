@@ -22,7 +22,7 @@ function Navbar() {
           to="/dashboard" 
           className="navbar__link"
           // onClick={handleChallengesClick}
-          reloadDocument
+          // reloadDocument
         >
           <span>Challenges</span>
           <IoIosArrowDown className="navbar__icon" />

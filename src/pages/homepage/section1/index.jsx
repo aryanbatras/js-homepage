@@ -19,7 +19,7 @@ function Section1({insideMac = false}) {
               //     window.location.reload();
               //   }, 1000);
               // }}  
-              reloadDocument
+              // reloadDocument
             >
               Start Coding Challenges
             </Link>
