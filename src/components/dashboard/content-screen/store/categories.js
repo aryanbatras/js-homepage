@@ -3,133 +3,133 @@ export const categories = [
     id: 'react-js',
     name: 'React.js',
     description: 'React specific problems and patterns',
-    icon: '⚛️',
+    icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>',
     color: '#61DAFB'
   },
   {
     id: 'leetcode',
     name: 'LeetCode',
     description: 'Algorithm and data structure problems',
-    icon: '💻',
+    icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l3.59-3.58L17 12l-5 5z"/></svg>',
     color: '#FFA116'
   },
   {
     id: 'core-javascript',
     name: 'Core JavaScript',
     description: 'JavaScript fundamentals and concepts',
-    icon: '📜',
+    icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>',
     color: '#F7DF1E'
   },
   {
     id: 'javascript-interview',
     name: 'JavaScript Interview',
     description: 'Common interview questions and scenarios',
-    icon: '🎯',
+    icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>',
     color: '#E34C26'
   },
   {
     id: 'react-hooks',
     name: 'React Hooks',
     description: 'Advanced React hooks patterns and implementations',
-    icon: '🪝',
+    icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>',
     color: '#149ECA'
   },
   {
     id: 'react-performance',
     name: 'React Performance',
     description: 'React optimization and performance tuning',
-    icon: '⚡',
+    icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2.05v3.03c3.39.49 6 3.39 6 6.92 0 .9-.18 1.75-.48 2.54l2.6 1.53c.56-1.24.88-2.62.88-4.07 0-5.18-3.95-9.45-9-9.95zM12 19c-3.87 0-7-3.13-7-7 0-3.53 2.61-6.43 6-6.92V2.05c-5.06.5-9 4.76-9 9.95 0 5.52 4.47 10 9.99 10 3.31 0 6.24-1.61 8.06-4.09l-2.6-1.53C16.17 17.98 14.21 19 12 19z"/></svg>',
     color: '#FF6B35'
   },
   {
     id: 'react-patterns',
     name: 'React Patterns',
     description: 'Common React design patterns and architectures',
-    icon: '🏗️',
+    icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>',
     color: '#8B5CF6'
   },
   {
     id: 'typescript',
     name: 'TypeScript',
     description: 'TypeScript type system and advanced features',
-    icon: '📘',
+    icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>',
     color: '#3178C6'
   },
   {
     id: 'node-js',
     name: 'Node.js',
     description: 'Server-side JavaScript and runtime concepts',
-    icon: '🟢',
+    icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>',
     color: '#339933'
   },
   {
     id: 'algorithms',
     name: 'Algorithms',
     description: 'Fundamental algorithms and problem-solving techniques',
-    icon: '🧮',
+    icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>',
     color: '#FF5722'
   },
   {
     id: 'data-structures',
     name: 'Data Structures',
     description: 'Core data structures and their implementations',
-    icon: '🏛️',
+    icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>',
     color: '#795548'
   },
   {
     id: 'system-design',
     name: 'System Design',
     description: 'Large-scale system design and architecture',
-    icon: '🌐',
+    icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>',
     color: '#2196F3'
   },
   {
     id: 'css-styling',
     name: 'CSS & Styling',
     description: 'Modern CSS techniques and styling solutions',
-    icon: '🎨',
+    icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>',
     color: '#1572B6'
   },
   {
     id: 'web-apis',
     name: 'Web APIs',
     description: 'Browser APIs and modern web features',
-    icon: '🌍',
+    icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>',
     color: '#4CAF50'
   },
   {
     id: 'testing',
     name: 'Testing',
     description: 'Unit testing, integration testing, and TDD',
-    icon: '🧪',
+    icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l3.59-3.58L17 12l-5 5z"/></svg>',
     color: '#C21325'
   },
   {
     id: 'async-programming',
     name: 'Async Programming',
     description: 'Promises, async/await, and concurrent programming',
-    icon: '⏳',
+    icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>',
     color: '#FF9800'
   },
   {
     id: 'functional-programming',
     name: 'Functional Programming',
     description: 'Functional programming concepts in JavaScript',
-    icon: 'λ',
+    icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>',
     color: '#607D8B'
   },
   {
     id: 'security',
     name: 'Security',
     description: 'Web security and vulnerability prevention',
-    icon: '🔒',
+    icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>',
     color: '#F44336'
   },
   {
     id: 'database',
     name: 'Database',
     description: 'SQL, NoSQL, and database design patterns',
-    icon: '🗄️',
+    icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>',
     color: '#3F51B5'
   }
 ];

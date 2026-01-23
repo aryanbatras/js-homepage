@@ -1,20 +1,34 @@
 .categories
-  padding: 3rem 2rem 2rem 2rem
+  padding: 4rem 3rem 3rem 3rem
   display: flex
   flex-direction: column
   height: 88vh
-  gap: 0.5rem
+  gap: 1rem
   overflow-y: auto
   scrollbar-width: none
   &::-webkit-scrollbar
     display: none
   opacity: 0
-  animation: fadeIn 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards
+  animation: fadeIn 2.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards
+  background: #ffffff
+  position: relative
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    height: 1px
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.03), transparent)
+    opacity: 0
+    transition: opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+  &:hover::before
+    opacity: 1
 
 @keyframes fadeIn
   from
     opacity: 0
-    transform: translateY(20px)
+    transform: translateY(40px)
   to
     opacity: 1
     transform: translateY(0)
@@ -22,128 +36,162 @@
 @keyframes slideIn
   from
     opacity: 0
-    transform: translateX(-30px)
+    transform: translateX(-60px)
   to
     opacity: 1
     transform: translateX(0)
 
 .header
   text-align: left
-  margin-bottom: 3rem
+  margin-bottom: 4rem
   opacity: 0
-  animation: slideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards
+  animation: slideIn 1.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.4s forwards
 
 .title
-  font-size: 2.5rem
-  font-weight: 200
-  margin: 0 0 0.75rem 0
-  color: rgba(0, 0, 0, 0.9)
+  font-size: 3rem
+  font-weight: 100
+  margin: 0
+  color: rgba(0, 0, 0, 0.95)
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
-  letter-spacing: -0.04em
+  letter-spacing: -0.06em
   line-height: 1.1
   position: relative
   &::after
     content: ''
     position: absolute
-    bottom: -12px
+    bottom: -8px
     left: 0
+    width: 0
+    height: 1px
+    background: rgba(0, 0, 0, 0.1)
+    transition: width 1.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+  &:hover::after
     width: 60px
-    height: 2px
-    background: rgba(0, 0, 0, 0.08)
-    border-radius: 1px
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1)
-  &:hover
-    &::after
-      width: 120px
-      background: rgba(0, 0, 0, 0.15)
-
-.subtitle
-  font-size: 0.9375rem
-  color: rgba(0, 0, 0, 0.4)
-  font-weight: 300
-  line-height: 1.5
-  letter-spacing: 0.02em
-  margin: 0
+  &:active
+    transform: translateY(1px)
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
 
 .categoryGrid
   display: flex
   flex-direction: column
-  gap: 0.25rem
+  gap: 0.5rem
 
 .categoryCard
   border: none
-  border-radius: 0
-  padding: 2rem 0
+  border-radius: 8px
+  padding: 1.5rem
   cursor: pointer
-  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1)
-  background: transparent
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+  background: rgba(0, 0, 0, 0.02)
   position: relative
   display: flex
   align-items: center
-  gap: 2rem
-  border-bottom: 1px solid rgba(0, 0, 0, 0.03)
   opacity: 0
-  transform: translateY(20px)
-  animation: categorySlideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards
-  &:nth-child(1)
-    animation-delay: 0.1s
-  &:nth-child(2)
-    animation-delay: 0.2s
-  &:nth-child(3)
-    animation-delay: 0.3s
-  &:nth-child(4)
-    animation-delay: 0.4s
-  &:last-child
-    border-bottom: none
-  &:hover
-    background: rgba(0, 0, 0, 0.005)
-    border-bottom-color: rgba(0, 0, 0, 0.08)
-    transform: translateX(12px)
-    .categoryIcon
-      transform: scale(1.05) rotate(5deg)
-    .categoryName
-      color: rgba(0, 0, 0, 0.95)
-      letter-spacing: -0.02em
-    .categoryDescription
-      color: rgba(0, 0, 0, 0.6)
-
-@keyframes categorySlideIn
-  from
+  transform: translateY(40px)
+  animation: categorySlideIn 1.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards
+  &::before
+    content: ''
+    position: absolute
+    right: 0
+    top: 50%
+    transform: translateY(-50%)
+    width: 3px
+    height: 0
+    background: rgba(0, 0, 0, 0.2)
+    border-radius: 0 2px 2px 0
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+  &::after
+    content: ''
+    position: absolute
+    inset: 0
+    border-radius: 8px
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent)
     opacity: 0
-    transform: translateY(20px)
-  to
-    opacity: 1
-    transform: translateY(0)
-
-.categoryIcon
-  font-size: 1.75rem
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1)
-  flex-shrink: 0
-  opacity: 0.8
-  filter: grayscale(0.2)
+    transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+  &:nth-child(1)
+    animation-delay: 0.2s
+  &:nth-child(2)
+    animation-delay: 0.4s
+  &:nth-child(3)
+    animation-delay: 0.6s
+  &:nth-child(4)
+    animation-delay: 0.8s
+  &:nth-child(5)
+    animation-delay: 1.0s
+  &:nth-child(6)
+    animation-delay: 1.2s
+  &:nth-child(7)
+    animation-delay: 1.4s
+  &:nth-child(8)
+    animation-delay: 1.6s
+  &:nth-child(9)
+    animation-delay: 1.8s
+  &:nth-child(10)
+    animation-delay: 2.0s
+  &:nth-child(11)
+    animation-delay: 2.2s
+  &:nth-child(12)
+    animation-delay: 2.4s
+  &:nth-child(13)
+    animation-delay: 2.6s
+  &:nth-child(14)
+    animation-delay: 2.8s
+  &:nth-child(15)
+    animation-delay: 3.0s
+  &:nth-child(16)
+    animation-delay: 3.2s
+  &:nth-child(17)
+    animation-delay: 3.4s
+  &:nth-child(18)
+    animation-delay: 3.6s
+  &:nth-child(19)
+    animation-delay: 3.8s
+  &:nth-child(20)
+    animation-delay: 4.0s
   &:hover
-    filter: grayscale(0)
-
-.categoryCard:hover .categoryIcon
-  transform: scale(1.05) rotate(5deg)
-  filter: grayscale(0)
-  opacity: 1
+    background: rgba(0, 0, 0, 0.05)
+    transform: translateX(12px)
+    &::before
+      height: 60%
+      width: 3px
+    &::after
+      opacity: 1
+  &:active
+    transform: translateX(8px) scale(0.98)
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+  &:focus-visible
+    outline: none
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1)
 
 .categoryName
   font-size: 1.125rem
   font-weight: 400
   margin: 0
-  color: rgba(0, 0, 0, 0.7)
+  color: rgba(0, 0, 0, 0.8)
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
   line-height: 1.3
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1)
-  letter-spacing: -0.015em
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+  letter-spacing: -0.01em
+  position: relative
+  &::before
+    content: ''
+    position: absolute
+    bottom: -2px
+    left: 0
+    width: 0
+    height: 1px
+    background: rgba(0, 0, 0, 0.3)
+    transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+  .categoryCard:hover &
+    color: rgba(0, 0, 0, 0.95)
+    font-weight: 500
+    &::before
+      width: 100%
 
-.categoryDescription
-  font-size: 0.8125rem
-  color: rgba(0, 0, 0, 0.35)
-  font-weight: 300
-  line-height: 1.5
-  letter-spacing: 0.02em
-  opacity: 1
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1)
+@keyframes categorySlideIn
+  from
+    opacity: 0
+    transform: translateY(40px)
+  to
+    opacity: 1
+    transform: translateY(0)
