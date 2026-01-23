@@ -140,8 +140,8 @@ function MacModel({
 }) {
   const gltfPath =
     process.env.NODE_ENV === "production"
-      ? "/js-hub/mac-draco.glb"
-      : "/mac-draco.glb";
+      ? "/js-homepage/mac-draco.glb"
+      : "/js-homepage/mac-draco.glb";
   const { nodes, materials } = useGLTF(gltfPath);
   useEffect(() => {
     setReady(true);
