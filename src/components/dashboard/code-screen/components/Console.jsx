@@ -66,6 +66,7 @@ export function Console({
   handleSubmit,
   handlePreview,
   verticalResizer,
+  handleRunTests,
 }) {
   const getConsoleHeight = () => {
     const availableHeight = 92 - verticalResizer - 2; 
@@ -126,14 +127,19 @@ export function Console({
       {shouldShowControlBar() && (
         <div className={styles.control_bar}>
           <div className={styles.vertical_button} onClick={() => handleSubmit()}>
-            <span className={styles.vertical_text}>Run</span>
+            <span className={styles.vertical_text}>Console</span>
           </div>
           <div className={styles.vertical_button} onClick={() => handlePreview()}>
             <span className={styles.vertical_text}>Preview</span>
           </div>
-          <div className={styles.vertical_button} onClick={toggleConsoleState}>
+          {/* <div className={styles.vertical_button} onClick={toggleConsoleState}>
             <span className={styles.vertical_text}>Toggle</span>
-          </div>
+          </div> */}
+          {
+            <div className={styles.vertical_button} onClick={handleRunTests}>
+              <span className={styles.vertical_text}>Test Cases</span>
+            </div>
+          }
         </div>
       )}
     </div>

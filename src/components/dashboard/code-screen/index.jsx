@@ -171,9 +171,11 @@ export default function DashboardCodeScreen({ screenResizer, selectedProblem, ha
         handlePreview={handlePreviewClick}
         setPreviewVisible={hidePreview}
         verticalResizer={verticalResizer}
+        handleRunTests={handleRunTests}
+        // isRunningTests={isRunningTests}
       />
 
-      <div className={styles.testcases}>
+      {/* <div className={styles.testcases}>
         {selectedProblem && selectedProblem.tests && (
           <button 
             className={styles.testButton}
@@ -193,7 +195,7 @@ export default function DashboardCodeScreen({ screenResizer, selectedProblem, ha
               </>
             )}
           </button>
-        )}
+        )} */}
         {/* <button 
           className={`${styles.consoleToggle} ${consoleState ? styles.glowing : ''}`}
           onClick={handleToggleConsole}
@@ -201,7 +203,7 @@ export default function DashboardCodeScreen({ screenResizer, selectedProblem, ha
         >
           <FaTerminal />
         </button> */}
-      </div>
+      {/* </div> */}
     </div>
   );
 
@@ -210,6 +212,8 @@ export default function DashboardCodeScreen({ screenResizer, selectedProblem, ha
       <div
         className={styles.verticalResizer}
         onMouseDown={(e) => setIsDragging(true)}
+        onMouseMove={(e) => e.stopPropagation()}
+        onMouseUp={() => setIsDragging(false)}
       >
         <CiMenuKebab className={styles.verticalResizerIcon} />
       </div>

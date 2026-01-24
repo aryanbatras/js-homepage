@@ -1,8 +1,10 @@
 .container
-  height: 88vh
+  height: 92vh
   width: auto
   margin: 0
-  background: #ffffff
+  // background: #ffffff
+  // background-repeat: 
+  // background: red
   display: flex
   flex-direction: column
   overflow: hidden
@@ -22,18 +24,26 @@
       opacity: 1
 
 .problems
-  padding: 3rem 2rem 2rem 2rem
+  background: white
+  padding: 1rem 1rem 1rem 1rem
   display: flex
   flex-direction: column
-  height: 88vh
+  height: 92vh
   gap: 0.5rem
-  background: transparent
+  // background: transparent
   overflow-y: auto
   scrollbar-width: none
   &::-webkit-scrollbar
     display: none
   opacity: 0
   animation: fadeIn 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards
+
+@media (max-width: 1024px)
+  .container
+    height: 87vh
+  
+  .problems
+    height: 87vh
 
 @keyframes fadeIn
   from

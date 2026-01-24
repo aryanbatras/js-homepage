@@ -1,8 +1,8 @@
 .container
   background: #ffffff
   width: auto
-  height: 80vh
-  padding: 3rem 2rem 2rem 2rem
+  height: 92vh
+  padding: 1.5rem 1rem 1rem 1rem
   overflow-y: auto
   overflow-x: hidden
   scrollbar-width: none
@@ -24,6 +24,10 @@
   &:hover
     &::before
       opacity: 1
+
+@media (max-width: 1024px)
+  .container
+    height: 87vh
 
 @keyframes fadeIn
   from

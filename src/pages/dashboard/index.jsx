@@ -130,7 +130,7 @@ export default function Dashboard() {
           githubFiles={githubFiles}
         />
       </div>
-      <Timer isVisible={isTimerVisible} onClose={() => setIsTimerVisible(false)} />
+      {/* <Timer isVisible={isTimerVisible} onClose={() => setIsTimerVisible(false)} /> */}
     </div>
   );
 
