@@ -235,18 +235,27 @@ export default function GitHubSync({
     <>
       <div className={styles.githubSync}>
         <div className={styles.syncInfo}>
-          <FaGithub className={styles.githubIcon} />
-          <span className={styles.repoName}>
-            {user?.repository || "Not connected"}
-          </span>
-          {selectedProblem && (
-            <span className={styles.problemName}>
-              {selectedProblem.title}
-              {hasStoredVersion && (
-                <span className={styles.storedIndicator}>●</span>
+          <a
+            href={`https://github.com/${user?.repository}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaGithub className={styles.githubIcon} />
+          </a>
+          <a
+            href={`https://github.com/${user?.repository}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span className={styles.repoName}>
+              {user?.repository || "Not connected"}
+              {selectedProblem && (
+                <span className={styles.problemName}>
+                  {selectedProblem.title}
+                </span>
               )}
             </span>
-          )}
+          </a>
         </div>
 
         <div className={styles.syncActions}>

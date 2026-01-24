@@ -8,11 +8,14 @@ export function useCodeScreen(files) {
 
   const generatePreview = (files) => {
     const htmlFile = files.find((f) => f.name === "index.html");
-    const cssFile = files.find((f) => f.name === "index.css");
-    const jsFile = files.find((f) => f.name === "index.js");
+    const cssFile = files.find((f) => f.name === "index.css") || files.find((f) => f.name === "styles.css");
+    const jsFile = files.find((f) => f.name === "index.js") || files.find((f) => f.name === "script.js");
 
     if (htmlFile) {
       let combinedContent = htmlFile.content;
+      
+      combinedContent = combinedContent.replace(/<link[^>]*rel=['"]stylesheet['"][^>]*>/gi, '');
+      combinedContent = combinedContent.replace(/<script[^>]*src=['"][^'"]*\.js['"][^>]*><\/script>/gi, '');
 
       combinedContent = combinedContent.replace(
         "</head>",

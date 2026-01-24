@@ -78,6 +78,10 @@ export function Console({
     return availableHeight > 0;
   };
 
+  const shouldShowGuidance = () => {
+    return !consoleState && !previewVisible && consoleOutput.length === 0;
+  };
+
   return (
     <div
       className={styles.console}
@@ -86,6 +90,14 @@ export function Console({
       style={{ height: getConsoleHeight() }}
     >
       <div className={styles.preview_console_container}>
+        {shouldShowGuidance() && (
+          <div className={styles.guidance_message}>
+            <div className={styles.guidance_content}>
+              Click Console, Preview, or Test Cases to see output
+            </div>
+          </div>
+        )}
+        
         {previewVisible && (
           <div className={styles.preview_panel}>
             <iframe
