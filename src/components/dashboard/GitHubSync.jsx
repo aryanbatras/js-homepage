@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { GitHubProblemService } from "../../services/githubProblemService";
 import { DiffPreview } from "./code-screen/components/DiffPreview";
+import { CONFIG_FILES } from "../../constants/code-screen/fileDefaults";
 import {
   FaGithub,
   FaUpload,
@@ -28,11 +29,15 @@ export default function GitHubSync({
   const [remoteFiles, setRemoteFiles] = useState([]);
 
   const handlePushToGitHub = async () => {
-    if (!token || !user?.repository || !selectedProblem) {
+    if (!token || !user?.repository) {
       setSyncStatus("error");
-      setSyncMessage(
-        "Not authenticated, repository not found, or no problem selected",
-      );
+      setSyncMessage("Not authenticated or repository not found");
+      return;
+    }
+
+    // Handle configuration files when no problem is selected
+    if (!selectedProblem) {
+      await pushConfigurationFiles();
       return;
     }
 
@@ -69,6 +74,42 @@ export default function GitHubSync({
       console.error("Failed to prepare push:", error);
       setSyncStatus("error");
       setSyncMessage(`Failed to prepare push: ${error.message}`);
+
+      setTimeout(() => {
+        setSyncStatus("idle");
+        setSyncMessage("");
+      }, 5000);
+    }
+  };
+
+  const pushConfigurationFiles = async () => {
+    try {
+      setSyncStatus("pushing");
+      setSyncMessage("Pushing configuration files...");
+
+      const githubService = new GitHubProblemService(token);
+      const [owner, repo] = user.repository.split("/");
+
+      // Filter only configuration files
+      const configFiles = files.filter(file => file.config);
+      
+      const result = await githubService.saveConfigurationFiles(owner, repo, configFiles);
+
+      if (result.success) {
+        setSyncStatus("success");
+        setSyncMessage(`Successfully pushed ${configFiles.length} configuration files to GitHub`);
+        
+        setTimeout(() => {
+          setSyncStatus("idle");
+          setSyncMessage("");
+        }, 5000);
+      } else {
+        throw new Error("Failed to save configuration files");
+      }
+    } catch (error) {
+      console.error("Push configuration files failed:", error);
+      setSyncStatus("error");
+      setSyncMessage(`Failed to push: ${error.message}`);
 
       setTimeout(() => {
         setSyncStatus("idle");
@@ -135,11 +176,15 @@ export default function GitHubSync({
   };
 
   const handlePullFromGitHub = async () => {
-    if (!token || !user?.repository || !selectedProblem) {
+    if (!token || !user?.repository) {
       setSyncStatus("error");
-      setSyncMessage(
-        "Not authenticated, repository not found, or no problem selected",
-      );
+      setSyncMessage("Not authenticated or repository not found");
+      return;
+    }
+
+    // Handle configuration files when no problem is selected
+    if (!selectedProblem) {
+      await pullConfigurationFiles();
       return;
     }
 
@@ -201,6 +246,39 @@ export default function GitHubSync({
     }
   };
 
+  const pullConfigurationFiles = async () => {
+    try {
+      setSyncStatus("pulling");
+      setSyncMessage("Pulling configuration files...");
+
+      const githubService = new GitHubProblemService(token);
+      const [owner, repo] = user.repository.split("/");
+
+      const configFiles = await githubService.getConfigurationFiles(owner, repo);
+
+      if (onFilesFromGitHub) {
+        onFilesFromGitHub(configFiles);
+      }
+
+      setSyncStatus("success");
+      setSyncMessage(`Successfully pulled ${configFiles.length} configuration files from GitHub`);
+
+      setTimeout(() => {
+        setSyncStatus("idle");
+        setSyncMessage("");
+      }, 3000);
+    } catch (error) {
+      console.error("Pull configuration files failed:", error);
+      setSyncStatus("error");
+      setSyncMessage(`Failed to pull: ${error.message}`);
+
+      setTimeout(() => {
+        setSyncStatus("idle");
+        setSyncMessage("");
+      }, 5000);
+    }
+  };
+
   const getSyncButtonProps = () => {
     switch (syncStatus) {
       case "pushing":
@@ -252,9 +330,13 @@ export default function GitHubSync({
           >
             <span className={styles.repoName}>
               {user?.repository || "Not connected"}
-              {selectedProblem && (
+              {selectedProblem ? (
                 <span className={styles.problemName}>
                   {selectedProblem.title}
+                </span>
+              ) : (
+                <span className={styles.problemName}>
+                  Configuration Files
                 </span>
               )}
             </span>
@@ -264,22 +346,22 @@ export default function GitHubSync({
         <div className={styles.syncActions}>
           <button
             onClick={handlePushToGitHub}
-            disabled={syncStatus !== "idle" || !selectedProblem}
+            disabled={syncStatus !== "idle"}
             className={`${styles.syncButton} ${styles.pushButton}`}
-            title="Push current problem to GitHub"
+            title={selectedProblem ? "Push current problem to GitHub" : "Push configuration files to GitHub"}
           >
             <FaUpload />
-            <span>Push</span>
+            <span>{selectedProblem ? "Push" : "Push Config"}</span>
           </button>
 
           <button
             onClick={handlePullFromGitHub}
-            disabled={syncStatus !== "idle" || !selectedProblem}
+            disabled={syncStatus !== "idle"}
             className={`${styles.syncButton} ${styles.pullButton}`}
-            title="Pull current problem from GitHub"
+            title={selectedProblem ? "Pull current problem from GitHub" : "Pull configuration files from GitHub"}
           >
             <FaDownload />
-            <span>Pull</span>
+            <span>{selectedProblem ? "Pull" : "Pull Config"}</span>
           </button>
         </div>
 

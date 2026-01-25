@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { GitHubService } from '../../services/githubService';
+import { GitHubProblemService } from '../../services/githubProblemService';
+import { CONFIG_FILES } from '../../constants/code-screen/fileDefaults';
 import styles from './AuthCallback.module.sass';
 
 export default function AuthCallback() {
@@ -38,7 +40,7 @@ export default function AuthCallback() {
           
           setTimeout(() => {
             navigate('/dashboard');
-          }, 3000);
+          }, 6000);
           return;
         }
         
@@ -63,6 +65,12 @@ export default function AuthCallback() {
         // Save repository info to user data
         userData.repository = repo.full_name;
         userData.repository_url = repo.html_url;
+
+        setStep('creating_config');
+        
+        // Create configuration files
+        const problemService = new GitHubProblemService(token);
+        await problemService.saveConfigurationFiles(userData.login, userData.login, CONFIG_FILES);
 
         setStep('finalizing');
         login(token, userData);
@@ -102,13 +110,17 @@ export default function AuthCallback() {
               </div>
             </div>
             
-            <div className={`${styles.step} ${step === 'creating_repo' ? styles.active : step === 'finalizing' ? styles.completed : ''}`}>
-              {/* <div className={styles.stepIcon}>
-                {step === 'creating_repo' ? '⏳' : step === 'finalizing' ? '✅' : '⭕'}
-              </div> */}
+            <div className={`${styles.step} ${step === 'creating_repo' ? styles.active : step === 'creating_config' || step === 'finalizing' ? styles.completed : ''}`}>
               <div className={styles.stepContent}>
                 <strong className={styles.stepTitle}>Creating learning repository</strong>
                 <p className={styles.stepDescription}>Setting up your personal workspace</p>
+              </div>
+            </div>
+            
+            <div className={`${styles.step} ${step === 'creating_config' ? styles.active : step === 'finalizing' ? styles.completed : ''}`}>
+              <div className={styles.stepContent}>
+                <strong className={styles.stepTitle}>Setting up configuration files</strong>
+                <p className={styles.stepDescription}>Creating your custom snippets and settings</p>
               </div>
             </div>
             

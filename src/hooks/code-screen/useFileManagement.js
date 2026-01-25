@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { findLanguage, findLanguageContent } from "../../utils/code-screen/languageUtils";
-import { DEFAULT_FILES } from "../../constants/code-screen/fileDefaults";
+import { DEFAULT_FILES, CONFIG_FILES } from "../../constants/code-screen/fileDefaults";
 import { useProblemStorage } from "./useProblemStorage";
 
 export function useFileManagement(selectedProblem, onFilesUpdated) {
@@ -79,8 +79,8 @@ export function useFileManagement(selectedProblem, onFilesUpdated) {
         }
       }
     } else {
-      // Reset to default files when no problem is selected
-      setFiles(DEFAULT_FILES);
+      // Reset to configuration files when no problem is selected
+      setFiles(CONFIG_FILES);
       setExternalFiles(null);
     }
   }, [selectedProblem, loadProblem, externalFiles]);
@@ -202,8 +202,17 @@ export function useFileManagement(selectedProblem, onFilesUpdated) {
     // Prevent deletion of core files (main executable files and tests.js)
     const isCoreFile = isCoreExecutableFile(fileName) || fileName === 'tests.js';
     
+    // Prevent deletion of configuration files
+    const configFiles = ['snippets.js', 'settings.json', 'package.json', 'README.md'];
+    const isConfigFile = configFiles.includes(fileName);
+    
     if (isCoreFile) {
       alert(`Cannot delete core file "${fileName}". Core files cannot be deleted.`);
+      return;
+    }
+    
+    if (isConfigFile) {
+      alert(`Cannot delete configuration file "${fileName}". Configuration files cannot be deleted.`);
       return;
     }
     

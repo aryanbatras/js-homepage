@@ -26,6 +26,7 @@ export default function Timer({ isVisible, onClose }) {
   const handleReset = () => {
     setTime(0);
     setIsRunning(false);
+    // onClose();
   };
 
   const formatTime = (milliseconds) => {
@@ -50,7 +51,9 @@ export default function Timer({ isVisible, onClose }) {
             <span className={styles.jsFunction}> ()</span>
             <span className={styles.jsOperator}> =&gt;</span>
           </h3>
-          <button className={styles.closeButton} onClick={onClose}>
+          <button className={styles.closeButton} 
+          onClick={onClose}
+          >
             <FaTimes />
           </button>
         </div>
@@ -59,9 +62,9 @@ export default function Timer({ isVisible, onClose }) {
           <div className={styles.timeValue}>
             {formatTime(time)}
           </div>
-          <div className={styles.timeLabel}>
-            <span className={styles.jsComment}>// milliseconds elapsed</span>
-          </div>
+            {/* <div className={styles.timeLabel}>
+              <span className={styles.jsComment}>// milliseconds elapsed</span>
+            </div> */}
         </div>
 
         <div className={styles.timerControls}>

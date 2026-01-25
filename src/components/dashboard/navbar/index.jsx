@@ -25,6 +25,7 @@ export default function DashboardNavbar({
   hasStoredVersion,
   isTimerVisible,
   onToggleTimer,
+  setSelectedCategory,
 }) {
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isProfileVisible, setIsProfileVisible] = useState(false);
@@ -43,6 +44,9 @@ export default function DashboardNavbar({
 
   const toggleNotesPanel = () => {
     // Create and open index.md file
+    if(!isProblemsPanelOpen) {
+      onToggleProblemsPanel();
+    }
     window.dispatchEvent(new CustomEvent("createNotesFile"));
   };
 
@@ -51,13 +55,11 @@ export default function DashboardNavbar({
   };
 
   const toggleSettingsModal = () => {
-    // setIsSettingsModalOpen(!isSettingsModalOpen);
-    // window.dispatchEvent(
-    //   new CustomEvent("toggleSettings", {
-    //     detail: { isSettingsModalOpen: !isSettingsModalOpen },
-    //   }),
-    // );
-    alert("Settings & Customizations are only available in the paid plan.");
+    setSelectedCategory(null);
+    if(!isProblemsPanelOpen) {
+      onToggleProblemsPanel();
+    }
+    // alert("Settings & Customizations are only available in the paid plan.");
   };
 
   const toggleTimer = () => {
@@ -120,10 +122,10 @@ export default function DashboardNavbar({
             <FaStopwatch />
             <div className={styles.icon__overlay}>Timer</div>
           </div>
-          <div className={styles.icon__small} onClick={navigateToDashboard}>
+          {/* <div className={styles.icon__small} onClick={navigateToDashboard}>
             <LuLayoutDashboard />
             <div className={styles.icon__overlay}>Dashboard</div>
-          </div>
+          </div> */}
           <div className={styles.icon__small} onClick={toggleSettingsModal}>
             <IoSettings />
             <div className={styles.icon__overlay}>Settings</div>

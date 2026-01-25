@@ -123,6 +123,7 @@ export default function Dashboard() {
         hasStoredVersion={hasStoredVersion}
         isTimerVisible={isTimerVisible}
         onToggleTimer={toggleTimer}
+        setSelectedCategory={setSelectedCategory}
       />
       <div className={styles.container}>
         <DashboardContent 
@@ -151,15 +152,12 @@ export default function Dashboard() {
       >
         <MdOpenWith />
       </button>
-      {/* <Timer isVisible={isTimerVisible} onClose={() => setIsTimerVisible(false)} /> */}
+      <Timer isVisible={isTimerVisible} onClose={() => setIsTimerVisible(false)} />
     </div>
   );
 
   function ScreenResizer() {
-    // const shouldShow = window.innerWidth <= 768 ? isMobileResizerVisible : true;
-    
-    // if (!shouldShow) return null;
-    
+
     return <div
       className={styles.screenResizer}
       onMouseDown={(e) => setIsDragging(true)}

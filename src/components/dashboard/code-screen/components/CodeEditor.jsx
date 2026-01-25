@@ -1,5 +1,6 @@
 import Editor from "@monaco-editor/react";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+import { parseSnippetsFromContent, createMonacoSuggestions, getDefaultSnippets } from "../../../../utils/code-screen/snippetsUtils";
 const resizeObserverErrorHandler = (e) => {
   if (e.message === 'ResizeObserver loop completed with undelivered notifications.') {
     return;
@@ -13,9 +14,114 @@ export function CodeEditor({
   activeFile,
   handleContentChange,
   verticalResizer,
+  files,
 }) {
 
   const [fontSize, setFontSize] = useState(28);
+  const [snippets, setSnippets] = useState(getDefaultSnippets());
+  const [monacoInstance, setMonacoInstance] = useState(null);
+  const [providers, setProviders] = useState({}); // Track registered providers
+  const [editorSettings, setEditorSettings] = useState({}); // Track editor settings
+
+  // Update snippets when snippets.js file content changes (but only when not actively editing)
+  useEffect(() => {
+    const snippetsFile = files?.find(file => file.name === 'snippets.js');
+    if (snippetsFile && (!activeFile || activeFile?.name !== 'snippets.js')) {
+      const parsedSnippets = parseSnippetsFromContent(snippetsFile.content);
+      setSnippets(parsedSnippets);
+    }
+  }, [files, activeFile]);
+
+  // Update editor settings when settings.json file content changes
+  useEffect(() => {
+    const settingsFile = files?.find(file => file.name === 'settings.json');
+    if (settingsFile && (!activeFile || activeFile?.name !== 'settings.json')) {
+      try {
+        const parsedSettings = JSON.parse(settingsFile.content);
+        setEditorSettings(parsedSettings);
+        
+        // Apply font size immediately if available
+        if (parsedSettings.editor?.fontSize) {
+          setFontSize(parsedSettings.editor.fontSize);
+        }
+      } catch (error) {
+        console.error('Error parsing settings.json:', error);
+      }
+    }
+  }, [files, activeFile]);
+
+  // Update snippets when switching away from snippets.js file
+  useEffect(() => {
+    if (activeFile?.name !== 'snippets.js') {
+      const snippetsFile = files?.find(file => file.name === 'snippets.js');
+      if (snippetsFile) {
+        const parsedSnippets = parseSnippetsFromContent(snippetsFile.content);
+        setSnippets(parsedSnippets);
+      }
+    }
+  }, [activeFile, files]);
+
+  // Update settings when switching away from settings.json file
+  useEffect(() => {
+    if (activeFile?.name !== 'settings.json') {
+      const settingsFile = files?.find(file => file.name === 'settings.json');
+      if (settingsFile) {
+        try {
+          const parsedSettings = JSON.parse(settingsFile.content);
+          setEditorSettings(parsedSettings);
+          
+          // Apply font size immediately if available
+          if (parsedSettings.editor?.fontSize) {
+            setFontSize(parsedSettings.editor.fontSize);
+          }
+        } catch (error) {
+          console.error('Error parsing settings.json:', error);
+        }
+      }
+    }
+  }, [activeFile, files]);
+
+  // Re-register completion providers when snippets change
+  useEffect(() => {
+    if (monacoInstance && Object.keys(snippets).length > 0) {
+      console.log('Registering completion providers with snippets:', snippets);
+      
+      // Dispose existing providers first
+      Object.values(providers).forEach(provider => {
+        if (provider && typeof provider.dispose === 'function') {
+          provider.dispose();
+        }
+      });
+      
+      const newProviders = {};
+      const languages = ['javascript', 'typescript', 'html', 'css'];
+      
+      languages.forEach(language => {
+        const provider = monacoInstance.languages.registerCompletionItemProvider(language, {
+          provideCompletionItems: () => {
+            const languageSnippets = snippets[language] || [];
+            const suggestions = createMonacoSuggestions({ [language]: languageSnippets }, monacoInstance);
+            console.log(`Suggestions for ${language}:`, suggestions[language]);
+            return { suggestions: suggestions[language] || [] };
+          },
+        });
+        newProviders[language] = provider;
+      });
+      
+      setProviders(newProviders);
+    }
+  }, [snippets, monacoInstance]);
+
+  // Cleanup providers on unmount
+  useEffect(() => {
+    return () => {
+      Object.values(providers).forEach(provider => {
+        if (provider && typeof provider.dispose === 'function') {
+          provider.dispose();
+        }
+      });
+    };
+  }, [providers]);
 
   const getEditorHeight = () => {
     const availableHeight = verticalResizer - 4;
@@ -368,66 +474,10 @@ export function CodeEditor({
       },
     });
 
-    monaco.languages.registerCompletionItemProvider("javascript", {
-      provideCompletionItems: () => {
-        const suggestions = [
-          {
-            label: "useState",
-            kind: monaco.languages.CompletionItemKind.Function,
-            insertText:
-              "const [${1:state}, set${1/(.*)/${1:/capitalize}/}] = useState($2);",
-            insertTextRules:
-              monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-            documentation: "React useState hook",
-          },
-          {
-            label: "useEffect",
-            kind: monaco.languages.CompletionItemKind.Function,
-            insertText: "useEffect(() => {\n  $1\n}, [$2]);",
-            insertTextRules:
-              monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-            documentation: "React useEffect hook",
-          },
-          {
-            label: "useCallback",
-            kind: monaco.languages.CompletionItemKind.Function,
-            insertText:
-              "const ${1:callback} = useCallback(($2) => {\n  $3\n}, [$4]);",
-            insertTextRules:
-              monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-            documentation: "React useCallback hook",
-          },
-          {
-            label: "useMemo",
-            kind: monaco.languages.CompletionItemKind.Function,
-            insertText: "const ${1:memoizedValue} = useMemo(() => $2, [$3]);",
-            insertTextRules:
-              monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-            documentation: "React useMemo hook",
-          },
-          {
-            label: "React Component",
-            kind: monaco.languages.CompletionItemKind.Function,
-            insertText:
-              "function ${1:ComponentName}({$2}) {\n  return (\n    <div>\n      $3\n    </div>\n  );\n}",
-            insertTextRules:
-              monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-            documentation: "React functional component",
-          },
-          {
-            label: "Arrow Component",
-            kind: monaco.languages.CompletionItemKind.Function,
-            insertText:
-              "const ${1:ComponentName} = ({$2}) => {\n  return (\n    <div>\n      $3\n    </div>\n  );\n};",
-            insertTextRules:
-              monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-            documentation: "React arrow function component",
-          },
-        ];
+    // Store monaco instance for later use
+    setMonacoInstance(monaco);
 
-        return { suggestions };
-      },
-    });
+    // Register completion providers will be handled in useEffect when snippets are available
   };
 
   return (
@@ -438,10 +488,15 @@ export function CodeEditor({
           language={activeFile.language || "javascript"}
           value={activeFile.content || ""}
           loading={<p>Loading...</p>}
-          theme="jsDarkOrange"
+          theme={editorSettings.editor?.theme || "jsDarkOrange"}
           onChange={handleContentChange}
           beforeMount={handleBeforeMount}
-          onMount={(editorInstance) => {
+          onMount={(editorInstance, monaco) => {
+            // Store monaco instance if not already set
+            if (!monacoInstance && monaco) {
+              setMonacoInstance(monaco);
+            }
+            
             editorInstance.updateOptions({
               fontSize: fontSize,
             });
@@ -463,12 +518,12 @@ export function CodeEditor({
               bracketPairs: true,
               indentation: true,
             },
-            minimap: { enabled: false },
+            minimap: { enabled: editorSettings.editor?.minimap?.enabled !== undefined ? editorSettings.editor.minimap.enabled : false },
             scrollBeyondLastLine: false,
-            wordWrap: "on",
+            wordWrap: editorSettings.editor?.wordWrap || "on",
             automaticLayout: true,
             selectionHighlight: false,
-            lineNumbers: "off",
+            lineNumbers: editorSettings.editor?.lineNumbers || "off",
             fontSize: fontSize,
             suggest: {
               showKeywords: true,
@@ -499,9 +554,9 @@ export function CodeEditor({
             suggestOnTriggerCharacters: true,
             tabCompletion: "on",
             wordBasedSuggestions: true,
-            autoClosingBrackets: "always",
-            autoClosingQuotes: "always",
-            autoIndent: "full",
+            autoClosingBrackets: editorSettings.editor?.autoClosingBrackets || "always",
+            autoClosingQuotes: editorSettings.editor?.autoClosingQuotes || "always",
+            autoIndent: editorSettings.editor?.autoIndent || "full",
             trimAutoWhitespace: true,
             suggestSelection: "first",
             quickSuggestionsDelay: 100,

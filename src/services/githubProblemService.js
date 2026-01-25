@@ -1,4 +1,5 @@
 import { sanitizeProblemTitle } from '../utils/storage/problemStorage';
+import { CONFIG_FILES } from '../constants/code-screen/fileDefaults';
 
 export class GitHubProblemService {
   constructor(token) {
@@ -23,6 +24,75 @@ export class GitHubProblemService {
     }
 
     return response.json();
+  }
+
+  // Get configuration files
+  async getConfigurationFiles(owner, repo) {
+    try {
+      const configFiles = [];
+      
+      for (const configFile of CONFIG_FILES) {
+        const fileData = await this.makeRequest(`/repos/${owner}/${repo}/contents/${configFile.name}`);
+        if (fileData && fileData.content) {
+          const content = atob(fileData.content);
+          configFiles.push({
+            name: configFile.name,
+            content,
+            language: configFile.language,
+            active: configFile.active,
+            config: true
+          });
+        }
+      }
+      
+      return configFiles;
+    } catch (error) {
+      if (error.message.includes('404')) {
+        // Config files don't exist yet, return default ones
+        return CONFIG_FILES;
+      }
+      throw error;
+    }
+  }
+
+  // Save configuration files
+  async saveConfigurationFiles(owner, repo, configFiles) {
+    const results = [];
+    
+    for (const file of configFiles) {
+      if (file.name && file.content !== undefined) {
+        try {
+          const result = await this.saveFile(owner, repo, file.name, file.content, `Update configuration file: ${file.name}`);
+          results.push({ type: 'config', name: file.name, success: true, result });
+        } catch (error) {
+          results.push({ type: 'config', name: file.name, success: false, error: error.message });
+        }
+      }
+    }
+    
+    return { success: true, results };
+  }
+
+  // Helper method to save any file
+  async saveFile(owner, repo, fileName, content, message = '') {
+    let sha = null;
+    try {
+      const existingFile = await this.makeRequest(`/repos/${owner}/${repo}/contents/${fileName}`);
+      sha = existingFile?.sha;
+    } catch (error) {
+      // File doesn't exist, that's okay
+    }
+
+    const payload = {
+      message: message || `Update ${fileName}`,
+      content: btoa(unescape(encodeURIComponent(content))),
+      ...(sha && { sha })
+    };
+
+    return this.makeRequest(`/repos/${owner}/${repo}/contents/${fileName}`, {
+      method: 'PUT',
+      body: JSON.stringify(payload)
+    });
   }
 
   // Get repository info

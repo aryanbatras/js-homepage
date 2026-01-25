@@ -27,6 +27,10 @@ export function FileTabs({
     // Check if it's tests.js
     if (fileName === 'tests.js') return true;
     
+    // Check if it's a configuration file
+    const configFiles = ['snippets.js', 'settings.json', 'package.json', 'README.md'];
+    if (configFiles.includes(fileName)) return true;
+    
     // Check if it's a core executable file from the problem data
     if (selectedProblem && selectedProblem.files) {
       return selectedProblem.files.some(coreFile => coreFile.name === fileName);

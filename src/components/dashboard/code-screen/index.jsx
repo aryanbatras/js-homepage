@@ -236,6 +236,7 @@ export default function DashboardCodeScreen({ screenResizer, selectedProblem, ha
         previewVisible={previewVisible}
         handleContentChange={handleContentChange}
         verticalResizer={verticalResizer}
+        files={files}
       />
 
       <VerticalResizer />
