@@ -84,7 +84,7 @@ export function CodeEditor({
   // Re-register completion providers when snippets change
   useEffect(() => {
     if (monacoInstance && Object.keys(snippets).length > 0) {
-      console.log('Registering completion providers with snippets:', snippets);
+      // console.log('Registering completion providers with snippets:', snippets);
       
       // Dispose existing providers first
       Object.values(providers).forEach(provider => {
