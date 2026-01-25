@@ -21,7 +21,7 @@ function Section1({insideMac = false}) {
               onClick={handleDashboardClick}  
               // reloadDocument
             >
-              Start Coding Challenges
+              Start Coding Challengesx
             </a>
           )}
         </div>

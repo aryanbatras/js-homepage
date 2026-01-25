@@ -30,12 +30,29 @@ export default function AIChat({ isVisible, onClose, activeFile }) {
         `File: ${activeFile.name}\nLanguage: ${activeFile.language || 'javascript'}\n\n${activeFile.content.substring(0, 2000)}` : 
         '';
 
-      const response = await aiService.sendMessage(input, codeContext);
+      const result = await aiService.sendMessage(input, codeContext);
       
-      const aiMessage = { role: 'assistant', text: response };
-      setMessages(prev => [...prev, aiMessage]);
+      if (result.error) {
+        const errorMessage = { 
+          role: 'assistant', 
+          text: result.error,
+          isError: true 
+        };
+        setMessages(prev => [...prev, errorMessage]);
+      } else {
+        const aiMessage = { 
+          role: 'assistant', 
+          text: result.response,
+          responseTime: result.responseTime 
+        };
+        setMessages(prev => [...prev, aiMessage]);
+      }
     } catch (error) {
-      const errorMessage = { role: 'assistant', text: `Sorry, I encountered an error: ${error.message}` };
+      const errorMessage = { 
+        role: 'assistant', 
+        text: `Sorry, I encountered an error: ${error.message}`,
+        isError: true 
+      };
       setMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
@@ -75,11 +92,17 @@ export default function AIChat({ isVisible, onClose, activeFile }) {
                 <li>Code optimization</li>
                 <li>Best practices</li>
               </ul>
+              <p><strong>🚀 Now powered by Cloudflare Workers backend!</strong></p>
             </div>
           ) : (
             messages.map((msg, i) => (
-              <div key={i} className={`${styles.message} ${styles[msg.role]}`}>
+              <div key={i} className={`${styles.message} ${styles[msg.role]} ${msg.isError ? styles.error : ''}`}>
                 <div className={styles.text}>{msg.text}</div>
+                {msg.responseTime && (
+                  <div className={styles.meta}>
+                    <span className={styles.responseTime}>{msg.responseTime}ms</span>
+                  </div>
+                )}
               </div>
             ))
           )}

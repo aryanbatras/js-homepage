@@ -129,10 +129,10 @@ export default function DashboardNavbar({
             <FaStopwatch />
             <div className={styles.icon__overlay}>Timer</div>
           </div>
-          {/* <div className={styles.icon__small} onClick={toggleAIChatbot}>
+          <div className={styles.icon__small} onClick={toggleAIChatbot}>
             <FaRobot />
             <div className={styles.icon__overlay}>AI Assistant</div>
-          </div> */}
+          </div>
           <div className={styles.icon__small} onClick={toggleSettingsModal}>
             <IoSettings />
             <div className={styles.icon__overlay}>Settings</div>
