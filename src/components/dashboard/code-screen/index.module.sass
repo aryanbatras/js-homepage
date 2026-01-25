@@ -49,6 +49,13 @@
           &:hover
             // background: rgb(0, 106, 255)
             background: rgb(255, 0, 0, 0.75)
+        &__disabled
+          cursor: not-allowed
+          opacity: 0.5
+          &:hover
+            background: transparent
+          .option__icon__disabled
+            opacity: 0.3
         // &:nth-child(2)
         //   &:hover
         //     background: rgb(255, 0, 0, 0.85)
@@ -327,6 +334,8 @@
     border-radius: 4px
     // margin: 2px 0
     font-size: 24px
+    white-space: pre-wrap
+    word-break: break-all
     transition: background-color 0.2s ease
     
     &:hover
@@ -353,21 +362,29 @@
       border-left: 3px solid #059669
       
     &.console_log--log
-      color: #1f2937
+      // color: #1f2937
+      color: #f97316
       
     &.console_log--test
-      background: #f0fdf4
-      color: #059669
-      border-left: 3px solid #059669
-      font-family: 'Courier New', monospace
+      // background: rgba(253, 141, 141, 0.1)
+      color: #ea580c
+      border-left: 3px solid #ea580c
+      // font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace
       white-space: pre-wrap
       line-height: 1.4
       
-      .console_message
-        font-size: 0.85rem
+      // .console_message
+        // font-size: 0.85rem
+        // color: #f97316
+          // font-weight: 100
+      
+      .console_timestamp
+        color: #f97316
+        font-weight: 100
       
     .console_timestamp
-      color: #9ca3af
+      // color: #9ca3af
+      color: #f97316
       // font-size: 11px
       margin-right: 8px
       
@@ -506,3 +523,175 @@
 @media (max-width: 1024px)
   .code_screen
     height: 87vh
+
+.testEditorOverlay
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  background: rgba(0, 0, 0, 0.5)
+  display: flex
+  justify-content: center
+  align-items: center
+  z-index: 10000
+  backdrop-filter: blur(4px)
+
+.testEditorDialog
+  background: white
+  border-radius: 12px
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)
+  width: 90%
+  max-width: 800px
+  max-height: 80vh
+  display: flex
+  flex-direction: column
+  overflow: hidden
+
+.testEditorHeader
+  display: flex
+  justify-content: space-between
+  align-items: center
+  padding: 1.5rem
+  border-bottom: 1px solid #e5e7eb
+  background: #f9fafb
+  
+  h3
+    margin: 0
+    color: #1f2937
+    font-size: 1.25rem
+    font-weight: 600
+    
+  .closeButton
+    background: none
+    border: none
+    color: #6b7280
+    cursor: pointer
+    padding: 0.5rem
+    border-radius: 6px
+    transition: all 0.2s ease
+    
+    &:hover
+      background: #f3f4f6
+      color: #374151
+
+.testEditorContent
+  flex: 1
+  padding: 1.5rem
+  overflow-y: auto
+  display: flex
+  flex-direction: column
+  gap: 1rem
+
+.testItem
+  border: 1px solid #e5e7eb
+  border-radius: 8px
+  overflow: hidden
+
+.testHeader
+  display: flex
+  justify-content: space-between
+  align-items: center
+  padding: 0.75rem 1rem
+  background: #f9fafb
+  border-bottom: 1px solid #e5e7eb
+  
+  .testNameInput
+    flex: 1
+    background: white
+    border: 1px solid #d1d5db
+    border-radius: 6px
+    padding: 0.5rem
+    font-size: 0.875rem
+    color: #374151
+    outline: none
+    transition: all 0.2s ease
+    
+    &:focus
+      border-color: #3b82f6
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1)
+      
+  .removeTestButton
+    background: #ef4444
+    color: white
+    border: none
+    padding: 0.5rem
+    border-radius: 6px
+    cursor: pointer
+    margin-left: 0.5rem
+    transition: all 0.2s ease
+    
+    &:hover
+      background: #dc2626
+
+.testCodeTextarea
+  width: 100%
+  background: white
+  border: none
+  padding: 1rem
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace
+  font-size: 0.875rem
+  color: #374151
+  resize: vertical
+  outline: none
+  line-height: 1.5
+
+.addTestButton
+  display: flex
+  align-items: center
+  gap: 0.5rem
+  background: #3b82f6
+  color: white
+  border: none
+  padding: 0.75rem 1rem
+  border-radius: 8px
+  cursor: pointer
+  font-size: 0.875rem
+  font-weight: 500
+  transition: all 0.2s ease
+  align-self: flex-start
+  
+  &:hover
+    background: #2563eb
+    transform: translateY(-1px)
+
+.testEditorFooter
+  display: flex
+  justify-content: flex-end
+  gap: 0.75rem
+  padding: 1.5rem
+  border-top: 1px solid #e5e7eb
+  background: #f9fafb
+
+.cancelButton
+  background: white
+  color: #6b7280
+  border: 1px solid #d1d5db
+  padding: 0.75rem 1.5rem
+  border-radius: 8px
+  cursor: pointer
+  font-size: 0.875rem
+  font-weight: 500
+  transition: all 0.2s ease
+  
+  &:hover
+    background: #f3f4f6
+    color: #374151
+
+.saveButton
+  display: flex
+  align-items: center
+  gap: 0.5rem
+  background: #059669
+  color: white
+  border: none
+  padding: 0.75rem 1.5rem
+  border-radius: 8px
+  cursor: pointer
+  font-size: 0.875rem
+  font-weight: 500
+  transition: all 0.2s ease
+  
+  &:hover
+    background: #047857
+    transform: translateY(-1px)

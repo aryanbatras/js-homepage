@@ -58,7 +58,7 @@
   padding: 0.75rem 1.5rem
   border: 1px solid rgba(0, 0, 0, 0.1)
   background: transparent
-  border-radius: 6px
+  border-radius: 1px
   font-size: 0.875rem
   font-weight: 400
   color: rgba(0, 0, 0, 0.6)
@@ -70,19 +70,20 @@
   &:hover
     background: rgba(0, 0, 0, 0.05)
     color: rgba(0, 0, 0, 0.8)
-    transform: translateY(-1px)
+    // transform: translateY(-1px)
     
   &:active
     transform: translateY(0)
     
   &.active
-    background: rgba(0, 0, 0, 0.9)
+    background: darkorange
     color: white
-    border-color: rgba(0, 0, 0, 0.9)
+    border-color: darkorange
     
     &:hover
-      background: rgba(0, 0, 0, 0.95)
-      transform: translateY(-1px)
+      background: darken(darkorange, 1%)
+      border-color: darken(darkorange, 1%)
+      // transform: translateY(-1px)
 
 .title
   font-size: 3rem
@@ -135,7 +136,7 @@
     transform: translateY(-50%)
     width: 3px
     height: 0
-    background: rgba(0, 0, 0, 0.2)
+    background: darkorange
     border-radius: 0 2px 2px 0
     transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)
   &::after
@@ -143,9 +144,10 @@
     position: absolute
     inset: 0
     border-radius: 8px
-    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent)
+    // background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent)
+    background: darkorange
     opacity: 0
-    transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+    transition: opacity 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
   &:nth-child(1)
     animation-delay: 0.2s
   &:nth-child(2)
@@ -193,7 +195,7 @@
       height: 60%
       width: 3px
     &::after
-      opacity: 1
+      opacity: 0.1
   &:active
     transform: translateX(8px) scale(0.98)
     transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)

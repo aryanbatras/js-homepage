@@ -17,8 +17,22 @@ export function FileTabs({
   handleAddFile,
   handleFileClick,
   handleDeleteFile,
+  selectedProblem,
 }) {
   const [settings, setSettings] = useState(false);
+
+  // Function to check if a file is a core file
+  const isCoreFile = (fileName) => {
+    // Check if it's tests.js
+    if (fileName === 'tests.js') return true;
+    
+    // Check if it's a core executable file from the problem data
+    if (selectedProblem && selectedProblem.files) {
+      return selectedProblem.files.some(coreFile => coreFile.name === fileName);
+    }
+    
+    return false;
+  };
   return (
     <div className={styles.files_wrapper}>
       <div className={styles.files}>
@@ -73,17 +87,20 @@ export function FileTabs({
           settings && activeFile?.name === file.name && (
             <div key={`menu-${file.name}`} className={styles.menu}>
               <div
-                className={styles.option}
+                className={`${styles.option} ${isCoreFile(file.name) ? styles.option__disabled : ''}`}
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleDeleteFile(file.name);
-                  setSettings(false)
+                  if (!isCoreFile(file.name)) {
+                    handleDeleteFile(file.name);
+                    setSettings(false);
+                  }
                 }}
+                title={isCoreFile(file.name) ? "Core files cannot be deleted" : "Delete file"}
               >
-                <div className={styles.option__icon}>
+                <div className={`${styles.option__icon} ${isCoreFile(file.name) ? styles.option__icon__disabled : ''}`}>
                   <MdOutlineDeleteOutline />
                 </div>
-                <span>Delete</span>
+                <span>{isCoreFile(file.name) ? "Core File" : "Delete"}</span>
               </div>
             </div>
           ),

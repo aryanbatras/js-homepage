@@ -110,12 +110,15 @@ export default function GitHubSync({
       if (result.success) {
         setSyncStatus("success");
         setSyncMessage(`Successfully pushed ${files.length} files to GitHub`);
-
+        
+        // Close diff preview first
+        setShowDiffPreview(false);
+        
+        // Show success message for longer
         setTimeout(() => {
           setSyncStatus("idle");
           setSyncMessage("");
-          setShowDiffPreview(false);
-        }, 3000);
+        }, 5000);
       } else {
         throw new Error(result.error);
       }

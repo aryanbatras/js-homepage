@@ -53,6 +53,28 @@ export function useFileManagement(selectedProblem, onFilesUpdated) {
             active: index === 0,
             default: false,
           }));
+          
+          // Add tests.js file if tests exist
+          if (selectedProblem.tests && Array.isArray(selectedProblem.tests) && selectedProblem.tests.length > 0) {
+            try {
+              // Simply join all test codes together
+              const testsContent = selectedProblem.tests.map(test => test.code || '').filter(code => code.trim()).join('\n\n');
+              
+              if (testsContent.trim()) {
+                problemFiles.push({
+                  name: 'tests.js',
+                  language: 'javascript',
+                  content: testsContent,
+                  active: false,
+                  default: false,
+                });
+              }
+            } catch (error) {
+              console.error('Error creating tests.js file:', error);
+              // Don't break the file loading process
+            }
+          }
+          
           setFiles(problemFiles);
         }
       }
@@ -110,13 +132,60 @@ export function useFileManagement(selectedProblem, onFilesUpdated) {
       prev.map((file) => (file.active ? { ...file, content: newValue } : file)),
     );
     
+    // If tests.js file is being updated, sync it back to the problem's tests array
+    const activeFileObj = files.find((file) => file.active);
+    if (activeFileObj && activeFileObj.name === 'tests.js' && selectedProblem) {
+      updateTestsFromContent(newValue);
+    }
+    
     // Trigger auto-save when content changes
     if (selectedProblem) {
       autoSave();
     }
   };
 
+  // Function to update problem's tests array from tests.js content
+  const updateTestsFromContent = (testsContent) => {
+    if (!selectedProblem) return;
+    
+    try {
+      // Initialize tests array if it doesn't exist
+      if (!selectedProblem.tests) {
+        selectedProblem.tests = [];
+      }
+      
+      // Simple conversion: treat entire content as one test
+      if (testsContent.trim()) {
+        selectedProblem.tests = [{
+          test: 'tests.js',
+          code: testsContent.trim()
+        }];
+      } else {
+        // Clear tests if content is empty
+        selectedProblem.tests = [];
+      }
+    } catch (error) {
+      console.error('Error updating tests from content:', error);
+      // Don't break the flow if parsing fails
+    }
+  };
+
+  // Function to check if a file is a core executable file from the original problem data
+  const isCoreExecutableFile = (fileName) => {
+    if (!selectedProblem || !selectedProblem.files) return false;
+    
+    return selectedProblem.files.some(coreFile => coreFile.name === fileName);
+  };
+
   const handleDeleteFile = (fileName) => {
+    // Prevent deletion of core files (main executable files and tests.js)
+    const isCoreFile = isCoreExecutableFile(fileName) || fileName === 'tests.js';
+    
+    if (isCoreFile) {
+      alert(`Cannot delete core file "${fileName}". Core files cannot be deleted.`);
+      return;
+    }
+    
     const fileToDelete = files.find((file) => file.name === fileName);
     const wasActive = fileToDelete?.active;
     const updatedFiles = files.filter((file) => file.name !== fileName);

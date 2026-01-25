@@ -81,11 +81,23 @@ export function useCodeScreen(files) {
       } finally {
         console.log = originalLog;
         if (outputs.length === 0) {
-          setConsoleOutput(["Please use console.log() to see output"]);
+          // Check if we're in tests.js file
+          const activeFile = files.find(file => file.active);
+          const isTestsFile = activeFile?.name === 'tests.js';
+          
+          if (isTestsFile) {
+            setConsoleOutput([
+              "Running tests.js - Add executable code to run tests with full JavaScript file context. Individual console.log() calls will appear here when tests run."
+            ]);
+          } else {
+              setConsoleOutput([
+              "Add console.log() statements to see output here. Use Run button to execute your JavaScript code. If tests.js has executable code, Run will execute all JavaScript files and tests together."
+            ]);
+          }
         }
       }
     } else {
-      setConsoleOutput(["Error: No .js file found!"]);
+      setConsoleOutput(["Error: No active JavaScript file found!"]);
     }
     setConsoleState(true);
     hidePreview();
