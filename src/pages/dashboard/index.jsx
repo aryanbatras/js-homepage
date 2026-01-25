@@ -3,6 +3,7 @@ import DashboardNavbar from "../../components/dashboard/navbar";
 import DashboardContent from "../../components/dashboard/content-screen";
 import DashboardCodeScreen from "../../components/dashboard/code-screen";
 import Timer from "../../components/dashboard/Timer";
+import AIChat from "../../components/dashboard/AIChat";
 import { useScreenResizer } from "../../hooks/dashboard/useScreenResizer";
 import { CiMenuKebab } from "react-icons/ci";
 import { MdOpenWith } from "react-icons/md";
@@ -20,6 +21,7 @@ export default function Dashboard() {
   const [hasStoredVersion, setHasStoredVersion] = useState(false);
   const [isTimerVisible, setIsTimerVisible] = useState(false);
   const [isMobileResizerVisible, setIsMobileResizerVisible] = useState(false);
+  const [isAIChatVisible, setIsAIChatVisible] = useState(false);
 
   const toggleProblemsPanel = () => {
     setIsProblemsPanelOpen(!isProblemsPanelOpen);
@@ -88,6 +90,11 @@ export default function Dashboard() {
     }
   };
 
+  const toggleAIChat = () => {
+    console.log('toggleAIChat called, current state:', isAIChatVisible);
+    setIsAIChatVisible(!isAIChatVisible);
+  };
+
   // Update selectedProblem when index or category changes
   useEffect(() => {
     setSelectedProblemIndex(null); // Reset problem index when category changes
@@ -124,6 +131,8 @@ export default function Dashboard() {
         isTimerVisible={isTimerVisible}
         onToggleTimer={toggleTimer}
         setSelectedCategory={setSelectedCategory}
+        isAIChatVisible={isAIChatVisible}
+        onToggleAIChatbot={toggleAIChat}
       />
       <div className={styles.container}>
         <DashboardContent 
@@ -153,6 +162,11 @@ export default function Dashboard() {
         <MdOpenWith />
       </button>
       <Timer isVisible={isTimerVisible} onClose={() => setIsTimerVisible(false)} />
+      <AIChat 
+        isVisible={isAIChatVisible} 
+        onClose={() => setIsAIChatVisible(false)}
+        activeFile={files.find(f => f.active)}
+      />
     </div>
   );
 

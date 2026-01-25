@@ -3,7 +3,7 @@ import styles from "./index.module.sass";
 import { IoLogoJavascript, IoShuffle } from "react-icons/io5";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import { CiMenuFries } from "react-icons/ci";
-import { FaPlay, FaStopwatch, FaUser } from "react-icons/fa";
+import { FaPlay, FaStopwatch, FaUser, FaRobot } from "react-icons/fa";
 import { FaRegNoteSticky } from "react-icons/fa6";
 import { VscPreview } from "react-icons/vsc";
 import { VscRunCoverage } from "react-icons/vsc";
@@ -26,6 +26,8 @@ export default function DashboardNavbar({
   isTimerVisible,
   onToggleTimer,
   setSelectedCategory,
+  isAIChatVisible,
+  onToggleAIChatbot,
 }) {
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isProfileVisible, setIsProfileVisible] = useState(false);
@@ -69,6 +71,11 @@ export default function DashboardNavbar({
         detail: { isTimerVisible: !isTimerVisible },
       }),
     );
+  };
+
+  const toggleAIChatbot = () => {
+    console.log('AI Chatbot button clicked!');
+    onToggleAIChatbot();
   };
 
   const toggleProfile = () => {
@@ -122,16 +129,14 @@ export default function DashboardNavbar({
             <FaStopwatch />
             <div className={styles.icon__overlay}>Timer</div>
           </div>
-          {/* <div className={styles.icon__small} onClick={navigateToDashboard}>
-            <LuLayoutDashboard />
-            <div className={styles.icon__overlay}>Dashboard</div>
-          </div> */}
+          <div className={styles.icon__small} onClick={toggleAIChatbot}>
+            <FaRobot />
+            <div className={styles.icon__overlay}>AI Assistant</div>
+          </div>
           <div className={styles.icon__small} onClick={toggleSettingsModal}>
             <IoSettings />
             <div className={styles.icon__overlay}>Settings</div>
           </div>
-          {/* </div>
-        <div className={styles.section}> */}
           {/* <div className={styles.icon__small__left} onClick={toggleProfile}>
             <FaUser />
             <div className={styles.icon__overlay}>Profile</div>

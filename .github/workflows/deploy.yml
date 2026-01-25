@@ -33,6 +33,15 @@ jobs:
         env:
           NODE_OPTIONS: '--max-old-space-size=4096'
 
+      - name: Create .env file with environment variables
+        run: |
+          echo "VITE_CLOUDFLARE_ACCOUNT_ID=${{ secrets.CLOUDFLARE_ACCOUNT_ID }}" >> .env
+          echo "VITE_CLOUDFLARE_API_KEY=${{ secrets.CLOUDFLARE_API_KEY }}" >> .env
+          echo "VITE_CLOUDFLARE_MODEL=${{ secrets.CLOUDFLARE_MODEL }}" >> .env
+          echo "✅ .env file created with environment variables"
+          echo "🔍 .env file contents (masked):"
+          sed 's/=.*/=****/' .env
+
       - name: 🔍 DEBUG - List source files before build
         run: |
           echo "📁 Source directory structure:"
@@ -50,6 +59,12 @@ jobs:
       - name: Build
         run: |
           echo "🚀 Starting build process..."
+          echo "🔍 Environment variables available:"
+          env | grep VITE_ || echo "No VITE_ variables found"
+          echo ""
+          echo "📄 .env file contents:"
+          cat .env || echo "No .env file found"
+          echo ""
           NODE_OPTIONS="--max-old-space-size=8192" npm run build
           echo "✅ Build completed"
           touch ./dist/.nojekyll
