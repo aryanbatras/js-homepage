@@ -17,8 +17,17 @@ export function AuthProvider({ children }) {
     const savedUser = Cookies.get('github_user');
     
     if (savedToken && savedUser) {
-      setToken(savedToken);
-      setUser(JSON.parse(savedUser));
+      const userData = JSON.parse(savedUser);
+      
+      // Only restore if it's not a guest user
+      if (!userData.isGuest) {
+        setToken(savedToken);
+        setUser(userData);
+      } else {
+        // Clean up any guest data that might be in cookies
+        Cookies.remove('github_token');
+        Cookies.remove('github_user');
+      }
     }
     setIsLoading(false);
   }, []);
@@ -26,8 +35,12 @@ export function AuthProvider({ children }) {
   const login = (githubToken, userData) => {
     setToken(githubToken);
     setUser(userData);
-    Cookies.set('github_token', githubToken, { expires: 30 });
-    Cookies.set('github_user', JSON.stringify(userData), { expires: 30 });
+    
+    // Only save to cookies for real GitHub users, not guest users
+    if (!userData.isGuest) {
+      Cookies.set('github_token', githubToken, { expires: 30 });
+      Cookies.set('github_user', JSON.stringify(userData), { expires: 30 });
+    }
   };
 
   const logout = () => {

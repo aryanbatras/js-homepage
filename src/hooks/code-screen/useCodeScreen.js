@@ -7,9 +7,11 @@ export function useCodeScreen(files) {
   const [previewVisible, setPreviewVisible] = useState(false);
 
   const generatePreview = (files) => {
-    const htmlFile = files.find((f) => f.name === "index.html");
-    const cssFile = files.find((f) => f.name === "index.css") || files.find((f) => f.name === "styles.css");
-    const jsFile = files.find((f) => f.name === "index.js") || files.find((f) => f.name === "script.js");
+    const htmlFile = files.find((f) => f.name.endsWith('.html'));
+    const cssFile = files.find((f) => f.name.endsWith('.css'));
+    const jsxFile = files.find((f) => f.name.endsWith('.jsx'));
+    const jsFile = files.find((f) => f.name.endsWith('.js'));
+    const jsFileToUse = jsxFile || jsFile;
 
     if (htmlFile) {
       let combinedContent = htmlFile.content;
@@ -32,10 +34,10 @@ export function useCodeScreen(files) {
         );
       }
 
-      if (jsFile) {
+      if (jsFileToUse) {
         combinedContent = combinedContent.replace(
           "</body>",
-          `  <script type="text/babel" >\n${jsFile.content}\n  </script>\n</body>`
+          `  <script type="text/babel" >\n${jsFileToUse.content}\n  </script>\n</body>`
         );
       }
 
@@ -62,7 +64,7 @@ export function useCodeScreen(files) {
       originalLog(...args);
     };
 
-    const jsFile = files.find((f) => f.name.endsWith('.js') && f.active);
+    const jsFile = files.find((f) => (f.name.endsWith('.js') || f.name.endsWith('.jsx')) && f.active);
 
     if (jsFile) {
       try {

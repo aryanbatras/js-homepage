@@ -36,7 +36,7 @@
 
 export const DEFAULT_FILES = [
   {
-    name: "index.js",
+    name: "index.jsx",
     language: "javascript",
     content: `const { createRoot } = ReactDOM;
 const { useState } = React;

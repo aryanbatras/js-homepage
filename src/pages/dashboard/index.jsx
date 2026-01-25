@@ -5,6 +5,7 @@ import DashboardCodeScreen from "../../components/dashboard/code-screen";
 import Timer from "../../components/dashboard/Timer";
 import { useScreenResizer } from "../../hooks/dashboard/useScreenResizer";
 import { CiMenuKebab } from "react-icons/ci";
+import { MdOpenWith } from "react-icons/md";
 import { useState, useEffect } from "react";
 import { problemsByCategory } from "../../components/dashboard/content-screen/store/categories";
 
@@ -18,10 +19,13 @@ export default function Dashboard() {
   const [githubFiles, setGithubFiles] = useState(null); // Files from GitHub pull
   const [hasStoredVersion, setHasStoredVersion] = useState(false);
   const [isTimerVisible, setIsTimerVisible] = useState(false);
+  const [isMobileResizerVisible, setIsMobileResizerVisible] = useState(false);
 
   const toggleProblemsPanel = () => {
     setIsProblemsPanelOpen(!isProblemsPanelOpen);
-    setScreenResizer(window.innerWidth >= 768 ? (isProblemsPanelOpen ? 100 : 30) : (isProblemsPanelOpen ? 100 : 0));
+    const minWidthForPanel = 768; // Minimum width at which the panel should be visible
+    const panelWidth = window.innerWidth >= minWidthForPanel ? (isProblemsPanelOpen ? 100 : 30) : (isProblemsPanelOpen ? 100 : 0);
+    setScreenResizer(panelWidth);
   };
 
   const goToPreviousProblem = () => {
@@ -73,6 +77,15 @@ export default function Dashboard() {
 
   const toggleTimer = () => {
     setIsTimerVisible(!isTimerVisible);
+  };
+
+  const toggleMobileResizer = () => {
+    setIsMobileResizerVisible(!isMobileResizerVisible);
+    if (!isMobileResizerVisible) {
+      setScreenResizer(100);
+    } else {
+      setScreenResizer(0);
+    }
   };
 
   // Update selectedProblem when index or category changes
@@ -130,11 +143,23 @@ export default function Dashboard() {
           githubFiles={githubFiles}
         />
       </div>
+      {/* Mobile FAB Button */}
+      <button 
+        className={styles.mobileFab}
+        onClick={toggleMobileResizer}
+        aria-label="Toggle screen resizer"
+      >
+        <MdOpenWith />
+      </button>
       {/* <Timer isVisible={isTimerVisible} onClose={() => setIsTimerVisible(false)} /> */}
     </div>
   );
 
   function ScreenResizer() {
+    // const shouldShow = window.innerWidth <= 768 ? isMobileResizerVisible : true;
+    
+    // if (!shouldShow) return null;
+    
     return <div
       className={styles.screenResizer}
       onMouseDown={(e) => setIsDragging(true)}

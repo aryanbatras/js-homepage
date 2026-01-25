@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { GitHubService } from '../../services/githubService';
-import './AuthCallback.css';
+import styles from './AuthCallback.module.sass';
 
 export default function AuthCallback() {
   const [isLoading, setIsLoading] = useState(true);
@@ -15,6 +15,34 @@ export default function AuthCallback() {
     const handleCallback = async () => {
       try {
         setStep('processing');
+        
+        // TEMPORARY: Mock data for testing - remove this block in production
+        const isTesting = true; // Set to false to use real OAuth
+        if (isTesting) {
+          const mockToken = 'mock-github-token-for-testing';
+          const mockUserData = {
+            id: 12345,
+            login: 'testuser',
+            name: 'Test User',
+            email: 'test@example.com',
+            avatar_url: 'https://avatars.githubusercontent.com/u/12345?v=4'
+          };
+          
+          setStep('creating_repo');
+          
+          // Simulate delay for testing
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          
+          setStep('finalizing');
+          login(mockToken, mockUserData);
+          
+          setTimeout(() => {
+            navigate('/dashboard');
+          }, 3000);
+          return;
+        }
+        
+        // REAL OAuth flow (uncomment when done testing)
         const urlParams = new URLSearchParams(window.location.search);
         const token = urlParams.get('token');
         const userDataStr = urlParams.get('user_data');
@@ -42,7 +70,7 @@ export default function AuthCallback() {
         // Redirect to dashboard
         setTimeout(() => {
           navigate('/dashboard');
-        }, 1000);
+        }, 6000);
         
       } catch (err) {
         console.error('Auth callback error:', err);
@@ -58,39 +86,39 @@ export default function AuthCallback() {
 
   if (isLoading) {
     return (
-      <div className="auth-callback-container">
-        <div className="callback-card">
-          <div className="loading-spinner"></div>
-          <h2>Authenticating with GitHub</h2>
+      <div className={styles.container}>
+        <div className={styles.card}>
+          <div className={styles.spinner}></div>
+          <h2 className={styles.title}>Authenticating with GitHub</h2>
           
-          <div className="steps">
-            <div className={`step ${step === 'processing' ? 'active' : step === 'creating_repo' || step === 'finalizing' ? 'completed' : ''}`}>
-              <div className="step-icon">
+          <div className={styles.steps}>
+            <div className={`${styles.step} ${step === 'processing' ? styles.active : step === 'creating_repo' || step === 'finalizing' ? styles.completed : ''}`}>
+              {/* <div className={styles.stepIcon}>
                 {step === 'processing' ? '⏳' : step === 'creating_repo' || step === 'finalizing' ? '✅' : '⭕'}
-              </div>
-              <div className="step-text">
-                <strong>Processing authentication</strong>
-                <p>Verifying your GitHub credentials</p>
+              </div> */}
+              <div className={styles.stepContent}>
+                <strong className={styles.stepTitle}>Processing authentication</strong>
+                <p className={styles.stepDescription}>Verifying your GitHub credentials</p>
               </div>
             </div>
             
-            <div className={`step ${step === 'creating_repo' ? 'active' : step === 'finalizing' ? 'completed' : ''}`}>
-              <div className="step-icon">
+            <div className={`${styles.step} ${step === 'creating_repo' ? styles.active : step === 'finalizing' ? styles.completed : ''}`}>
+              {/* <div className={styles.stepIcon}>
                 {step === 'creating_repo' ? '⏳' : step === 'finalizing' ? '✅' : '⭕'}
-              </div>
-              <div className="step-text">
-                <strong>Creating learning repository</strong>
-                <p>Setting up your personal workspace</p>
+              </div> */}
+              <div className={styles.stepContent}>
+                <strong className={styles.stepTitle}>Creating learning repository</strong>
+                <p className={styles.stepDescription}>Setting up your personal workspace</p>
               </div>
             </div>
             
-            <div className={`step ${step === 'finalizing' ? 'active' : ''}`}>
-              <div className="step-icon">
+            <div className={`${styles.step} ${step === 'finalizing' ? styles.active : ''}`}>
+              {/* <div className={styles.stepIcon}>
                 {step === 'finalizing' ? '⏳' : '⭕'}
-              </div>
-              <div className="step-text">
-                <strong>Finalizing setup</strong>
-                <p>Almost done!</p>
+              </div> */}
+              <div className={styles.stepContent}>
+                <strong className={styles.stepTitle}>Finalizing setup</strong>
+                <p className={styles.stepDescription}>Almost done!</p>
               </div>
             </div>
           </div>
@@ -101,12 +129,12 @@ export default function AuthCallback() {
 
   if (error) {
     return (
-      <div className="auth-callback-container">
-        <div className="callback-card error">
-          <div className="error-icon">❌</div>
-          <h2>Authentication Failed</h2>
-          <p className="error-message">{error}</p>
-          <button onClick={() => navigate('/login')} className="retry-btn">
+      <div className={styles.container}>
+        <div className={`${styles.card} ${styles.errorCard}`}>
+          {/* <div className={styles.errorIcon}>❌</div> */}
+          <h2 className={`${styles.title} ${styles.errorTitle}`}>Authentication Failed</h2>
+          <p className={styles.errorMessage}>{error}</p>
+          <button onClick={() => navigate('/login')} className={styles.retryButton}>
             Try Again
           </button>
         </div>

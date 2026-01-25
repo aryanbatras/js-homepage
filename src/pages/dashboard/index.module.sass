@@ -65,3 +65,32 @@
     &::before
       opacity: 1
 
+.mobileFab
+  position: fixed
+  bottom: 1.25rem
+  right: 1.25rem
+  width: 42px
+  height: 42px
+  border-radius: 50%
+  background: linear-gradient(135deg, #f39c12, #ff8c00)
+  border: none
+  color: white
+  font-size: 1.5rem
+  cursor: pointer
+  display: none
+  align-items: center
+  justify-content: center
+  // box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3)
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1)
+  z-index: 1000
+  &:hover
+    transform: scale(1.1)
+    // box-shadow: 0 6px 20px rgba(243, 156, 18, 0.4)
+    // background: linear-gradient(135deg, #ff8c00, #f39c12)
+  &:active
+    transform: scale(0.95)
+
+@media (max-width: 768px)
+  .mobileFab
+    display: flex
+

@@ -42,6 +42,9 @@
   opacity: 0
   transform: translateY(30px)
   animation: elegantEntry 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards
+  display: flex
+  flex-direction: column
+  gap: 2rem
   
   &::before
     content: ''
@@ -81,11 +84,11 @@
   &::after
     content: ''
     position: absolute
-    bottom: -12px
+    bottom: -8px
     left: 50%
     transform: translateX(-50%)
-    width: 60px
-    height: 2px
+    width: 250px
+    height: 2.5px
     background: linear-gradient(90deg, transparent, #ea580c, transparent)
     border-radius: 1px
     transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1)
@@ -104,7 +107,7 @@
 
 .subtitle
   color: rgba(0, 0, 0, 0.6)
-  margin-bottom: 48px
+  // margin-bottom: 48px
   font-size: 1rem
   font-weight: 400
   line-height: 1.6
@@ -201,7 +204,7 @@
   filter: grayscale(0)
 
 .feature:hover .icon
-  transform: scale(1.1) rotate(5deg)
+  transform: scale(1.1) 
 
 .loginButton
   width: 100%
@@ -209,7 +212,7 @@
   background: linear-gradient(135deg, #ea580c 0%, #dc2626 50%, #b91c1c 100%)
   color: white
   border: none
-  border-radius: 16px
+  // border-radius: 16px
   font-size: 1rem
   font-weight: 500
   cursor: pointer
@@ -217,14 +220,14 @@
   align-items: center
   justify-content: center
   gap: 12px
-  transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1)
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1)
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
   letter-spacing: 0.02em
   position: relative
   overflow: hidden
   opacity: 0
   animation: buttonEntry 0.8s cubic-bezier(0.4, 0, 0.2, 1) 1.5s forwards
-  box-shadow: 0 8px 24px rgba(234, 88, 12, 0.25)
+  // box-shadow: 0 8px 24px rgba(234, 88, 12, 0.25)
   
   &::before
     content: ''
@@ -237,9 +240,12 @@
     transition: left 1.2s cubic-bezier(0.4, 0, 0.2, 1)
   
   &:hover
+    font-size: 1.25rem
     background: linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #991b1b 100%)
-    transform: translateY(-2px)
-    box-shadow: 0 16px 40px rgba(234, 88, 12, 0.35)
+    // transform: translateY(-2px)
+    // box-shadow: 0 16px 40px rgba(234, 88, 12, 0.35)
+    .githubIcon
+      font-size: 30px
     
     &::before
       left: 100%
@@ -250,6 +256,46 @@
   &:active
     transform: translateY(0)
     box-shadow: 0 8px 24px rgba(234, 88, 12, 0.25)
+
+.guestButton
+  width: 100%
+  padding: 16px 32px
+  background: rgba(255, 255, 255, 0.8)
+  // backdrop-filter: blur(10px)
+  color: rgba(0, 0, 0, 0.7)
+  border: 0px solid  black
+  font-size: 0.95rem
+  font-weight: 500
+  cursor: pointer
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1)
+  position: relative
+  overflow: hidden
+  opacity: 0
+  animation: buttonEntry 0.8s cubic-bezier(0.4, 0, 0.2, 1) 1.7s forwards
+  margin-top: 12px
+  
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: -100%
+    width: 100%
+    height: 100%
+    background: linear-gradient(90deg, transparent, rgba(234, 88, 12, 0.1), transparent)
+    transition: left 1.2s cubic-bezier(0.4, 0, 0.2, 1)
+  
+  &:hover
+    background: rgba(255, 255, 255, 0.95)
+    color: rgba(0, 0, 0, 0.85)
+    // border-color: rgba(234, 88, 12, 0.25)
+    transform: translateY(-2px)
+    
+    &::before
+      left: 100%
+  
+  &:active
+    transform: translateY(0)
 
 @keyframes buttonEntry
   from
@@ -304,32 +350,33 @@
     opacity: 1
 
 .dialog
-  background: rgba(255, 255, 255, 0.98)
-  backdrop-filter: blur(24px)
-  border-radius: 24px
+  background: rgba(255, 255, 255, 0.95)
+  backdrop-filter: blur(20px)
+  border-radius: 2px
   padding: 48px
-  max-width: 560px
+  // box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(234, 88, 12, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8)
+  max-width: 480px
   width: 100%
   max-height: 80vh
   overflow-y: auto
-  box-shadow: 0 32px 64px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(234, 88, 12, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9)
-  opacity: 0
-  transform: scale(0.9) translateY(20px)
-  animation: dialogEntry 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards
+  position: relative
+  z-index: 1
+  overflow: hidden
   
-  &::-webkit-scrollbar
-    width: 6px
-    
-  &::-webkit-scrollbar-track
-    background: rgba(234, 88, 12, 0.05)
-    border-radius: 3px
-    
-  &::-webkit-scrollbar-thumb
-    background: rgba(234, 88, 12, 0.3)
-    border-radius: 3px
-    
-  &::-webkit-scrollbar-thumb:hover
-    background: rgba(234, 88, 12, 0.5)
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    height: 1px
+    background: linear-gradient(90deg, transparent, rgba(156, 83, 44, 0.2), transparent)
+    opacity: 0
+    transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1)
+  
+  &:hover
+    &::before
+      opacity: 1
 
 @keyframes dialogEntry
   from
@@ -340,26 +387,37 @@
     transform: scale(1) translateY(0)
 
 .dialogTitle
-  margin-bottom: 36px
+  margin-bottom: 32px
   color: rgba(0, 0, 0, 0.9)
   font-size: 1.5rem
   font-weight: 300
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
-  letter-spacing: -0.02em
+  position: relative
+  
+  &::after
+    content: ''
+    position: absolute
+    bottom: -8px
+    left: 0
+    width: 150px
+    height: 2.5px
+    background: linear-gradient(90deg, #ea580c, transparent)
+    border-radius: 1px
 
 .permissionsList
-  margin-bottom: 36px
+  margin-bottom: 32px
 
 .permissionItem
   display: flex
   align-items: flex-start
   gap: 20px
   padding: 24px
-  border-radius: 16px
+  border-radius: 2px
   margin-bottom: 20px
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1)
-  background: rgba(255, 255, 255, 0.6)
-  backdrop-filter: blur(10px)
+  // background: rgba(255, 255, 255, 0.6)
+  // background: darkorange
+  // backdrop-filter: blur(10px)
   position: relative
   overflow: hidden
   
@@ -375,19 +433,67 @@
     transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1)
 
 .permissionItem.granted
-  border: 1px solid rgba(5, 150, 105, 0.15)
-  background: rgba(240, 253, 244, 0.8)
+  // border: 1px solid rgba(220, 38, 38, 0.15)
+  background: rgba(254, 242, 242, 0.8)
 
 .permissionItem.denied
-  border: 1px solid rgba(220, 38, 38, 0.15)
+  // border: 1px solid rgba(220, 38, 38, 0.15)
   background: rgba(254, 242, 242, 0.8)
 
 .permissionItem:hover
-  transform: translateY(-2px)
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08)
+  // transform: translateY(-2px)
+  // box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08)
   
   &::before
     opacity: 1
+
+.disclaimerItem
+  // border: 2px solid rgba(234, 88, 12, 0.2)
+  background: rgba(254, 242, 242, 0.9)
+  
+  &:hover
+    // border-color: rgba(234, 88, 12, 0.3)
+    background: rgba(254, 242, 242, 1)
+
+.disclaimerContent
+  display: flex
+  align-items: flex-start
+  gap: 12px
+
+.disclaimerCheckbox
+  width: 20px
+  height: 20px
+  margin-right: 12px
+  margin-top: 2px
+  accent-color: #ea580c
+  cursor: pointer
+  flex-shrink: 0
+  border: 2px solid rgba(234, 88, 12, 0.3)
+  border-radius: 4px
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+  transform: translateY(2px)
+  
+  &:checked
+    background-color: #ea580c
+    border-color: #ea580c
+  
+  &:hover
+    border-color: rgba(234, 88, 12, 0.5)
+    // transform: scale(1.05)
+
+.disclaimerLabel
+  font-size: 0.9rem
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+  color: rgba(0, 0, 0, 0.75)
+  line-height: 1.5
+  font-weight: 400
+  text-align: justify
+  cursor: pointer
+  user-select: none
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+  
+  &:hover
+    color: rgba(0, 0, 0, 0.9)
 
 .permissionIcon
   font-size: 24px
@@ -434,19 +540,17 @@
 
 .acceptButton
   flex: 1
-  padding: 16px 32px
-  background: linear-gradient(135deg, #059669 0%, #047857 50%, #065f46 100%)
+  padding: 16px 24px
+  background: linear-gradient(135deg, #ea580c 0%, #dc2626 50%, #b91c1c 100%)
   color: white
   border: none
-  border-radius: 12px
+  // border-radius: 12px
   font-weight: 500
   cursor: pointer
-  transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1)
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
-  letter-spacing: 0.02em
+  transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1)
   position: relative
   overflow: hidden
-  box-shadow: 0 8px 24px rgba(5, 150, 105, 0.25)
   
   &::before
     content: ''
@@ -459,29 +563,110 @@
     transition: left 1.2s cubic-bezier(0.4, 0, 0.2, 1)
   
   &:hover
-    background: linear-gradient(135deg, #047857 0%, #065f46 50%, #064e3b 100%)
-    transform: translateY(-2px)
-    box-shadow: 0 16px 32px rgba(5, 150, 105, 0.35)
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #991b1b 100%)
     
     &::before
       left: 100%
 
 .cancelButton
   flex: 1
-  padding: 16px 32px
+  padding: 16px 24px
   background: rgba(255, 255, 255, 0.8)
   backdrop-filter: blur(10px)
   color: rgba(0, 0, 0, 0.7)
-  border: 1px solid rgba(0, 0, 0, 0.1)
-  border-radius: 12px
+  border: 1px solid rgba(234, 88, 12, 0.15)
+  // border-radius: 12px
   font-weight: 500
   cursor: pointer
-  transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1)
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
-  letter-spacing: 0.02em
+  transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1)
   
   &:hover
     background: rgba(255, 255, 255, 0.95)
     color: rgba(0, 0, 0, 0.85)
-    transform: translateY(-2px)
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12)
+    border-color: rgba(234, 88, 12, 0.25)
+
+.disabledButton
+  background: linear-gradient(135deg, #d1d5db 0%, #9ca3af 50%, #6b7280 100%) !important
+  cursor: not-allowed !important
+  opacity: 0.6 !important
+  transform: none !important
+  
+  &:hover
+    background: linear-gradient(135deg, #d1d5db 0%, #9ca3af 50%, #6b7280 100%) !important
+    transform: none !important
+    
+    &::before
+      display: none !important
+
+.guestWarning
+  display: flex
+  align-items: flex-start
+  gap: 20px
+  padding: 24px
+  background: rgba(254, 249, 195, 0.9)
+  border: 1px solid rgba(245, 158, 11, 0.2)
+  border-radius: 16px
+  margin-bottom: 32px
+
+.warningIcon
+  font-size: 32px
+  flex-shrink: 0
+  margin-top: 4px
+
+.warningContent
+  flex: 1
+
+.warningText
+  font-size: 1rem
+  color: rgba(0, 0, 0, 0.85)
+  margin-bottom: 16px
+  line-height: 1.5
+
+.warningList
+  margin: 0 0 20px 0
+  padding-left: 20px
+  
+  li
+    color: rgba(0, 0, 0, 0.75)
+    font-size: 0.9rem
+    line-height: 1.6
+    margin-bottom: 8px
+    
+    strong
+      color: rgba(185, 28, 28, 0.9)
+
+.suggestionText
+  font-size: 0.9rem
+  color: rgba(0, 0, 0, 0.65)
+  font-style: italic
+  line-height: 1.5
+
+.guestAcceptButton
+  flex: 1
+  padding: 16px 24px
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%)
+  color: white
+  border: none
+  font-weight: 500
+  cursor: pointer
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1)
+  position: relative
+  overflow: hidden
+  
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: -100%
+    width: 100%
+    height: 100%
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent)
+    transition: left 1.2s cubic-bezier(0.4, 0, 0.2, 1)
+  
+  &:hover
+    background: linear-gradient(135deg, #d97706 0%, #b45309 50%, #92400e 100%)
+    
+    &::before
+      left: 100%

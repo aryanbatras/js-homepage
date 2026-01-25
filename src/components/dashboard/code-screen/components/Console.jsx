@@ -85,12 +85,16 @@ export function Console({
   handleRunTests,
 }) {
   const getConsoleHeight = () => {
-    const availableHeight = 92 - verticalResizer - 2;
+    const isMobile = window.innerWidth <= 1024;
+    const baseHeight = isMobile ? 87 : 92;
+    const availableHeight = baseHeight - verticalResizer - 2;
     return `${Math.max(0, availableHeight)}vh`;
   };
 
   const shouldShowControlBar = () => {
-    const availableHeight = 92 - verticalResizer - 2;
+    const isMobile = window.innerWidth <= 1024;
+    const baseHeight = isMobile ? 87 : 92;
+    const availableHeight = baseHeight - verticalResizer - 2;
     return availableHeight > 0;
   };
 

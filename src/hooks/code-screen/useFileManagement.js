@@ -102,11 +102,32 @@ export function useFileManagement(selectedProblem, onFilesUpdated) {
   };
 
   const handleAddFileCompleted = () => {
+    
     setAddFile(false);
+
     if (files.some((f) => f.name === fileName)) {
       alert(`File "${fileName}" already exists!`);
       return;
     }
+    
+    // Prevent duplicate HTML files
+    if (fileName.endsWith('.html') && files.some((f) => f.name.endsWith('.html'))) {
+      alert('HTML file already exists! Only one HTML file is allowed.');
+      return;
+    }
+    
+    // Prevent duplicate CSS files
+    if (fileName.endsWith('.css') && files.some((f) => f.name.endsWith('.css'))) {
+      alert('CSS file already exists! Only one CSS file is allowed.');
+      return;
+    }
+    
+    // Prevent duplicate JSX files
+    if (fileName.endsWith('.jsx') && files.some((f) => f.name.endsWith('.jsx'))) {
+      alert('JSX file already exists! Only one JSX file is allowed.');
+      return;
+    }
+    
     const newFile = {
       name: fileName,
       language: findLanguage(fileName),

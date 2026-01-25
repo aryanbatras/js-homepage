@@ -10,6 +10,7 @@ export function FileTabs({
   files,
   activeFile,
   addFile,
+  setAddFile,
   fileName,
   inputRef,
   setFileName,
@@ -58,6 +59,8 @@ export function FileTabs({
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   handleAddFileCompleted();
+                } else if (e.key === "Escape") {
+                  setAddFile(false);
                 }
               }}
             />

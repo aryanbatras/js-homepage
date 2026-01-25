@@ -1,0 +1,307 @@
+.container
+  min-height: 100vh
+  display: flex
+  align-items: center
+  justify-content: center
+  padding: 40px 20px
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif
+  position: relative
+  background: linear-gradient(145deg, #fafafa 0%, #f8fafc 50%, #f1f5f9 100%)
+  
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    background: radial-gradient(circle at 25% 25%, rgba(234, 88, 12, 0.08) 0%, transparent 50%), radial-gradient(circle at 75% 75%, rgba(124, 58, 237, 0.06) 0%, transparent 50%), linear-gradient(45deg, transparent 30%, rgba(234, 88, 12, 0.02) 50%, transparent 70%)
+    pointer-events: none
+    
+  &::after
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    height: 1px
+    background: linear-gradient(90deg, transparent, rgba(234, 88, 12, 0.15), transparent)
+
+.card
+  background: rgba(255, 255, 255, 0.95)
+  backdrop-filter: blur(20px)
+  border-radius: 2px
+  padding: 56px 48px
+  // box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(234, 88, 12, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8)
+  max-width: 520px
+  width: 100%
+  text-align: center
+  position: relative
+  z-index: 1
+  overflow: hidden
+  opacity: 0
+  transform: translateY(30px)
+  animation: elegantEntry 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards
+  
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    height: 1px
+    background: linear-gradient(90deg, transparent, rgba(234, 88, 12, 0.2), transparent)
+    opacity: 0
+    transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1)
+    
+  &:hover
+    &::before
+      opacity: 1
+
+@keyframes elegantEntry
+  from
+    opacity: 0
+    transform: translateY(30px) scale(0.95)
+  to
+    opacity: 1
+    transform: translateY(0) scale(1)
+
+.title
+  font-size: 2rem
+  font-weight: 200
+  margin: 0 0 16px 0
+  color: rgba(0, 0, 0, 0.9)
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif
+  letter-spacing: -0.04em
+  line-height: 1.1
+  position: relative
+  opacity: 0
+  animation: titleSlideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards
+  
+  &::after
+    content: ''
+    position: absolute
+    bottom: -8px
+    left: 50%
+    transform: translateX(-50%)
+    width: 200px
+    height: 2.5px
+    background: linear-gradient(90deg, transparent, #ea580c, transparent)
+    border-radius: 1px
+    transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1)
+    
+  &:hover
+    &::after
+      width: 100px
+
+@keyframes titleSlideIn
+  from
+    opacity: 0
+    transform: translateY(-20px)
+  to
+    opacity: 1
+    transform: translateY(0)
+
+.spinner
+  width: 48px
+  height: 48px
+  margin: 0 auto 32px
+  position: relative
+  opacity: 0
+  animation: spinnerEntry 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.9s forwards
+  
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    border: 3px solid rgba(234, 88, 12, 0.1)
+    border-radius: 50%
+    
+  &::after
+    content: ''
+    position: absolute
+    top: -3px
+    left: -3px
+    right: -3px
+    bottom: -3px
+    border: 3px solid transparent
+    border-top-color: #ea580c
+    border-radius: 50%
+    animation: spin 1.2s linear infinite
+
+@keyframes spinnerEntry
+  from
+    opacity: 0
+    transform: scale(0.8)
+  to
+    opacity: 1
+    transform: scale(1)
+
+@keyframes spin
+  from
+    transform: rotate(0deg)
+  to
+    transform: rotate(360deg)
+
+.steps
+  margin-top: 40px
+  opacity: 0
+  animation: stepsFadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 1.2s forwards
+
+@keyframes stepsFadeIn
+  from
+    opacity: 0
+    transform: translateY(20px)
+  to
+    opacity: 1
+    transform: translateY(0)
+
+.step
+  display: flex
+  align-items: flex-start
+  gap: 20px
+  padding: 20px 24px
+  margin-bottom: 16px
+  border-radius: 16px
+  background: rgba(255, 255, 255, 0.6)
+  backdrop-filter: blur(10px)
+  border: 1px solid rgba(234, 88, 12, 0.08)
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1)
+  position: relative
+  overflow: hidden
+  opacity: 0
+  transform: translateX(-20px)
+  animation: stepEntry 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards
+  
+  &:nth-child(1)
+    animation-delay: 1.4s
+  &:nth-child(2)
+    animation-delay: 1.5s
+  &:nth-child(3)
+    animation-delay: 1.6s
+    
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    height: 1px
+    background: linear-gradient(90deg, transparent, rgba(234, 88, 12, 0.15), transparent)
+    opacity: 0
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1)
+
+.step.active
+  background: white
+  border-color: white
+  // transform: translateX(0) scale(1.02)
+  
+  &::before
+    opacity: 1
+
+.step.completed
+  background: white
+  border-color: white
+
+@keyframes stepEntry
+  from
+    opacity: 0
+    transform: translateX(-20px) scale(0.95)
+  to
+    opacity: 1
+    transform: translateX(0) scale(1)
+
+.stepIcon
+  font-size: 24px
+  margin-top: 2px
+  flex-shrink: 0
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)
+
+// .step:hover .stepIcon
+//   transform: scale(1.1)
+
+.stepContent
+  flex: 1
+  text-align: left
+
+.stepTitle
+  display: block
+  margin-bottom: 6px
+  color: rgba(0, 0, 0, 0.85)
+  font-weight: 100
+  font-size: 1rem
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+  letter-spacing: -0.01em
+
+.stepDescription
+  margin: 0
+  font-size: 0.875rem
+  color: rgba(0, 0, 0, 0.6)
+  line-height: 1.5
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+  font-weight: 400
+
+.errorCard
+  background: rgba(254, 226, 226, 0.95)
+  border-color: rgba(239, 68, 68, 0.2)
+  
+  &::before
+    background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.2), transparent)
+
+.errorIcon
+  font-size: 48px
+  margin-bottom: 24px
+  opacity: 0
+  animation: errorIconEntry 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.9s forwards
+
+@keyframes errorIconEntry
+  from
+    opacity: 0
+    transform: scale(0.8)
+  to
+    opacity: 1
+    transform: scale(1)
+
+.errorTitle
+  color: rgba(185, 28, 28, 0.9)
+  
+  &::after
+    background: linear-gradient(90deg, transparent, #dc2626, transparent)
+
+.errorMessage
+  color: rgba(185, 28, 28, 0.8)
+  font-size: 0.95rem
+  margin: 16px 0 32px 0
+  line-height: 1.6
+
+.retryButton
+  width: 100%
+  padding: 16px 24px
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #991b1b 100%)
+  color: white
+  border: none
+  font-weight: 500
+  cursor: pointer
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+  transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1)
+  position: relative
+  overflow: hidden
+  
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: -100%
+    width: 100%
+    height: 100%
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent)
+    transition: left 1.2s cubic-bezier(0.4, 0, 0.2, 1)
+  
+  &:hover
+    background: linear-gradient(135deg, #b91c1c 0%, #991b1b 50%, #7f1d1d 100%)
+    
+    &::before
+      left: 100%

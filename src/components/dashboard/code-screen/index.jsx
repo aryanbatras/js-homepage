@@ -219,6 +219,7 @@ export default function DashboardCodeScreen({ screenResizer, selectedProblem, ha
         files={files}
         activeFile={activeFile}
         addFile={addFile}
+        setAddFile={setAddFile}
         fileName={fileName}
         inputRef={inputRef}
         setFileName={setFileName}
