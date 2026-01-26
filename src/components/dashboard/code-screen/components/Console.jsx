@@ -83,6 +83,7 @@ export function Console({
   handlePreview,
   verticalResizer,
   handleRunTests,
+  problemType,
 }) {
   const getConsoleHeight = () => {
     const isMobile = window.innerWidth <= 1024;
@@ -161,18 +162,24 @@ export function Console({
           {/* <div className={styles.vertical_button} onClick={handleRunTests}>
             <span className={styles.vertical_text}>Test Cases</span>
           </div> */}
+
+          {problemType === "console" && (
           <div
             className={styles.vertical_button}
             onClick={handleRunTests}
           >
             <span className={styles.vertical_text}>Run</span>
           </div>
+          )}
+
+          {problemType === "preview" && (
           <div
             className={styles.vertical_button}
             onClick={() => handlePreview()}
           >
             <span className={styles.vertical_text}>Preview</span>
           </div>
+          )}
           {/* <div className={styles.vertical_button} onClick={toggleConsoleState}>
             <span className={styles.vertical_text}>Toggle</span>
           </div> */}

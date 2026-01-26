@@ -24,6 +24,7 @@ export default function Dashboard() {
   const [isAIChatVisible, setIsAIChatVisible] = useState(false);
   const { aiChatWidth, isResizing: isAIChatResizing, startResizing: startAIChatResizing } = useAIChatResizer();
   const { screenResizer, setScreenResizer, setIsDragging } = useScreenResizer(isAIChatVisible, aiChatWidth);
+  const [problemType, setProblemType] = useState('console');
 
   const toggleProblemsPanel = () => {
     setIsProblemsPanelOpen(!isProblemsPanelOpen);
@@ -148,6 +149,8 @@ export default function Dashboard() {
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
           onToggleProblemsPanel={toggleProblemsPanel}
+          problemType={problemType}
+          setProblemType={setProblemType}
         />
         <ScreenResizer />
         <DashboardCodeScreen 
@@ -157,6 +160,7 @@ export default function Dashboard() {
           onFilesUpdated={handleFilesUpdated}
           onFilesFromGitHub={handleFilesFromGitHub}
           githubFiles={githubFiles}
+          problemType={problemType}
         /> 
         {isAIChatVisible && (
           <>

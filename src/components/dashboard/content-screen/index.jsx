@@ -7,6 +7,8 @@ export default function DashboardContent({
   selectedCategory,
   setSelectedCategory,
   onToggleProblemsPanel,
+  problemType,
+  setProblemType
 }) {
   return (
     <div className={styles.container} style={{ width: `${screenResizer}%` }}>
@@ -17,6 +19,8 @@ export default function DashboardContent({
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
           onToggleProblemsPanel={onToggleProblemsPanel}
+          problemType={problemType}
+          setProblemType={setProblemType}
         />
       </div>
     </div>

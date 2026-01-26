@@ -10,7 +10,7 @@ import { CiMenuKebab } from "react-icons/ci";
 import { TestRunner } from "../../../utils/testRunner";
 import { FaPlay, FaVial, FaTerminal } from "react-icons/fa";
 
-export default function DashboardCodeScreen({ screenResizer, selectedProblem, hasStoredVersion, onHasStoredVersionChange, onFilesUpdated, onFilesFromGitHub, githubFiles }) {
+export default function DashboardCodeScreen({ screenResizer, selectedProblem, hasStoredVersion, onHasStoredVersionChange, onFilesUpdated, onFilesFromGitHub, githubFiles, problemType }) {
   const [testResults, setTestResults] = useState(null);
   const [isRunningTests, setIsRunningTests] = useState(false);
   const testRunner = new TestRunner();
@@ -253,6 +253,7 @@ export default function DashboardCodeScreen({ screenResizer, selectedProblem, ha
         setPreviewVisible={hidePreview}
         verticalResizer={verticalResizer}
         handleRunTests={handleUnifiedRun}
+        problemType={problemType}
         // isRunningTests={isRunningTests}
       />
 

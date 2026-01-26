@@ -1,8 +1,6 @@
 import styles from "./index.module.sass";
-import { useState } from "react";
 
-export default function CategorySelector({ onCategorySelect }) {
-  const [problemType, setProblemType] = useState('console');
+export default function CategorySelector({ onCategorySelect, problemType, setProblemType }) {
 
   const consoleCategories = [
     { id: 'react-js', name: 'React.js' },

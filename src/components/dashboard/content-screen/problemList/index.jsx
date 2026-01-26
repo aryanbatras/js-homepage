@@ -8,16 +8,17 @@ export default function ProblemList({
   setSelectedProblemIndex,
   selectedCategory,
   setSelectedCategory,
-  onToggleProblemsPanel
+  onToggleProblemsPanel,
+  problemType, 
+  setProblemType
 }) {
   const currentCategoryData = selectedCategory ? problemsByCategory[selectedCategory] || [] : [];
-
   return (
     <div className={styles.container}>
       <div className={styles.problems}>
         {selectedProblemIndex === null ? (
           selectedCategory === null ? (
-            <CategorySelector onCategorySelect={setSelectedCategory} />
+            <CategorySelector onCategorySelect={setSelectedCategory} problemType={problemType} setProblemType={setProblemType} />
           ) : (
             <>
               <div className={styles.categoryHeader}>
