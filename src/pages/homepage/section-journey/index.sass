@@ -1,0 +1,200 @@
+@mixin flex-section
+  display: flex
+  align-items: center
+  justify-content: center
+  min-height: 100vh
+
+@mixin flex-column-center
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+
+.homepage__section-journey
+  @include flex-section
+  background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%)
+  color: #1a1a1a
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+  padding: 4rem 2rem
+
+  .homepage__section-journey__content
+    @include flex-column-center
+    gap: 4rem
+    text-align: center
+    max-width: 900px
+    width: 100%
+
+    .homepage__section-journey__heading
+      @include flex-column-center
+      gap: 1rem
+
+      .homepage__section-journey__main
+        font-size: 2.5rem
+        font-weight: 200
+        letter-spacing: -0.02em
+        line-height: 1.1
+        color: #2c3e50
+
+      .homepage__section-journey__sub
+        font-size: 1.1rem
+        font-weight: 400
+        color: #666
+        letter-spacing: 0.02em
+
+    .homepage__section-journey__timeline
+      display: flex
+      flex-direction: column
+      gap: 2rem
+      width: 100%
+      max-width: 600px
+
+      .homepage__section-journey__stage
+        display: flex
+        flex-direction: column
+        align-items: center
+        gap: 1rem
+
+        .homepage__section-journey__stage-header
+          display: flex
+          align-items: center
+          gap: 1.5rem
+          width: 100%
+          background: white
+          padding: 1.5rem
+          border-radius: 8px
+          border: 1px solid #f0f0f0
+          transition: all 0.3s ease
+
+          &:hover
+            transform: translateY(-2px)
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05)
+
+          .homepage__section-journey__icon-wrapper
+            width: 50px
+            height: 50px
+            border-radius: 50%
+            display: flex
+            align-items: center
+            justify-content: center
+            flex-shrink: 0
+
+            .homepage__section-journey__icon
+              font-size: 1.5rem
+              color: white
+
+          .homepage__section-journey__stage-info
+            flex: 1
+            text-align: left
+
+            .homepage__section-journey__stage-title
+              font-size: 1.2rem
+              font-weight: 600
+              color: #2c3e50
+              margin: 0 0 0.5rem 0
+
+            .homepage__section-journey__stage-description
+              font-size: 0.9rem
+              font-weight: 400
+              color: #666
+              margin: 0
+              line-height: 1.4
+
+          .homepage__section-journey__completed
+            font-size: 1.5rem
+            color: #27ae60
+            flex-shrink: 0
+
+        .homepage__section-journey__connector
+          width: 2px
+          height: 2rem
+          background: linear-gradient(to bottom, #f39c12, #e67e22)
+          margin-left: 2.5rem
+
+    .homepage__section-journey__stats
+      display: flex
+      gap: 4rem
+      justify-content: center
+      flex-wrap: wrap
+
+      .homepage__section-journey__stat
+        display: flex
+        flex-direction: column
+        align-items: center
+        gap: 0.5rem
+
+        .homepage__section-journey__stat-number
+          font-size: 2.5rem
+          font-weight: 600
+          color: #f39c12
+          line-height: 1
+
+        .homepage__section-journey__stat-label
+          font-size: 0.9rem
+          font-weight: 400
+          color: #666
+          text-transform: uppercase
+          letter-spacing: 0.05em
+
+    .homepage__section-journey__cta
+      padding: 1.2rem 3rem
+      font-size: 1.1rem
+      font-weight: 600
+      color: white
+      background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%)
+      border: none
+      border-radius: 4px
+      cursor: pointer
+      transition: all 0.3s ease
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+      letter-spacing: 0.5px
+      text-decoration: none
+
+      &:hover
+        transform: translateY(-1px)
+        box-shadow: 0 4px 15px rgba(243, 156, 18, 0.2)
+
+      &:active
+        transform: translateY(0)
+        box-shadow: 0 2px 10px rgba(243, 156, 18, 0.2)
+
+@media screen and (max-width: 768px)
+  .homepage__section-journey
+    padding: 3rem 1rem
+
+    .homepage__section-journey__content
+      gap: 3rem
+
+      .homepage__section-journey__heading
+        .homepage__section-journey__main
+          font-size: 2rem
+        
+        .homepage__section-journey__sub
+          font-size: 1rem
+
+      .homepage__section-journey__timeline
+        .homepage__section-journey__stage
+          .homepage__section-journey__stage-header
+            flex-direction: column
+            text-align: center
+            gap: 1rem
+            padding: 1.5rem 1rem
+
+            .homepage__section-journey__stage-info
+              text-align: center
+
+          .homepage__section-journey__connector
+            margin-left: 0
+
+      .homepage__section-journey__stats
+        gap: 2rem
+
+        .homepage__section-journey__stat
+          .homepage__section-journey__stat-number
+            font-size: 2rem
+
+          .homepage__section-journey__stat-label
+            font-size: 0.8rem
+
+      .homepage__section-journey__cta
+        padding: 1rem 2rem
+        font-size: 1rem

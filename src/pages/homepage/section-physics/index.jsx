@@ -26,15 +26,12 @@ function PhysicsSection({ physics, showPhysics }) {
     const t2 = gsap.timeline({
       scrollTrigger: {
         trigger: physicsRef.current,
-        start: "bottom bottom",
-        end: "bottom bottom",
-        // markers: true,
-        scrub: 1.2,
+        start: "top bottom",
+        end: "center 70%",
+        markers: true,
+        scrub: 1,
         onEnter: () => {
           showPhysics(true);
-        },
-        onLeave: () => {
-          showPhysics(false);
         },
         once: true,
       },
@@ -98,8 +95,8 @@ function PhysicsSection({ physics, showPhysics }) {
         </Canvas>
       )}
       <div ref={dragRef} className="physics__drag-indicator">
-        <span>Hold me</span>
-        <img src={downArrow} alt="down-arrow" />
+        {/* <span>Hold me</span>
+        <img src={downArrow} alt="down-arrow" /> */}
       </div>
     </div>
   );

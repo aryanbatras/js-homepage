@@ -1,7 +1,6 @@
 import styles from "../index.module.sass";
 import { FaPlus } from "react-icons/fa";
 import { FaCheckCircle } from "react-icons/fa";
-
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { IoMdSettings } from "react-icons/io";
 import { useState } from "react";

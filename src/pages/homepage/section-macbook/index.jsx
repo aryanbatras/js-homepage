@@ -7,6 +7,8 @@ import { useGLTF, Html } from "@react-three/drei";
 import Homepage from "../index";
 import React from "react";
 import downArrow from "../../../assets/down-arrow.png";
+import { OrbitControls } from "@react-three/drei";
+
 function SectionMacBook({ insideMac = false }) {
   const canvasRef = useRef(null);
   const modelRef = useRef(null);
@@ -15,118 +17,276 @@ function SectionMacBook({ insideMac = false }) {
   const keyboardRef = useRef(null);
   const screenFrameRef = useRef(null);
   const dragRef = useRef(null);
+  const htmlRef = useRef(null);
+
+  // const scrollMultiplier = useRef(-100)
   const [ready, setReady] = useState(false);
+  const [scrollOffset, setScrollOffset] = useState(0);
+
   useEffect(() => {
     setTimeout(() => {
       if (modelRef.current && ready) {
         gsap.registerPlugin(ScrollTrigger);
+
         const t = gsap.timeline({
           scrollTrigger: {
             trigger: canvasRef.current,
             start: "top top",
-            end: "bottom center",
-            scrub: 1.2,
+            end: "bottom bottom",
+            scrub: 3.2,
             pin: true,
-            pinSpacing: true,
+            pinSpacing: false,
+            onUpdate: function (self) {
+              const scrollProgress = self.progress;
+              setScrollOffset(scrollProgress * -8000);
+              // htmlRef.current.style.overflow = "visible";
+
+              if (htmlRef.current && htmlRef.current.style) {
+                if (scrollProgress > 0.05) {
+                  htmlRef.current.style.overflow = "visible";
+                  if (scrollProgress > 0.95) {
+                    htmlRef.current.style.overflow = "hidden";
+                  }
+                } else {
+                  htmlRef.current.style.overflow = "hidden";
+                }
+              }
+            },
           },
         });
+
         // scene 1
-        t.to(screenFlipRef.current.rotation, {
-          x: Math.PI / 15,
+        t.to(htmlRef.current.style, {
+          opacity: 1,
           duration: 6,
-          ease: "none",
+          ease: "power1",
         });
+        t.to(
+          screenFlipRef.current.rotation,
+          {
+            x: Math.PI / 6,
+            duration: 12,
+            ease: "power3.inOut",
+          },
+          "-=12",
+        );
         t.to(
           modelRef.current.scale,
           {
-            x: 0.92,
-            y: 0.92,
-            z: 0.92,
-            duration: 2,
+            x: 0.5,
+            y: 0.5,
+            z: 0.5,
+            duration: 12,
           },
-          "-=2",
+          "-=12",
         );
-        t.to(dragRef.current, {
-          opacity: 0.75,
-          duration: 2,
-        });
+
         // scene 2
         t.to(modelRef.current.position, {
           z: -8,
-          y: -2,
-          duration: 2,
+          y: -2.5,
+          duration: 12,
         });
         t.to(
           modelRef.current.rotation,
           {
             z: 0.1,
-            duration: 2,
+            duration: 12,
           },
-          "-=2",
+          "-=12",
         );
-        // scene 3
-        t.to(screenRef.current.scale, {
-          y: 1.5,
-          x: 1.5,
-          z: 1.5,
-          duration: 2,
+        t.to(
+          screenRef.current.scale,
+          {
+            y: 1.25,
+            x: 1.25,
+            z: 1.25,
+            duration: 12,
+          },
+          "-=12",
+        );
+        t.to(
+          screenRef.current.position,
+          {
+            y: 5,
+            z: -2.0,
+            x: 0.25,
+            duration: 12,
+          },
+          "-=12",
+        );
+        t.to(screenRef.current.rotation, {
+          y: -0.1,
+          x: -0.2,
+          z: -0.1,
+          duration: 12,
+        });
+
+        // PUT SOME SCENES HERE
+
+        t.to(screenRef.current.rotation, {
+          y: 0.2,
+          x: 0.35,
+          z: 0.45,
+          duration: 96,
         });
         t.to(
           screenRef.current.position,
           {
-            y: 10,
-            z: -2.0,
-            x: 0.25,
-            duration: 2,
+            y: 0,
+            x: 0,
+            z: -5,
+            duration: 96,
           },
-          "-=2",
+          "-=96",
         );
-        t.to(
-          screenRef.current.rotation,
-          {
-            y: -0.1,
-            x: -0.2,
-            duration: 2,
-          },
-          "-=2",
-        );
-        t.to(screenFrameRef.current.scale, {
-          y: 3,
-          z: 3,
-          x: 3,
-          duration: 2,
+        t.to(screenRef.current.rotation, {
+          y: 0,
+          x: -0.5,
+          z: -0.75,
+          duration: 96,
         });
         t.to(
-          screenFrameRef.current.rotation,
+          screenRef.current.position,
           {
-            y: -0.1,
-            x: -0.2,
-            duration: 2,
+            y: 0,
+            x: -0.75,
+            z: -3,
+            duration: 96,
           },
-          "-=2",
+          "-=96",
         );
+
+        // Last Scene
+        t.to(screenRef.current.rotation, {
+          y: 0,
+          x: 0,
+          z: 0,
+          duration: 96,
+        });
+        t.to(
+          screenRef.current.position,
+          {
+            y: 0,
+            x: 0,
+            z: 0,
+            duration: 96,
+          },
+          "-=96",
+        );
+        t.to(
+          screenRef.current.scale,
+          {
+            y: 1,
+            x: 1,
+            z: 1,
+            duration: 96,
+          },
+          "-=96",
+        );
+        t.to(
+          modelRef.current.scale,
+          {
+            y: 0.75,
+            x: 0.75,
+            z: 0.75,
+            duration: 96,
+          },
+        );
+        t.to(
+          modelRef.current.rotation,
+          {
+            y: 0,
+            x: 0,
+            z: 0.1,
+            duration: 96,
+          },
+          "-=96",
+        );
+        t.to(
+          modelRef.current.position,
+          {
+            y: 0,
+            x: 0,
+            z: 0,
+            duration: 96,
+          },
+          "-=96",
+        );
+
+        // mac closing
+
+        t.to(screenFlipRef.current.rotation, {
+          x: (Math.PI / 2),
+          duration: 48,
+          ease: "power3.inOut",
+        });
+        t.to(htmlRef.current.style, {
+          opacity: 0,
+          duration: 24,
+          ease: "power4.out",
+        }, "-=24");
+
+        const floatingAnimation = gsap.to(modelRef.current.position, {
+          y: "-=0.9",
+          z: "-=0.9",
+          x: "+=0.5",
+          duration: 3,
+          ease: "power1.inOut",
+          yoyo: true,
+          repeat: -1,
+        });
+
+        // const handleMouseMove = (event) => {
+        //   if (screenRef.current && t.progress() >= 0.05) {
+        //     const { clientX, clientY } = event;
+        //     const { innerWidth, innerHeight } = window;
+        //     const x = (clientX / innerWidth) * 2 - 1;
+        //     const y = (clientY / innerHeight) * 2 - 1;
+        //     const tiltX = x * 0.5;
+        //     const tiltY = y * -0.5;
+        //     gsap.to(screenRef.current.rotation, {
+        //       x: -tiltY,
+        //       z: -tiltX,
+        //       duration: 0.5,
+        //       ease: "power2.out",
+        //     });
+        //   }
+        // };
+        // window.addEventListener("mousemove", handleMouseMove);
+        // return () => {
+        //   window.removeEventListener("mousemove", handleMouseMove);
+        // };
       }
     }, 100);
   }, [ready]);
   return (
-    <div
-      ref={canvasRef}
-      className={`canvas-macbook__container ${insideMac ? "canvas-macbook__container-insideMac" : ""}`}
-    >
-      <Canvas color="white">
-        <ambientLight intensity={50} />
-        <directionalLight position={[10, 10, 5]} intensity={50} />
-        <MacModel
-          setReady={setReady}
-          modelRef={modelRef}
-          screenFlipRef={screenFlipRef}
-          screenRef={screenRef}
-          screenFrameRef={screenFrameRef}
-        />
-      </Canvas>
-      <div ref={dragRef} className="macbook__drag-indicator">
-        <span>Scroll my screen</span>
-        <img src={downArrow} alt="down-arrow" />
+    <div className="macbook_page" ref={canvasRef}>
+      <div
+        className={`canvas-macbook__container ${insideMac ? "canvas-macbook__container-insideMac" : ""}`}
+      >
+        <Canvas
+          color="white"
+          camera={{ position: [0, 0, 5], fov: 50 }}
+          dpr={Math.min(window.devicePixelRatio, 2)}
+        >
+          <ambientLight intensity={50} />
+          <directionalLight position={[10, 10, 5]} intensity={50} />
+          <MacModel
+            setReady={setReady}
+            modelRef={modelRef}
+            screenFlipRef={screenFlipRef}
+            screenRef={screenRef}
+            screenFrameRef={screenFrameRef}
+            htmlRef={htmlRef}
+            scrollOffset={scrollOffset}
+          />
+          {/* <OrbitControls enableZoom={false} enablePan={false} /> */}
+        </Canvas>
+        <div ref={dragRef} className="macbook__drag-indicator">
+          <span>Scroll my screen</span>
+          <img src={downArrow} alt="down-arrow" />
+        </div>
       </div>
     </div>
   );
@@ -137,6 +297,8 @@ function MacModel({
   screenFlipRef,
   screenRef,
   screenFrameRef,
+  htmlRef,
+  scrollOffset,
 }) {
   const gltfPath =
     process.env.NODE_ENV === "production"
@@ -148,9 +310,7 @@ function MacModel({
   }, [nodes]);
   const MemoizedHomepage = React.memo(Homepage);
   const MemoizedHtmlContent = React.memo(() => (
-    <div
-      className="canvas__mac-content"
-    >
+    <div className="canvas__mac-content">
       <MemoizedHomepage insideMac={true} />
     </div>
   ));
@@ -161,7 +321,7 @@ function MacModel({
       onPointerEnter={() => (document.body.style.cursor = "grab")}
       onPointerLeave={() => (document.body.style.cursor = "auto")}
     >
-      <group name="Scene" position={[0, 0, -12]}>
+      <group name="Scene" position={[0, 0, -8]}>
         <group
           ref={screenFlipRef}
           name="screenflip"
@@ -194,14 +354,36 @@ function MacModel({
               ref={screenRef}
               geometry={nodes.Cube008_2.geometry}
             >
-              <meshStandardMaterial />
+              <meshStandardMaterial transparent={true} opacity={0} />
               <Html
+                style={{
+                  pointerEvents: "none",
+                  opacity: "0",
+                  width: "330px",
+                  height: "214px",
+                  overflow: "hidden",
+                  position: "relative",
+                }}
+                ref={htmlRef}
                 className="canvas__mac-content-container"
                 rotation-x={-Math.PI / 2}
-                position={[0, 0.05, -0.09]}
+                position={[0, 0.6, -0.09]}
                 transform
+                occlude
               >
-                <MemoizedHtmlContent />
+                <div
+                  className="canvas__mac-content"
+                  style={{
+                    width: "660px",
+                    height: "418px",
+                    overflow: "visible",
+                    position: "relative",
+                    transform: `translateY(${scrollOffset}px) translateX(-25%)`,
+                    transformOrigin: "top left",
+                  }}
+                >
+                  <MemoizedHtmlContent />
+                </div>
               </Html>
             </mesh>
           </group>
