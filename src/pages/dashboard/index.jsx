@@ -5,23 +5,25 @@ import DashboardCodeScreen from "../../components/dashboard/code-screen";
 import Timer from "../../components/dashboard/Timer";
 import AIChat from "../../components/dashboard/AIChat";
 import { useScreenResizer } from "../../hooks/dashboard/useScreenResizer";
+import { useAIChatResizer } from "../../hooks/dashboard/useAIChatResizer";
 import { CiMenuKebab } from "react-icons/ci";
 import { MdOpenWith } from "react-icons/md";
 import { useState, useEffect } from "react";
 import { problemsByCategory } from "../../components/dashboard/content-screen/store/categories";
 
 export default function Dashboard() {
-  const { screenResizer, setScreenResizer, setIsDragging } = useScreenResizer();
   const [isProblemsPanelOpen, setIsProblemsPanelOpen] = useState(false);
   const [selectedProblemIndex, setSelectedProblemIndex] = useState(null);
   const [selectedProblem, setSelectedProblem] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [files, setFiles] = useState([]);
-  const [githubFiles, setGithubFiles] = useState(null); // Files from GitHub pull
+  const [githubFiles, setGithubFiles] = useState(null); 
   const [hasStoredVersion, setHasStoredVersion] = useState(false);
   const [isTimerVisible, setIsTimerVisible] = useState(false);
   const [isMobileResizerVisible, setIsMobileResizerVisible] = useState(false);
   const [isAIChatVisible, setIsAIChatVisible] = useState(false);
+  const { aiChatWidth, isResizing: isAIChatResizing, startResizing: startAIChatResizing } = useAIChatResizer();
+  const { screenResizer, setScreenResizer, setIsDragging } = useScreenResizer(isAIChatVisible, aiChatWidth);
 
   const toggleProblemsPanel = () => {
     setIsProblemsPanelOpen(!isProblemsPanelOpen);
@@ -82,6 +84,10 @@ export default function Dashboard() {
   };
 
   const toggleMobileResizer = () => {
+    if (isAIChatVisible) {
+      setIsAIChatVisible(false);
+      return;
+    }
     setIsMobileResizerVisible(!isMobileResizerVisible);
     if (!isMobileResizerVisible) {
       setScreenResizer(100);
@@ -151,7 +157,19 @@ export default function Dashboard() {
           onFilesUpdated={handleFilesUpdated}
           onFilesFromGitHub={handleFilesFromGitHub}
           githubFiles={githubFiles}
-        />
+        /> 
+        {isAIChatVisible && (
+          <>
+            <AIChatResizer />
+            <AIChat 
+              isVisible={isAIChatVisible} 
+              onClose={() => setIsAIChatVisible(false)}
+              activeFile={files.find(f => f.active)}
+              width={aiChatWidth}
+              files={files}
+            />
+          </>
+        )}
       </div>
       {/* Mobile FAB Button */}
       <button 
@@ -162,11 +180,6 @@ export default function Dashboard() {
         <MdOpenWith />
       </button>
       <Timer isVisible={isTimerVisible} onClose={() => setIsTimerVisible(false)} />
-      <AIChat 
-        isVisible={isAIChatVisible} 
-        onClose={() => setIsAIChatVisible(false)}
-        activeFile={files.find(f => f.active)}
-      />
     </div>
   );
 
@@ -178,5 +191,12 @@ export default function Dashboard() {
     >
       <CiMenuKebab />
     </div>;
+  }
+
+  function AIChatResizer() {
+    return <div
+      className={styles.aiChatResizer}
+      onMouseDown={startAIChatResizing}
+    />;
   }
 }

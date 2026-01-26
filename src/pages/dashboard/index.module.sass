@@ -67,10 +67,10 @@
 
 .mobileFab
   position: fixed
-  bottom: 1.25rem
-  right: 1.25rem
-  width: 42px
-  height: 42px
+  bottom: 0.75rem
+  right: 1rem
+  width: 45px
+  height: 45px
   border-radius: 50%
   background: linear-gradient(135deg, #f39c12, #ff8c00)
   border: none
@@ -90,7 +90,31 @@
   &:active
     transform: scale(0.95)
 
+.aiChatResizer
+  width: 6px
+  background: rgba(243, 156, 18, 0.12)
+  cursor: ew-resize
+  position: relative
+  transition: all 0.2s ease
+  flex-shrink: 0
+  &:hover
+    background: rgba(243, 156, 18, 0.4)
+  &::before
+    content: ''
+    position: absolute
+    left: 50%
+    top: 50%
+    transform: translate(-50%, -50%)
+    width: 3px
+    height: 30px
+    background: rgba(243, 156, 18, 0.6)
+    border-radius: 2px
+  &:active
+    background: rgba(243, 156, 18, 0.6)
+
 @media (max-width: 768px)
   .mobileFab
     display: flex
+  .aiChatResizer
+    display: none
 

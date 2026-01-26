@@ -1,54 +1,89 @@
-.overlay
-  position: fixed
-  top: 0
-  left: 0
-  right: 0
-  bottom: 0
-  background: rgba(0, 0, 0, 0.6)
-  display: flex
-  align-items: center
-  justify-content: center
-  z-index: 1000
-
-.chat
-  background: white
-  border-radius: 12px
-  width: 90%
-  max-width: 500px
-  height: 70vh
-  max-height: 600px
+.chatPanel
+  position: relative
+  height: 92vh
+  background: #ffffff
+  // border-left: 1px solid #e5e7eb
   display: flex
   flex-direction: column
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2)
+  // box-shadow: -4px 0 20px rgba(0, 0, 0, 0.05)
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+
+@media screen and (max-width: 768px)
+  .chatPanel
+    height: 100vh
 
 .header
   display: flex
   justify-content: space-between
   align-items: center
   padding: 16px 20px
-  border-bottom: 1px solid #e5e7eb
-  background: linear-gradient(135deg, #ea580c, #f97316)
-  color: white
-  border-radius: 12px 12px 0 0
+  // border-bottom: 1px solid #e5e7eb
+  // background: linear-gradient(135deg, #ff8f53, #f97316)
+  background: white
+  // color: white
+  flex-shrink: 0
+  // &::before
+  //   content: ' '
+  //   position: absolute
+  //   top: 7%
+  //   left: 25%
+  //   right: 0
+  //   bottom: 0
+  //   width: 50%
+  //   height: 2.5px
+  //   background: linear-gradient(135deg, #ffcaae, #ff5900, #ffcaae)
+  //   opacity: 1
+  //   z-index: 1000
 
 .title
   display: flex
   align-items: center
-  gap: 8px
-  font-weight: 600
+  gap: 5px
+  font-weight: 100
+  font-size: 1rem
+  font-family: 'Inter', sans-serif
+  position: relative
+  &::before
+    content: ''
+    position: absolute
+    top: 100%
+    left: 20%
+    right: 0
+    bottom: 0
+    width: 35%
+    height: 0.75px
+    background: linear-gradient(90deg, #ff5900, #ffcaae)
+    opacity: 1
+    z-index: 1000
+    transition: all 0.8s ease
+  &:hover
+    &::before
+      // opacity: 0.5
+      width: 100%
+  
+  .icon
+    // font-size: 1.25rem
+    transform: translateY(1px)
+    color: rgb(235, 130, 3)
 
 .closeBtn
-  background: none
+  background: rgba(255, 255, 255, 0.15)
   border: none
-  color: white
-  font-size: 18px
+  color: black
+  font-size: 14px
   cursor: pointer
-  padding: 4px
-  border-radius: 4px
-  transition: background 0.2s
+  padding: 6px
+  border-radius: 50%
+  transition: all 0.2s
+  display: flex
+  align-items: center
+  justify-content: center
 
   &:hover
-    background: rgba(255, 255, 255, 0.2)
+    background: #fbb47e
+    // background: red
+    // transform: scale(1.05)
+    // font-style: 25
 
 .messages
   flex: 1
@@ -56,54 +91,172 @@
   padding: 20px
   display: flex
   flex-direction: column
-  gap: 12px
+  gap: 16px
+  background: #fafbfc
+
+  &::-webkit-scrollbar
+    width: 6px
+
+  &::-webkit-scrollbar-track
+    background: transparent
+
+  &::-webkit-scrollbar-thumb
+    background: #d1d5db
+    border-radius: 3px
+
+  &::-webkit-scrollbar-thumb:hover
+    background: #9ca3af
 
 .welcome
   text-align: center
   color: #6b7280
-  padding: 20px
+  padding: 40px 20px
+  display: flex
+  flex-direction: column
+  align-items: center
+
+  .welcomeIcon
+    font-size: 48px
+    color: #ea580c
+    margin-bottom: 20px
+    opacity: 0.8
+    gap: 10px
+
+  .welcomeHello
+    font-size: 48px
+    font-weight: 100
+    font-family:'Courier New', Courier, monospace
+    color: #ea580c
 
   h3
-    color: #374151
+    font-weight: 900
+    font-family:'Courier New', Courier, monospace
+    color: #ea580c
     margin-bottom: 8px
+    font-size: 18px
 
   p
-    margin-bottom: 12px
+    font-weight: 600
+    font-family:'Courier New', Courier, monospace
+    color: #ea580c
+    margin-bottom: 20px
+    font-size: 14px
+    line-height: 1.5
 
-  ul
-    text-align: left
-    max-width: 200px
-    margin: 0 auto
+.capabilities
+  margin-top: 50px
+  display: flex
+  flex-direction: column
+  flex-wrap: wrap
+  gap: 1rem
+  justify-content: center
+  max-width: 280px
 
-    li
-      margin-bottom: 4px
+.capability
+  background: white
+  color: black
+  padding: 16px 32px
+  // border-radius: 20px
+  font-size: 18px
+  font-weight: 100
+  border: 1px solid orange
+  cursor: pointer
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+  position: relative
+  overflow: hidden
+  box-shadow: 0 2px 4px rgba(234, 88, 12, 0.1)
+
+  &:hover
+    background: linear-gradient(135deg, #ea580c, #f97316)
+    color: white  
+    transform: translateY(-2px)
+    box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3)
+    border-color: #ea580c
+
+  &:active
+    transform: translateY(0)
+    box-shadow: 0 2px 6px rgba(234, 88, 12, 0.2)
+
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: -100%
+    width: 100%
+    height: 100%
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent)
+    transition: left 0.5s
+
+  &:hover::before
+    left: 100%
 
 .message
-  max-width: 80%
-  padding: 12px 16px
-  border-radius: 16px
-  line-height: 1.4
+  max-width: 85%
+  padding: 14px 18px
+  border-radius: 24px
+  line-height: 1.5
+  font-size: 18px
+  border: 1px solid darkorange
+  animation: fadeIn 0.3s ease-out
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+  
 
 .user
   align-self: flex-end
-  background: #ea580c
-  color: white
-  border-bottom-right-radius: 4px
+  // background: linear-gradient(135deg, #ea580c, #f97316)
+  // color: white
+  color: black
+  background: white
+  border-bottom-right-radius: 0px
+  box-shadow: 0 2px 8px rgba(234, 88, 12, 0.2)
 
 .assistant
   align-self: flex-start
-  background: #f3f4f6
-  color: #374151
-  border-bottom-left-radius: 4px
+  background: #ffffff
+  color: #1f2937
+  // border: 1px solid #e5e7eb
+  border-bottom-left-radius: 0px
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05)
 
 .error
-  background: #fef2f2
+  background: linear-gradient(135deg, #fef2f2, #fee2e2)
   color: #dc2626
-  border: 1px solid #fecaca
+  // border: 1px solid #fecaca
+  border-bottom-left-radius: 6px
 
-.typing
-  color: #6b7280
-  font-style: italic
+.streaming
+  position: relative
+
+  .text
+    display: inline
+
+.cursor
+  display: inline-block
+  width: 2px
+  height: 16px
+  background: #ea580c
+  margin-left: 2px
+  animation: blink 1s infinite
+  vertical-align: text-bottom
+
+.loading
+  display: flex
+  gap: 4px
+  padding: 8px 0
+
+.dot
+  width: 8px
+  height: 8px
+  background: #9ca3af
+  border-radius: 50%
+  animation: bounce 1.4s infinite ease-in-out both
+
+  &:nth-child(1)
+    animation-delay: -0.32s
+
+  &:nth-child(2)
+    animation-delay: -0.16s
 
 .meta
   display: flex
@@ -120,52 +273,116 @@
 
 .input
   display: flex
-  gap: 8px
+  gap: 12px
   padding: 16px 20px
   border-top: 1px solid #e5e7eb
-  background: #f9fafb
-  border-radius: 0 0 12px 12px
+  background: #ffffff
+  // background: red
+  flex-shrink: 0
 
   input
     flex: 1
     padding: 12px 16px
-    border: 1px solid #d1d5db
-    border-radius: 24px
+    border: 1px solid #e5e7eb
+    border-radius: 4px
+    // background: green
     outline: none
     font-size: 14px
+    background: #f9fafb
+    transition: all 0.2s
 
     &:focus
       border-color: #ea580c
-      box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.1)
+      background: #ffffff
+      box-shadow: 0 0 0 2px rgba(234, 88, 12, 0.05)
 
     &:disabled
       background: #f9fafb
+      color: #9ca3af
+      cursor: not-allowed
+
+@media screen and (max-width: 768px)
+  .input
+    padding: 12px 75px
 
 .sendBtn
-  background: #ea580c
+  background: linear-gradient(135deg, #ea580c, #f97316)
   border: none
   color: white
-  width: 40px
-  height: 40px
+  width: 44px
+  height: 44px
   border-radius: 50%
   display: flex
   align-items: center
   justify-content: center
   cursor: pointer
-  transition: all 0.2s
+  transition: all 0.6s ease
+  flex-shrink: 0  
 
   &:hover:not(:disabled)
-    background: #dc2626
-    transform: scale(1.05)
+    transform: scale(1.1)
+    // box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3)
+
+  &:active:not(:disabled)
+    transform: scale(0.95)
 
   &:disabled
     background: #d1d5db
     cursor: not-allowed
+    transform: none
+
+@keyframes fadeIn
+  from
+    opacity: 0
+    transform: translateY(10px)
+  to
+    opacity: 1
+    transform: translateY(0)
+
+@keyframes blink
+  0%, 50%
+    opacity: 1
+  51%, 100%
+    opacity: 0
+
+@keyframes bounce
+  0%, 80%, 100%
+    transform: scale(0)
+  40%
+    transform: scale(1)
+
+.inlineCode
+  background: #f3f4f6
+  color: #ea580c
+  padding: 2px 6px
+  border-radius: 4px
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace
+  font-size: 13px
+  border: 1px solid #e5e7eb
+
+.codeBlock
+  margin: 8px 0
+  border-radius: 8px
+  overflow: hidden
+  font-size: 13px
+  
+  pre
+    margin: 0 !important
+    padding: 12px !important
+    background: #1e1e1e !important
+    border-radius: 8px !important
+    overflow-x: auto !important
 
 @media (max-width: 768px)
-  .chat
-    width: 95%
-    height: 80vh
+  .chatPanel
+    position: fixed
+    right: 0
+    top: 0
+    z-index: 1000
+    width: 100vw !important
 
   .message
     max-width: 90%
+  
+  .codeBlock
+    font-size: 12px

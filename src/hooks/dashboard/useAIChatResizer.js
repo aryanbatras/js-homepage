@@ -1,37 +1,37 @@
 import { useState, useEffect } from "react";
 import styles from "../../pages/dashboard/index.module.sass";
 
-export function useScreenResizer(isAIChatVisible = false, aiChatWidth = 0) {
- const [screenResizer, setScreenResizer] = useState(100);
-  const [isDragging, setIsDragging] = useState(false);
+export function useAIChatResizer() {
+  const [aiChatWidth, setAiChatWidth] = useState(400);
+  const [isResizing, setIsResizing] = useState(false);
 
   useEffect(() => {
     const handleMouseMove = (e) => {
-      if (!isDragging) return;
+      if (!isResizing) return;
       
       const container = document.querySelector(`.${styles.container}`);
       const containerRect = container.getBoundingClientRect();
       const containerWidth = containerRect.width;
       
-      const availableWidth = isAIChatVisible ? containerWidth - aiChatWidth : containerWidth;
-      const mouseX = e.clientX - containerRect.left;
-      const newWidthPercent = (mouseX / availableWidth) * 100;
+      const newWidth = containerWidth - e.clientX + containerRect.left;
+      const minWidth = 300;
+      const maxWidth = Math.min(2000, containerWidth * 0.5);
       
-      const constrainedWidth = Math.max(0, Math.min(100, newWidthPercent));
-      setScreenResizer(constrainedWidth);
+      const constrainedWidth = Math.max(minWidth, Math.min(maxWidth, newWidth));
+      setAiChatWidth(constrainedWidth);
     };
 
     const handleMouseUp = () => {
-      setIsDragging(false);
+      setIsResizing(false);
       document.body.style.userSelect = '';
       document.body.style.cursor = '';
     };
 
-    if (isDragging) {
+    if (isResizing) {
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
       document.body.style.userSelect = 'none';
-      document.body.style.cursor = 'col-resize';
+      document.body.style.cursor = 'ew-resize';
       
       document.addEventListener('selectstart', preventSelection);
       
@@ -53,17 +53,21 @@ export function useScreenResizer(isAIChatVisible = false, aiChatWidth = 0) {
         });
       };
     }
-  }, [isDragging]);
+  }, [isResizing]);
 
   const preventSelection = (e) => {
     e.preventDefault();
     return false;
   };
 
+  const startResizing = () => {
+    setIsResizing(true);
+  };
+
   return {
-    screenResizer,
-    setScreenResizer,
-    isDragging,
-    setIsDragging,
+    aiChatWidth,
+    setAiChatWidth,
+    isResizing,
+    startResizing,
   };
 }
