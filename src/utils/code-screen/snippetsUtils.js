@@ -1,28 +1,107 @@
 export function parseSnippetsFromContent(snippetsContent) {
   try {
-    // Debug: log the content we're trying to parse
     console.log('Parsing snippets content:', snippetsContent.substring(0, 200) + '...');
     
-    // First try to parse as-is (for when user is actively editing)
-    try {
-      const configMatch = snippetsContent.match(/export const SNIPPETS_CONFIG\s*=\s*({[\s\S]*});?\s*$/m);
-      
+    // Multiple regex patterns to handle different formatting styles
+    const patterns = [
+      // Standard export with semicolon
+      /export const SNIPPETS_CONFIG\s*=\s*({[\s\S]*?});/m,
+      // Export without semicolon
+      /export const SNIPPETS_CONFIG\s*=\s*({[\s\S]*?})(?=\n\n|\nexport|\n$|$)/m,
+      // More permissive pattern
+      /SNIPPETS_CONFIG\s*=\s*({[\s\S]*?})/m,
+      // Fallback pattern that looks for any object assignment
+      /const\s+\w*[Cc]onfig\s*=\s*({[\s\S]*?})/m
+    ];
+    
+    let configMatch = null;
+    let configString = null;
+    
+    // Try each pattern until we find a match
+    for (const pattern of patterns) {
+      configMatch = snippetsContent.match(pattern);
       if (configMatch) {
-        const configString = configMatch[1];
-        console.log('Config string found:', configString.substring(0, 200) + '...');
-        const snippetsConfig = new Function(`return ${configString}`)();
-        console.log('Parsed snippets:', snippetsConfig);
-        return snippetsConfig || {};
+        configString = configMatch[1];
+        console.log('Config string found with pattern:', pattern.toString());
+        console.log('Config string preview:', configString.substring(0, 200) + '...');
+        break;
       }
-    } catch (e) {
-      console.error('Direct parsing failed:', e);
-      // If direct parsing fails, continue to fallback
+    }
+    
+    if (configString) {
+      try {
+        // Try multiple parsing methods
+        let snippetsConfig = null;
+        
+        // Method 1: Direct Function constructor
+        try {
+          snippetsConfig = new Function(`return ${configString}`)();
+        } catch (e1) {
+          console.log('Direct parsing failed, trying alternative method');
+          
+          // Method 2: Clean up the string and try again
+          try {
+            const cleanedConfig = configString
+              .replace(/\/\*[\s\S]*?\*\//g, '') // Remove block comments
+              .replace(/\/\/.*$/gm, '') // Remove line comments
+              .trim();
+            snippetsConfig = new Function(`return ${cleanedConfig}`)();
+          } catch (e2) {
+            console.log('Cleaned parsing failed, trying eval as last resort');
+            
+            // Method 3: Last resort with eval (only if we're confident about the content)
+            try {
+              snippetsConfig = eval(`(${configString})`);
+            } catch (e3) {
+              throw new Error('All parsing methods failed');
+            }
+          }
+        }
+        
+        console.log('Successfully parsed snippets:', snippetsConfig);
+        
+        // Validate that we got a proper config object with expected structure
+        if (snippetsConfig && typeof snippetsConfig === 'object') {
+          // Ensure it has at least some language keys or snippet arrays
+          const hasValidStructure = Object.keys(snippetsConfig).some(key => {
+            const value = snippetsConfig[key];
+            return Array.isArray(value) && value.length > 0;
+          });
+          
+          if (hasValidStructure || Object.keys(snippetsConfig).length === 0) {
+            console.log('Valid snippet configuration detected');
+            return snippetsConfig;
+          } else {
+            console.log('Invalid structure, but returning parsed object');
+            return snippetsConfig;
+          }
+        }
+      } catch (parseError) {
+        console.error('Failed to parse config object:', parseError);
+      }
+    } else {
+      console.log('No config object found in content, checking for alternative formats');
+      
+      // Try to find any JSON-like structure in the content
+      const jsonMatch = snippetsContent.match(/({[\s\S]*?})/);
+      if (jsonMatch) {
+        try {
+          const potentialConfig = new Function(`return ${jsonMatch[1]}`)();
+          if (potentialConfig && typeof potentialConfig === 'object') {
+            console.log('Found alternative JSON structure, using it');
+            return potentialConfig;
+          }
+        } catch (e) {
+          console.log('Alternative JSON parsing failed');
+        }
+      }
     }
 
-    // Fallback: return default snippets
+    // Only return defaults as absolute last resort
+    console.log('All parsing attempts failed, returning default snippets');
     return getDefaultSnippets();
   } catch (error) {
-    console.error('Error parsing snippets:', error);
+    console.error('Critical error parsing snippets:', error);
     return getDefaultSnippets();
   }
 }

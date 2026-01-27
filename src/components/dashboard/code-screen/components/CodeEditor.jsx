@@ -18,54 +18,36 @@ export function CodeEditor({
 }) {
 
   const [fontSize, setFontSize] = useState(28);
-  const [snippets, setSnippets] = useState(getDefaultSnippets());
+  const [snippets, setSnippets] = useState(null);
   const [monacoInstance, setMonacoInstance] = useState(null);
   const [providers, setProviders] = useState({}); // Track registered providers
   const [editorSettings, setEditorSettings] = useState({}); // Track editor settings
+  
+  // Refs to track initialization state
+  const snippetsInitialized = useRef(false);
+  const settingsInitialized = useRef(false);
 
-  // Update snippets when snippets.js file content changes (but only when not actively editing)
+  // Update snippets when snippets.js file content changes (but only when not actively editing AND only on initial load)
   useEffect(() => {
     const snippetsFile = files?.find(file => file.name === 'snippets.js');
     if (snippetsFile && (!activeFile || activeFile?.name !== 'snippets.js')) {
-      const parsedSnippets = parseSnippetsFromContent(snippetsFile.content);
-      setSnippets(parsedSnippets);
+      // Only parse if we haven't initialized yet
+      if (!snippetsInitialized.current) {
+        console.log('Initial setup: Parsing snippets from file content');
+        const parsedSnippets = parseSnippetsFromContent(snippetsFile.content);
+        setSnippets(parsedSnippets);
+        snippetsInitialized.current = true;
+      }
     }
-  }, [files, activeFile]);
+  }, [files?.find(file => file.name === 'snippets.js')?.content, activeFile?.name]);
 
-  // Update editor settings when settings.json file content changes
+  // Update editor settings when settings.json file content changes (only on initial setup)
   useEffect(() => {
     const settingsFile = files?.find(file => file.name === 'settings.json');
     if (settingsFile && (!activeFile || activeFile?.name !== 'settings.json')) {
-      try {
-        const parsedSettings = JSON.parse(settingsFile.content);
-        setEditorSettings(parsedSettings);
-        
-        // Apply font size immediately if available
-        if (parsedSettings.editor?.fontSize) {
-          setFontSize(parsedSettings.editor.fontSize);
-        }
-      } catch (error) {
-        console.error('Error parsing settings.json:', error);
-      }
-    }
-  }, [files, activeFile]);
-
-  // Update snippets when switching away from snippets.js file
-  useEffect(() => {
-    if (activeFile?.name !== 'snippets.js') {
-      const snippetsFile = files?.find(file => file.name === 'snippets.js');
-      if (snippetsFile) {
-        const parsedSnippets = parseSnippetsFromContent(snippetsFile.content);
-        setSnippets(parsedSnippets);
-      }
-    }
-  }, [activeFile, files]);
-
-  // Update settings when switching away from settings.json file
-  useEffect(() => {
-    if (activeFile?.name !== 'settings.json') {
-      const settingsFile = files?.find(file => file.name === 'settings.json');
-      if (settingsFile) {
+      // Only parse if we haven't initialized yet
+      if (!settingsInitialized.current) {
+        console.log('Initial setup: Parsing settings from file content');
         try {
           const parsedSettings = JSON.parse(settingsFile.content);
           setEditorSettings(parsedSettings);
@@ -77,9 +59,11 @@ export function CodeEditor({
         } catch (error) {
           console.error('Error parsing settings.json:', error);
         }
+        settingsInitialized.current = true;
       }
     }
-  }, [activeFile, files]);
+  }, [files?.find(file => file.name === 'settings.json')?.content, activeFile?.name]);
+
 
   // Re-register completion providers when snippets change
   useEffect(() => {
