@@ -96,7 +96,7 @@ export function useFileManagement(selectedProblem, onFilesUpdated) {
         setFiles(CONFIG_FILES);
         saveConfigFilesToStorage(CONFIG_FILES);
       }
-      // setExternalFiles(null);
+      setExternalFiles(null);
     }
   }, [selectedProblem, loadProblem]);
 
