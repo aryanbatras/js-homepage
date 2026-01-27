@@ -121,7 +121,10 @@ export default function Dashboard() {
     console.log('🔍 Dashboard - category changed, resetting problem');
     setSelectedProblemIndex(null); // Reset problem index when category changes
     setSelectedProblem(null);
-    setGithubFiles(null); // Reset GitHub files when category changes
+    // Only reset GitHub files if we're not dealing with configuration files (no problem selected)
+    if (selectedProblem) {
+      setGithubFiles(null);
+    }
   }, [selectedCategory]);
 
   useEffect(() => {
@@ -137,12 +140,12 @@ export default function Dashboard() {
       } else {
         console.log('🔍 Dashboard - no problem found at index:', selectedProblemIndex);
         setSelectedProblem(null);
-        setGithubFiles(null); // Reset GitHub files when no problem
+        // setGithubFiles(null); // Reset GitHub files when no problem
       }
     } else {
       console.log('🔍 Dashboard - clearing selected problem');
       setSelectedProblem(null);
-      setGithubFiles(null); // Reset GitHub files when no problem
+      // Don't reset GitHub files here - we might be dealing with configuration files
     }
   }, [selectedProblemIndex, selectedCategory]);
 
