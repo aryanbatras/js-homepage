@@ -17,11 +17,25 @@ import Section1 from "./pages/homepage/section1";
 function ProtectedRoute({ children }) {
   const { user, isLoading } = useAuth();
 
-  if (isLoading) return <div>Loading...</div>;
-  return user ? children : <Navigate to="/login" />;
+  console.log('🔍 ProtectedRoute rendering - user:', !!user, 'isLoading:', isLoading);
+  
+  if (isLoading) {
+    console.log('🔍 ProtectedRoute - showing loading');
+    return <div>Loading...</div>;
+  }
+  
+  if (!user) {
+    console.log('🔍 ProtectedRoute - no user, redirecting to login');
+    return <Navigate to="/login" />;
+  }
+  
+  console.log('🔍 ProtectedRoute - user authenticated, rendering children');
+  return children;
 }
 
 function AppRoutes() {
+  console.log('🔍 AppRoutes rendering, current path:', window.location.pathname);
+  
   return (
     <Routes>
       <Route path="/" element={<Homepage />} />

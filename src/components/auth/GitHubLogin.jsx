@@ -13,6 +13,8 @@ export default function GitHubLogin() {
   const navigate = useNavigate();
   const { login } = useAuth();
 
+  console.log('🔍 GitHubLogin mounted, current URL:', window.location.href);
+
   const handleGitHubLogin = () => {
     setShowPermissionDialog(true);
   };
@@ -22,6 +24,7 @@ export default function GitHubLogin() {
   };
 
   const handleGuestAccept = () => {
+    console.log('🔍 Guest login accepted');
     const mockGuestData = {
       id: 'guest-' + Date.now(),
       login: 'guest-user',
@@ -31,13 +34,18 @@ export default function GitHubLogin() {
       isGuest: true
     };
     
+    console.log('🔍 Creating guest user data:', mockGuestData);
     const guestToken = 'guest-token-' + Date.now();
     login(guestToken, mockGuestData);
+    console.log('🔍 Guest login called, navigating to dashboard');
     navigate('/dashboard');
   };
 
   const handlePermissionAccept = () => {
+    console.log('🔍 GitHub login permission accepted');
     const authUrl = `${BACKEND_URL}/auth/github`;
+    console.log('🔍 Redirecting to GitHub OAuth:', authUrl);
+    console.log('🔍 Backend URL being used:', BACKEND_URL);
     window.location.href = authUrl;
   };
 

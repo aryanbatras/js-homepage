@@ -12,6 +12,8 @@ import { useState, useEffect } from "react";
 import { problemsByCategory } from "../../components/dashboard/content-screen/store/categories";
 
 export default function Dashboard() {
+  console.log('🔍 Dashboard component rendering');
+  
   const [isProblemsPanelOpen, setIsProblemsPanelOpen] = useState(false);
   const [selectedProblemIndex, setSelectedProblemIndex] = useState(null);
   const [selectedProblem, setSelectedProblem] = useState(null);
@@ -25,6 +27,8 @@ export default function Dashboard() {
   const { aiChatWidth, isResizing: isAIChatResizing, startResizing: startAIChatResizing } = useAIChatResizer();
   const { screenResizer, setScreenResizer, setIsDragging } = useScreenResizer(isAIChatVisible, aiChatWidth);
   const [problemType, setProblemType] = useState('console');
+
+  console.log('🔍 Dashboard state initialized');
 
   const toggleProblemsPanel = () => {
     setIsProblemsPanelOpen(!isProblemsPanelOpen);
