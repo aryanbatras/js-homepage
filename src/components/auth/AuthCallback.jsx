@@ -18,7 +18,8 @@ export default function AuthCallback() {
       try {
         setStep('processing');
         
-        const isTesting = false; 
+        const isTesting = import.meta.env.DEV; 
+        console.log('🔍 Environment check - DEV:', isTesting, 'MODE:', import.meta.env.MODE);
         if (isTesting) {
           const mockToken = 'mock-github-token-for-testing';
           const mockUserData = {

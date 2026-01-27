@@ -45,6 +45,7 @@ jobs:
           echo "VITE_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}" >> .env
           echo "VITE_FIREBASE_APP_ID=${{ secrets.FIREBASE_APP_ID }}" >> .env
           echo "VITE_FIREBASE_MEASUREMENT_ID=${{ secrets.FIREBASE_MEASUREMENT_ID }}" >> .env
+          echo "VITE_BACKEND_URL=${{ secrets.BACKEND_URL }}" >> .env
           echo "✅ .env file created with environment variables"
           echo "🔍 .env file contents (masked):"
           sed 's/=.*/=****/' .env
