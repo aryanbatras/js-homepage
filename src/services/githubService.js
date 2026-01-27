@@ -9,23 +9,26 @@ export class GitHubService {
     const repoName = `js-learning-platform-${username}`;
     
     try {
-      const repo = await this.octokit.repos.createForAuthenticatedUser({
-        name: repoName,
-        description: 'JS Learning Platform - My coding workspace and progress',
-        public: true,
-        auto_init: true
+      const existingRepo = await this.octokit.repos.get({
+        owner: username,
+        repo: repoName
       });
-      
-      await this.initializeRepository(repo.data.full_name);
-      return repo.data;
+      return existingRepo.data;
     } catch (error) {
-      if (error.status === 422) {
-        // Repository already exists, get it
-        const existingRepo = await this.octokit.repos.get({
-          owner: username,
-          repo: repoName
-        });
-        return existingRepo.data;
+      if (error.status === 404) {
+        try {
+          const repo = await this.octokit.repos.createForAuthenticatedUser({
+            name: repoName,
+            description: 'JS Learning Platform - My coding workspace and progress',
+            public: true,
+            auto_init: true
+          });
+          
+          await this.initializeRepository(repo.data.full_name);
+          return repo.data;
+        } catch (createError) {
+          throw new Error(`Failed to create repository: ${createError.message}`);
+        }
       }
       throw error;
     }
