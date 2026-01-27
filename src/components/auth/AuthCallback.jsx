@@ -107,7 +107,7 @@ export default function AuthCallback() {
         // Create configuration files
         console.log('🔍 Creating configuration files...');
         const problemService = new GitHubProblemService(token);
-        await problemService.saveConfigurationFiles(userData.login, userData.login, CONFIG_FILES);
+        await problemService.saveConfigurationFiles(userData.login, repo.name, CONFIG_FILES);
         console.log('🔍 Configuration files created');
 
         setStep('finalizing');
