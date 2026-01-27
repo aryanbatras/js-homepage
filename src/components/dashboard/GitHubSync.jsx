@@ -256,13 +256,15 @@ export default function GitHubSync({
 
       const configFiles = await githubService.getConfigurationFiles(owner, repo);
 
-      if (onFilesFromGitHub) {
+      if (configFiles) {
+        if(onFilesFromGitHub){
         const updatedFiles = configFiles.map((file, index) => ({
           ...file,
           active: index === 0,
-          default: false,
+          default: true,
         }));
         onFilesFromGitHub(updatedFiles);
+        }
       }
 
       setSyncStatus("success");

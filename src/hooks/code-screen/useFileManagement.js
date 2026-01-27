@@ -80,8 +80,8 @@ export function useFileManagement(selectedProblem, onFilesUpdated) {
       }
     } else {
       // Reset to configuration files when no problem is selected
-      setFiles(CONFIG_FILES);
-      setExternalFiles(null);
+      // setFiles(CONFIG_FILES);
+      // setExternalFiles(null);
     }
   }, [selectedProblem, loadProblem, externalFiles]);
 
