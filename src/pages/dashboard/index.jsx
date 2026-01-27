@@ -14,6 +14,20 @@ import { problemsByCategory } from "../../components/dashboard/content-screen/st
 export default function Dashboard() {
   console.log('🔍 Dashboard component rendering');
   
+  // Get auth state to debug
+  const { user, token, isLoading } = useAuth();
+  console.log('🔍 Dashboard - auth state from useAuth:', {
+    user: user,
+    token: !!token,
+    isLoading,
+    userType: typeof user,
+    userKeys: user ? Object.keys(user) : 'no user',
+    userEmail: user?.email,
+    userName: user?.name,
+    userId: user?.id,
+    isGuest: user?.isGuest
+  });
+  
   const [isProblemsPanelOpen, setIsProblemsPanelOpen] = useState(false);
   const [selectedProblemIndex, setSelectedProblemIndex] = useState(null);
   const [selectedProblem, setSelectedProblem] = useState(null);
@@ -29,6 +43,11 @@ export default function Dashboard() {
   const [problemType, setProblemType] = useState('console');
 
   console.log('🔍 Dashboard state initialized');
+  console.log('🔍 Dashboard - hooks initialized:', {
+    aiChatWidth,
+    isAIChatResizing,
+    screenResizer
+  });
 
   const toggleProblemsPanel = () => {
     setIsProblemsPanelOpen(!isProblemsPanelOpen);
@@ -106,21 +125,36 @@ export default function Dashboard() {
     setIsAIChatVisible(!isAIChatVisible);
   };
 
+  // Add useEffect to track re-renders
+  useEffect(() => {
+    console.log('🔍 Dashboard useEffect - component re-rendered');
+  });
+
   // Update selectedProblem when index or category changes
   useEffect(() => {
+    console.log('🔍 Dashboard - category changed, resetting problem');
     setSelectedProblemIndex(null); // Reset problem index when category changes
     setSelectedProblem(null);
     setGithubFiles(null); // Reset GitHub files when category changes
   }, [selectedCategory]);
 
   useEffect(() => {
+    console.log('🔍 Dashboard - problem index changed:', selectedProblemIndex, 'category:', selectedCategory);
     if (selectedProblemIndex !== null && selectedCategory) {
       const categoryData = problemsByCategory[selectedCategory] || [];
+      console.log('🔍 Dashboard - category data length:', categoryData.length);
       if (categoryData[selectedProblemIndex]) {
-        setSelectedProblem(categoryData[selectedProblemIndex]);
+        const problem = categoryData[selectedProblemIndex];
+        console.log('🔍 Dashboard - setting selected problem:', problem);
+        setSelectedProblem(problem);
         setGithubFiles(null); // Reset GitHub files when problem changes
+      } else {
+        console.log('🔍 Dashboard - no problem found at index:', selectedProblemIndex);
+        setSelectedProblem(null);
+        setGithubFiles(null); // Reset GitHub files when no problem
       }
     } else {
+      console.log('🔍 Dashboard - clearing selected problem');
       setSelectedProblem(null);
       setGithubFiles(null); // Reset GitHub files when no problem
     }

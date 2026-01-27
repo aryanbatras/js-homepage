@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaGithub } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
@@ -7,19 +7,31 @@ import styles from './GitHubLogin.module.sass';
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://github-oauth-worker.batraaryan03.workers.dev';
 
 export default function GitHubLogin() {
+  console.log('🔍 GitHubLogin component mounted');
+  
   const [showPermissionDialog, setShowPermissionDialog] = useState(false);
   const [disclaimerAccepted, setDisclaimerAccepted] = useState(false);
   const [showGuestDialog, setShowGuestDialog] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, user, token, isLoading } = useAuth();
 
+  console.log('🔍 GitHubLogin - auth state:', { 
+    user: user, 
+    token: !!token, 
+    isLoading,
+    userEmail: user?.email,
+    userName: user?.name
+  });
   console.log('🔍 GitHubLogin mounted, current URL:', window.location.href);
+  console.log('🔍 GitHubLogin - environment:', import.meta.env.MODE, import.meta.env.DEV);
 
   const handleGitHubLogin = () => {
+    console.log('🔍 GitHub login button clicked');
     setShowPermissionDialog(true);
   };
 
   const handleGuestLogin = () => {
+    console.log('🔍 Guest login button clicked');
     setShowGuestDialog(true);
   };
 
@@ -36,7 +48,10 @@ export default function GitHubLogin() {
     
     console.log('🔍 Creating guest user data:', mockGuestData);
     const guestToken = 'guest-token-' + Date.now();
+    
+    console.log('🔍 Calling login function with guest data');
     login(guestToken, mockGuestData);
+    
     console.log('🔍 Guest login called, navigating to dashboard');
     navigate('/dashboard');
   };
@@ -46,8 +61,25 @@ export default function GitHubLogin() {
     const authUrl = `${BACKEND_URL}/auth/github`;
     console.log('🔍 Redirecting to GitHub OAuth:', authUrl);
     console.log('🔍 Backend URL being used:', BACKEND_URL);
-    window.location.href = authUrl;
+    console.log('🔍 Current environment:', import.meta.env.MODE);
+    
+    // Add a small delay to ensure logs are visible
+    setTimeout(() => {
+      window.location.href = authUrl;
+    }, 100);
   };
+
+  // Add useEffect to monitor auth state changes
+  useEffect(() => {
+    console.log('🔍 GitHubLogin useEffect - auth state changed:', {
+      user: user,
+      token: !!token,
+      isLoading,
+      userEmail: user?.email,
+      userName: user?.name,
+      isGuest: user?.isGuest
+    });
+  }, [user, token, isLoading]);
 
   return (
     <div className={styles.container}>
