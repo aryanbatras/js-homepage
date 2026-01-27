@@ -26,14 +26,14 @@ export function parseSnippetsFromContent(snippetsContent) {
       configMatch = snippetsContent.match(pattern);
       if (configMatch) {
         configString = configMatch[1];
-        console.log(`Pattern ${i + 1} matched successfully`);
+        // console.log(`Pattern ${i + 1} matched successfully`);
         break;
       }
     }
     
     if (!configString) {
       console.error('No pattern matched the snippets content');
-      console.log('Content preview:', snippetsContent.substring(0, 300));
+      // console.log('Content preview:', snippetsContent.substring(0, 300));
     }
     
     if (configString) {
@@ -81,7 +81,7 @@ export function parseSnippetsFromContent(snippetsContent) {
                   if (endIndex !== -1) {
                     const balancedObject = snippetsContent.substring(startIndex, endIndex);
                     snippetsConfig = new Function(`return ${balancedObject}`)();
-                    console.log('Manual brace balancing succeeded');
+                    // console.log('Manual brace balancing succeeded');
                   }
                 }
               } catch (e4) {
@@ -95,7 +95,7 @@ export function parseSnippetsFromContent(snippetsContent) {
         
         // Validate that we got a proper config object with expected structure
         if (snippetsConfig && typeof snippetsConfig === 'object') {
-          console.log('Successfully parsed snippets config:', Object.keys(snippetsConfig));
+          // console.log('Successfully parsed snippets config:', Object.keys(snippetsConfig));
           
           // Ensure it has at least some language keys or snippet arrays
           const hasValidStructure = Object.keys(snippetsConfig).some(key => {
@@ -104,10 +104,10 @@ export function parseSnippetsFromContent(snippetsContent) {
           });
           
           if (hasValidStructure || Object.keys(snippetsConfig).length === 0) {
-            console.log('Returning parsed snippets config');
+            // console.log('Returning parsed snippets config');
             return snippetsConfig;
           } else {
-            console.log('Config has no valid structure, but returning anyway');
+            // console.log('Config has no valid structure, but returning anyway');
             return snippetsConfig;
           }
         }
