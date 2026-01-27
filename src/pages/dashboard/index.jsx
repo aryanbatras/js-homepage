@@ -14,20 +14,6 @@ import { problemsByCategory } from "../../components/dashboard/content-screen/st
 export default function Dashboard() {
   console.log('🔍 Dashboard component rendering');
   
-  // Get auth state to debug
-  const { user, token, isLoading } = useAuth();
-  console.log('🔍 Dashboard - auth state from useAuth:', {
-    user: user,
-    token: !!token,
-    isLoading,
-    userType: typeof user,
-    userKeys: user ? Object.keys(user) : 'no user',
-    userEmail: user?.email,
-    userName: user?.name,
-    userId: user?.id,
-    isGuest: user?.isGuest
-  });
-  
   const [isProblemsPanelOpen, setIsProblemsPanelOpen] = useState(false);
   const [selectedProblemIndex, setSelectedProblemIndex] = useState(null);
   const [selectedProblem, setSelectedProblem] = useState(null);
