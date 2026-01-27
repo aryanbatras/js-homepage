@@ -9,35 +9,156 @@
   display: flex
   align-items: center
   justify-content: space-between
-  height: 5vh
-  padding: 10px
-  background-color: lightyellow
-  color: yellow
-  // width: 100%
+  height: 80px
+  padding: 0 3rem
+  background: linear-gradient(135deg, #ffffff 0%, #fff9e6 100%)
+  border-bottom: 2px solid #f39c12
   margin: 0
   overflow: hidden
+  position: sticky
+  top: 0
+  z-index: 1000
+  // backdrop-filter: blur(10px)
+  // box-shadow: 0 4px 20px rgba(243, 156, 18, 0.1)
+
+  .navbar__logo-link
+    display: flex
+    align-items: center
+    text-decoration: none
+    transition: all 0.3s ease
+    
+    &:hover
+      transform: scale(1.05)
 
   .navbar__jsicon
-    color: darkorange
-    // transform: rotate(10deg)
-    height: 36px
+    color: #f39c12
+    height: 42px
     width: auto
-    @include hover-animation
+    filter: drop-shadow(0 2px 4px rgba(243, 156, 18, 0.3))
+    transition: all 0.3s ease
+    
+    &:hover
+      color: #fb9943
+      transform: scale(1.05)
 
 .navbar__links
   display: flex
-  gap: 2rem
+  gap: 2.5rem
   padding: 0 2rem
+  align-items: center
+  justify-content: space-between
   
 .navbar__link
   display: flex
   align-items: center
   justify-content: center
-  gap: 0.25rem
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif
+  gap: 0.5rem
+  // font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+  // letter-spacing: 1px
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
   text-decoration: none
-  font-weight: lighter
+  font-weight: 500
   font-size: 1rem
-  color: darkorange
-  @include hover-animation
+  color: #2c3e50
+  padding: 0.75rem 1.5rem
+  border-radius: 1px
+  transition: all 0.3s ease
+  position: relative
+  
+  &::before
+    content: ''
+    position: absolute
+    bottom: 0
+    left: 50%
+    width: 0
+    height: 2px
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%)
+    transform: translateX(-50%)
+    transition: width 0.3s ease
+    
+  &:hover
+    color: #f39c12
+    background: rgba(243, 156, 18, 0.1)
+    transform: translateY(-2px)
+    
+    &::before
+      width: 80%
+      
+  .navbar__icon
+    font-size: 0.9rem
+    transition: transform 0.3s ease
+    
+  &:hover .navbar__icon
+    transform: rotate(180deg)
+    
+  &--cta
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%)
+    color: white
+    font-weight: 600
+    padding: 0.875rem 2rem
+    border-radius: 1px
+    text-align: center
+    // box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3)
+    position: relative
+    overflow: hidden
+    transition: all 0.8s ease
+    
+    &::before
+      display: none
+      
+    &::after
+      content: ''
+      position: absolute
+      top: 0
+      left: 0%
+      width: 100%
+      height: 100%
+      // background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent)
+      
+    &:hover
+      transform: scale(1.05)
+      color: #f39c12
+      // box-shadow: 0 8px 25px rgba(243, 156, 18, 0.4)
+      // background: linear-gradient(135deg, #f7cca6 0%, #deb26f 100%)
+      
+      &::after
+        left: 100%
+        
+    &:active
+      transform: translateY(-1px) scale(1.02)
+      box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3)
+
+@media screen and (max-width: 768px)
+  .navbar__container
+    height: 70px
+    padding: 0 1.5rem
+    
+  .navbar__links
+    gap: 1.5rem
+    padding: 0 1rem
+    
+  .navbar__link
+    padding: 0.5rem 1rem
+    font-size: 0.9rem
+    
+  .navbar__jsicon
+    height: 36px
+
+@media screen and (max-width: 480px)
+  .navbar__container
+    height: 60px
+    padding: 0 1rem
+    
+  .navbar__links
+    gap: 1rem
+    
+  .navbar__link
+    padding: 0.5rem 0.75rem
+    font-size: 0.85rem
+    
+    span
+      display: none
+      
+  .navbar__jsicon
+    height: 32px
           

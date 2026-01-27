@@ -63,7 +63,7 @@ function Section3({insideMac}) {
         </div>
 
         <button className={`homepage__section3__button ${insideMac ? 'homepage__section3__button--insideMac' : ''}`}>
-          <span>Get Started</span>
+          <a href="/js-homepage/dashboard" style={{textDecoration: "none"}}><span>Get Started</span></a>
           <FaArrowRight className="homepage__section3__button__icon"/>
         </button>
 

@@ -1,19 +1,10 @@
 import { IoIosArrowDown } from "react-icons/io";
 import { FaSquareJs } from "react-icons/fa6";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./index.sass";
 function Navbar() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   
-  // const handleChallengesClick = () => {
-  //   // Navigate to dashboard first
-  //   navigate('/dashboard');
-  //   // Then reload the page after a short delay to ensure navigation completes
-  //   setTimeout(() => {
-  //     window.location.reload();
-  //   }, 500);
-  // };
-
   const handleDashboardClick = () => {
       window.location.href = "/js-homepage/dashboard";
       window.location.reload();
@@ -21,17 +12,29 @@ function Navbar() {
   
   return (
     <nav className="navbar__container">
-      <FaSquareJs className="navbar__jsicon" />
+      <a href="/js-homepage/" className="navbar__logo-link">
+        <FaSquareJs className="navbar__jsicon" />
+      </a>
       <div className="navbar__links">
+        <a href="/js-homepage/" className="navbar__link">
+          <span>Home</span>
+        </a>
+        <a href="/js-homepage/pricing" className="navbar__link">
+          <span>Pricing</span>
+        </a>
+        <a href="/js-homepage/about" className="navbar__link">
+          <span>About</span>
+        </a>
+        <a href="/js-homepage/contact" className="navbar__link">
+          <span>Contact</span>
+        </a>
         <a 
           href="/js-homepage/dashboard"
-          className="navbar__link"
+          className="navbar__link navbar__link--cta"
           onClick={handleDashboardClick}
-          // onClick={handleChallengesClick}
-          // reloadDocument
         >
-          <span>Challenges</span>
-          <IoIosArrowDown className="navbar__icon" />
+          <span>Get Started</span>
+          {/* <IoIosArrowDown className="navbar__icon" /> */}
         </a>
       </div>
     </nav>

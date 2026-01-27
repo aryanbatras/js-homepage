@@ -9,6 +9,9 @@ import Dashboard from "./pages/dashboard";
 import GitHubLogin from "./components/auth/GitHubLogin";
 import AuthCallback from "./components/auth/AuthCallback";
 import Homepage from "./pages/homepage";
+import Pricing from "./pages/pricing";
+import About from "./pages/about";
+import Contact from "./pages/contact";
 import Section1 from "./pages/homepage/section1";
 function ProtectedRoute({ children }) {
   const { user, isLoading } = useAuth();
@@ -22,6 +25,9 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<Homepage />} />
       <Route path="/homepage" element={<Homepage />} />
+      <Route path="/pricing" element={<Pricing />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/contact" element={<Contact />} />
       <Route path="/login" element={<GitHubLogin />} />
       <Route path="/auth/github/callback" element={<AuthCallback />} />
       <Route

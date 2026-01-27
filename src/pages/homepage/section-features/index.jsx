@@ -68,7 +68,7 @@ function SectionFeatures() {
         </div>
 
         <button className="homepage__section-features__cta" onClick={handleDashboardClick}>
-          Explore Dashboard
+          <a href="/js-homepage/dashboard" style={{textDecoration: "none"}}>Explore Dashboard</a>
         </button>
 
       </div>

@@ -84,7 +84,7 @@ function SectionCommunity() {
         </div>
 
         <button className="homepage__section-community__cta" onClick={handleDashboardClick}>
-          Start Your Journey
+          <a href="/js-homepage/dashboard" style={{textDecoration: "none"}}>Start Your Journey</a>
         </button>
 
       </div>
