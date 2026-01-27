@@ -324,7 +324,7 @@ export default function GitHubSync({
             <FaGithub className={styles.githubIcon} />
           </a>
           <a
-            href={`https://github.com/${user?.repository}`}
+            href={user?.isGuest ? "http://aryanbatras.github.io/js-homepage/login" : `https://github.com/${user?.repository}`}
             target="_blank"
             rel="noopener noreferrer"
           >

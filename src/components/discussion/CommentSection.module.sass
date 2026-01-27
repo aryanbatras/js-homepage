@@ -1,0 +1,394 @@
+.container
+  padding: 2rem 0
+  position: relative
+  opacity: 0
+  animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    height: 1px
+    background: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.06) 50%, transparent 100%)
+    opacity: 0
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1)
+  &:hover
+    &::before
+      opacity: 1
+
+  h3
+    font-size: 1.5rem
+    font-weight: 200
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+    color: rgba(0, 0, 0, 0.9)
+    margin: 0 0 2rem 0
+    line-height: 1.1
+    letter-spacing: -0.02em
+    position: relative
+    padding-bottom: 0.75rem
+    &::after
+      content: ''
+      position: absolute
+      bottom: 0
+      left: 0
+      width: 40px
+      height: 2px
+      background: rgba(0, 0, 0, 0.1)
+      border-radius: 1px
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1)
+    &:hover
+      &::after
+        width: 80px
+        background: rgba(0, 0, 0, 0.2)
+
+.loading
+  text-align: center
+  padding: 2rem
+  color: rgba(0, 0, 0, 0.4)
+  font-size: 0.9375rem
+  font-weight: 300
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+  letter-spacing: 0.02em
+
+.commentForm
+  margin-bottom: 3rem
+  position: relative
+  opacity: 0
+  animation: slideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards
+
+.usernameInput
+  width: 100%
+  padding: 0.75rem 1rem
+  border: none
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08)
+  background: transparent
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+  font-size: 0.9375rem
+  font-weight: 300
+  color: rgba(0, 0, 0, 0.7)
+  margin-bottom: 1.5rem
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1)
+  letter-spacing: 0.01em
+
+  &::placeholder
+    color: rgba(0, 0, 0, 0.3)
+
+  &:focus
+    outline: none
+    border-bottom-color: rgba(0, 0, 0, 0.3)
+    color: rgba(0, 0, 0, 0.9)
+
+.textarea
+  width: 100%
+  padding: 0.75rem 1rem
+  border: none
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08)
+  background: transparent
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+  font-size: 0.9375rem
+  font-weight: 300
+  color: rgba(0, 0, 0, 0.7)
+  resize: vertical
+  margin-bottom: 1.5rem
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1)
+  letter-spacing: 0.01em
+  line-height: 1.6
+
+  &::placeholder
+    color: rgba(0, 0, 0, 0.3)
+
+  &:focus
+    outline: none
+    border-bottom-color: rgba(0, 0, 0, 0.3)
+    color: rgba(0, 0, 0, 0.9)
+
+.submitButton
+  background: transparent
+  color: rgba(0, 0, 0, 0.4)
+  border: none
+  padding: 0.5rem 0
+  font-size: 0.8125rem
+  font-weight: 300
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+  cursor: pointer
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1)
+  letter-spacing: 0.02em
+  position: relative
+  &::after
+    content: ''
+    position: absolute
+    bottom: -2px
+    left: 0
+    width: 0
+    height: 1px
+    background: rgba(0, 0, 0, 0.8)
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1)
+
+  &:hover:not(:disabled)
+    color: rgba(0, 0, 0, 0.9)
+    transform: translateX(4px)
+    &::after
+      width: 100%
+
+  &:disabled
+    color: rgba(0, 0, 0, 0.2)
+    cursor: not-allowed
+
+.commentsList
+  margin-top: 2rem
+  position: relative
+  opacity: 0
+  animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards
+
+.comment
+  padding: 2rem 0
+  border-bottom: 1px solid rgba(0, 0, 0, 0.03)
+  position: relative
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1)
+  &:hover
+    transform: translateX(8px)
+
+  &:last-child
+    border-bottom: none
+
+.commentHeader
+  display: flex
+  align-items: center
+  margin-bottom: 1rem
+  gap: 1rem
+
+.avatar
+  width: 40px
+  height: 40px
+  border-radius: 50%
+  object-fit: cover
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1)
+
+.avatarPlaceholder
+  width: 40px
+  height: 40px
+  border-radius: 50%
+  background: rgba(0, 0, 0, 0.05)
+  display: flex
+  align-items: center
+  justify-content: center
+  color: rgba(0, 0, 0, 0.3)
+  font-size: 1rem
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1)
+
+.userInfo
+  flex: 1
+  display: flex
+  flex-direction: column
+  gap: 0.25rem
+
+.username
+  font-weight: 400
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+  font-size: 0.9375rem
+  color: rgba(0, 0, 0, 0.9)
+  letter-spacing: 0.01em
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1)
+
+.timestamp
+  font-size: 0.75rem
+  font-weight: 300
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+  color: rgba(0, 0, 0, 0.4)
+  letter-spacing: 0.02em
+
+.commentText
+  margin: 0
+  color: rgba(0, 0, 0, 0.6)
+  line-height: 1.7
+  font-size: 0.9375rem
+  font-weight: 300
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+  letter-spacing: 0.01em
+  white-space: pre-wrap
+  word-wrap: break-word
+  padding-left: 3.5rem
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1)
+
+.commentActions
+  display: flex
+  align-items: center
+  gap: 1rem
+  margin-top: 0.75rem
+  padding-left: 3.5rem
+
+.likeButton
+  background: transparent
+  border: none
+  color: rgba(0, 0, 0, 0.4)
+  font-size: 0.75rem
+  font-weight: 300
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+  cursor: pointer
+  display: flex
+  align-items: center
+  gap: 0.25rem
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1)
+  letter-spacing: 0.02em
+  padding: 0.25rem 0.5rem
+  border-radius: 4px
+
+  &:hover
+    color: rgba(0, 0, 0, 0.8)
+    background: rgba(0, 0, 0, 0.03)
+
+  &.liked
+    color: rgba(239, 68, 68, 0.8)
+
+.loginPrompt
+  text-align: center
+  padding: 2rem
+  background: rgba(248, 248, 248, 0.8)
+  border: 1px solid rgba(0, 0, 0, 0.04)
+  border-radius: 8px
+  margin-bottom: 2rem
+  
+  p
+    margin: 0 0 1rem 0
+    color: rgba(0, 0, 0, 0.6)
+    font-size: 0.9375rem
+    font-weight: 300
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+    letter-spacing: 0.01em
+
+.loginButton
+  background: #ffaf03
+  color: white
+  border: none
+  padding: 0.75rem 1.5rem
+  border-radius: 6px
+  font-size: 0.875rem
+  font-weight: 400
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+  cursor: pointer
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1)
+  letter-spacing: 0.01em
+
+  &:hover
+    background: #ff9100
+    transform: translateY(-2px)
+
+.dialogOverlay
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  background: rgba(0, 0, 0, 0.5)
+  display: flex
+  align-items: center
+  justify-content: center
+  z-index: 1000
+  backdrop-filter: blur(4px)
+
+.dialog
+  background: white
+  padding: 2rem
+  border-radius: 12px
+  max-width: 400px
+  width: 90%
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15)
+  animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+
+  h3
+    margin: 0 0 1rem 0
+    font-size: 1.25rem
+    font-weight: 500
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+    color: rgba(0, 0, 0, 0.9)
+    letter-spacing: -0.01em
+
+  p
+    margin: 0 0 2rem 0
+    color: rgba(0, 0, 0, 0.6)
+    font-size: 0.9375rem
+    font-weight: 300
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+    line-height: 1.5
+    letter-spacing: 0.01em
+
+.dialogActions
+  display: flex
+  gap: 1rem
+  justify-content: flex-end
+
+.primaryButton
+  background: #f29b05
+  color: white
+  border: none
+  padding: 0.75rem 1.5rem
+  border-radius: 6px
+  font-size: 0.875rem
+  font-weight: 400
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+  cursor: pointer
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1)
+  letter-spacing: 0.01em
+
+  &:hover
+    background: #ffaf01
+    transform: translateY(-2px)
+
+.secondaryButton
+  background: transparent
+  color: rgba(0, 0, 0, 0.6)
+  border: 1px solid rgba(0, 0, 0, 0.1)
+  padding: 0.75rem 1.5rem
+  border-radius: 6px
+  font-size: 0.875rem
+  font-weight: 400
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+  cursor: pointer
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1)
+  letter-spacing: 0.01em
+
+  &:hover
+    background: rgba(0, 0, 0, 0.05)
+    border-color: rgba(0, 0, 0, 0.2)
+    color: rgba(0, 0, 0, 0.8)
+
+@keyframes slideUp
+  from
+    opacity: 0
+    transform: translateY(20px)
+  to
+    opacity: 1
+    transform: translateY(0)
+
+@keyframes fadeIn
+  from
+    opacity: 0
+    transform: translateY(20px)
+  to
+    opacity: 1
+    transform: translateY(0)
+
+@keyframes slideIn
+  from
+    opacity: 0
+    transform: translateX(-30px)
+  to
+    opacity: 1
+    transform: translateX(0)
+
+@media (max-width: 768px)
+  .container
+    padding: 1.5rem 0
+
+  .commentText
+    padding-left: 0
+    margin-top: 1rem
+
+  .commentActions
+    padding-left: 0
+
+  .commentHeader
+    flex-direction: column
+    align-items: flex-start
+    gap: 0.5rem

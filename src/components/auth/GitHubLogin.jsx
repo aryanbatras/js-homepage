@@ -27,7 +27,7 @@ export default function GitHubLogin() {
       login: 'guest-user',
       name: 'Guest User',
       email: 'guest@example.com',
-      avatar_url: 'https://avatars.githubusercontent.com/u/1?v=4',
+      avatar_url: 'https://avatars.githubusercontent.com/u/12345?v=4',
       isGuest: true
     };
     

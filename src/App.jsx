@@ -13,6 +13,7 @@ import Pricing from "./pages/pricing";
 import About from "./pages/about";
 import Contact from "./pages/contact";
 import Section1 from "./pages/homepage/section1";
+// import TestFirebase from "./components/discussion/TestFirebase";
 function ProtectedRoute({ children }) {
   const { user, isLoading } = useAuth();
 
@@ -38,6 +39,7 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+      {/* <Route path="/test-firebase" element={<TestFirebase />} /> */}
       {/* <Route path="/test" element={<div>Testing 1..2..3</div>} />
       <Route path="/test2" element={<Section1 />} /> */}
       <Route path="*" element={<Navigate to="/" />} />

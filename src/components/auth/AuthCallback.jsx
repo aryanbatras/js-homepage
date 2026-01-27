@@ -18,21 +18,20 @@ export default function AuthCallback() {
       try {
         setStep('processing');
         
-        // TEMPORARY: Mock data for testing - remove this block in production
-        const isTesting = true; // Set to false to use real OAuth
+        const isTesting = false; 
         if (isTesting) {
           const mockToken = 'mock-github-token-for-testing';
           const mockUserData = {
             id: 12345,
-            login: 'testuser',
-            name: 'Test User',
-            email: 'test@example.com',
-            avatar_url: 'https://avatars.githubusercontent.com/u/12345?v=4'
+            login: 'GuestUser',
+            name: 'Guest User',
+            email: 'guest@example.com',
+            avatar_url: 'https://avatars.githubusercontent.com/u/12345?v=4',
+            isGuest: true,
           };
           
           setStep('creating_repo');
           
-          // Simulate delay for testing
           await new Promise(resolve => setTimeout(resolve, 2000));
           
           setStep('finalizing');
@@ -44,7 +43,6 @@ export default function AuthCallback() {
           return;
         }
         
-        // REAL OAuth flow (uncomment when done testing)
         const urlParams = new URLSearchParams(window.location.search);
         const token = urlParams.get('token');
         const userDataStr = urlParams.get('user_data');
