@@ -3,6 +3,7 @@ import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { useState } from "react";
 import Navbar from "../navbar";
 import CommentSection from "../../../discussion/CommentSection";
+import SubmissionSection from "../../../discussion/SubmissionSection";
 export default function ProblemPage({ 
   selectProblem, 
   setSelectProblem, 
@@ -50,6 +51,10 @@ export default function ProblemPage({
       {navbarOption === "editorial" && <Editorial />}
 
       {navbarOption === "solution" && <Solution />}
+
+      {navbarOption === "submissions" && (
+        <SubmissionSection problemId={selectProblem?.id || selectProblem?.title} />
+      )}
 
       {navbarOption === "discussion" && (
         <CommentSection problemId={selectProblem?.id || selectProblem?.title} />

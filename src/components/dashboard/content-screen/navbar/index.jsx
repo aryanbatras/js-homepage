@@ -1,5 +1,5 @@
 import styles from "./index.module.sass";
-import {FaBookOpen, FaComments} from "react-icons/fa";
+import {FaBookOpen, FaComments, FaCode} from "react-icons/fa";
 import {MdFullscreen, MdOutlineKeyboardArrowLeft} from "react-icons/md";
 import {PiNotepadLight} from "react-icons/pi";
 import {TiTickOutline} from "react-icons/ti";
@@ -34,6 +34,15 @@ export default function Navbar({ setNavbarOption, currentOption }) {
               <TiTickOutline />
             </div>
             <span>Solution</span>
+          </button>
+          <button 
+            className={`${styles.navbar__item} ${currentOption === "submissions" ? styles.active : ""}`} 
+            onClick={() => setNavbarOption("submissions")}
+          >
+            <div className={styles.icon}>
+              <FaCode />
+            </div>
+            <span>Submissions</span>
           </button>
           <button 
             className={`${styles.navbar__item} ${currentOption === "discussion" ? styles.active : ""}`} 

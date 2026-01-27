@@ -94,3 +94,109 @@ export const getSolutions = (problemId, callback) => {
     callback(solutions);
   });
 };
+
+export const addSubmission = async (problemId, userId, username, avatar, approach, code, description) => {
+  try {
+    const docRef = await addDoc(collection(db, 'problems', problemId, 'submissions'), {
+      userId,
+      username,
+      avatar,
+      approach,
+      code,
+      language: 'javascript',
+      description,
+      timestamp: serverTimestamp(),
+      upvotes: 0,
+      downvotes: 0,
+      upvoters: [],
+      downvoters: [],
+      verified: false
+    });
+    return docRef.id;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getSubmissions = (problemId, callback) => {
+  const q = query(
+    collection(db, 'problems', problemId, 'submissions'),
+    orderBy('timestamp', 'desc')
+  );
+  
+  return onSnapshot(q, (snapshot) => {
+    const submissions = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+    callback(submissions);
+  });
+};
+
+export const upvoteSubmission = async (problemId, submissionId, userId) => {
+  try {
+    const submissionRef = doc(db, 'problems', problemId, 'submissions', submissionId);
+    const submissionSnap = await getDoc(submissionRef);
+    if (submissionSnap.exists()) {
+      const data = submissionSnap.data();
+      const upvoters = data.upvoters || [];
+      const downvoters = data.downvoters || [];
+      
+      // Remove from downvoters if exists
+      const newDownvoters = downvoters.filter(id => id !== userId);
+      
+      // Toggle upvote
+      let newUpvoters;
+      if (upvoters.includes(userId)) {
+        // Remove upvote
+        newUpvoters = upvoters.filter(id => id !== userId);
+      } else {
+        // Add upvote
+        newUpvoters = [...upvoters, userId];
+      }
+      
+      await updateDoc(submissionRef, {
+        upvoters: newUpvoters,
+        downvoters: newDownvoters,
+        upvotes: newUpvoters.length,
+        downvotes: newDownvoters.length
+      });
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const downvoteSubmission = async (problemId, submissionId, userId) => {
+  try {
+    const submissionRef = doc(db, 'problems', problemId, 'submissions', submissionId);
+    const submissionSnap = await getDoc(submissionRef);
+    if (submissionSnap.exists()) {
+      const data = submissionSnap.data();
+      const upvoters = data.upvoters || [];
+      const downvoters = data.downvoters || [];
+      
+      // Remove from upvoters if exists
+      const newUpvoters = upvoters.filter(id => id !== userId);
+      
+      // Toggle downvote
+      let newDownvoters;
+      if (downvoters.includes(userId)) {
+        // Remove downvote
+        newDownvoters = downvoters.filter(id => id !== userId);
+      } else {
+        // Add downvote
+        newDownvoters = [...downvoters, userId];
+      }
+      
+      await updateDoc(submissionRef, {
+        upvoters: newUpvoters,
+        downvoters: newDownvoters,
+        upvotes: newUpvoters.length,
+        downvotes: newDownvoters.length
+      });
+    }
+  } catch (error) {
+    throw error;
+  }
+};
