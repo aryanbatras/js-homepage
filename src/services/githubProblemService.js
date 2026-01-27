@@ -29,28 +29,55 @@ export class GitHubProblemService {
   // Get configuration files
   async getConfigurationFiles(owner, repo) {
     try {
+      console.log('🔍 getConfigurationFiles START');
+      console.log('- owner:', owner);
+      console.log('- repo:', repo);
+      console.log('- CONFIG_FILES:', CONFIG_FILES.map(f => f.name));
+      
       const configFiles = [];
       
       for (const configFile of CONFIG_FILES) {
-        const fileData = await this.makeRequest(`/repos/${owner}/${repo}/contents/${configFile.name}`);
-        if (fileData && fileData.content) {
-          const content = atob(fileData.content);
-          configFiles.push({
-            name: configFile.name,
-            content,
-            language: configFile.language,
-            active: configFile.active,
-            config: true
-          });
+        const endpoint = `/repos/${owner}/${repo}/contents/${configFile.name}`;
+        console.log(`🔍 Fetching: ${endpoint}`);
+        
+        try {
+          const fileData = await this.makeRequest(endpoint);
+          console.log(`🔍 Response for ${configFile.name}:`, fileData ? 'SUCCESS with content' : 'NULL or no content');
+          
+          if (fileData && fileData.content) {
+            const content = atob(fileData.content);
+            configFiles.push({
+              name: configFile.name,
+              content,
+              language: configFile.language,
+              active: configFile.active,
+              config: true
+            });
+            console.log(`🔍 Added ${configFile.name} to configFiles`);
+          } else {
+            console.log(`🔍 Skipping ${configFile.name} - no content`);
+          }
+        } catch (fileError) {
+          console.log(`🔍 Error fetching ${configFile.name}:`, fileError.message);
+          throw fileError;
         }
       }
       
+      console.log('🔍 Final configFiles count:', configFiles.length);
+      console.log('🔍 getConfigurationFiles END - returning:', configFiles.length > 0 ? 'SUCCESS' : 'EMPTY');
       return configFiles;
     } catch (error) {
+      console.log('🔍 getConfigurationFiles CATCH ERROR:', error.message);
+      console.log('🔍 Error type:', typeof error);
+      console.log('🔍 Is 404?', error.message.includes('404'));
+      
       if (error.message.includes('404')) {
         // Config files don't exist yet, return default ones
+        console.log('🔍 Returning default CONFIG_FILES due to 404');
+        console.log('🔍 Default files count:', CONFIG_FILES.length);
         return CONFIG_FILES;
       }
+      console.log('🔍 Re-throwing error (not 404)');
       throw error;
     }
   }

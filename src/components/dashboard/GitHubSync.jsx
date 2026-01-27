@@ -194,13 +194,6 @@ export default function GitHubSync({
     try {
       const githubService = new GitHubProblemService(token);
       const [owner, repo] = user.repository.split("/");
-      
-      console.log('🔍 Pull Problem Debug:');
-      console.log('- user.repository:', user.repository);
-      console.log('- owner:', owner);
-      console.log('- repo:', repo);
-      console.log('- problemTitle:', selectedProblem.title);
-      console.log('- API endpoint will be:', `/repos/${owner}/${repo}/contents/${selectedProblem.title}`);
 
       // Pull problem from GitHub
       const result = await githubService.pullProblem(
@@ -260,12 +253,6 @@ export default function GitHubSync({
 
       const githubService = new GitHubProblemService(token);
       const [owner, repo] = user.repository.split("/");
-      
-      console.log('🔍 Pull Config Debug:');
-      console.log('- user.repository:', user.repository);
-      console.log('- owner:', owner);
-      console.log('- repo:', repo);
-      console.log('- API endpoint will be:', `/repos/${owner}/${repo}/contents/snippets.js`);
 
       const configFiles = await githubService.getConfigurationFiles(owner, repo);
 
