@@ -102,13 +102,13 @@ export default function AuthCallback() {
         userData.repository = repo.full_name;
         userData.repository_url = repo.html_url;
 
-        setStep('creating_config');
+        // setStep('creating_config');
         
-        // Create configuration files
-        console.log('🔍 Creating configuration files...');
-        const problemService = new GitHubProblemService(token);
-        await problemService.saveConfigurationFiles(userData.login, repo.name, CONFIG_FILES);
-        console.log('🔍 Configuration files created');
+        // // Create configuration files
+        // console.log('🔍 Creating configuration files...');
+        // const problemService = new GitHubProblemService(token);
+        // await problemService.saveConfigurationFiles(userData.login, repo.name, CONFIG_FILES);
+        // console.log('🔍 Configuration files created');
 
         setStep('finalizing');
         login(token, userData);

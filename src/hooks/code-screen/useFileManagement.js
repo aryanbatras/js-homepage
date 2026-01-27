@@ -2,11 +2,16 @@ import { useState, useRef, useEffect } from "react";
 import { findLanguage, findLanguageContent } from "../../utils/code-screen/languageUtils";
 import { DEFAULT_FILES, CONFIG_FILES } from "../../constants/code-screen/fileDefaults";
 import { useProblemStorage } from "./useProblemStorage";
+import { 
+  saveConfigFilesToStorage, 
+  loadConfigFilesFromStorage, 
+  hasConfigFilesInStorage 
+} from "../../utils/storage/problemStorage";
 
 export function useFileManagement(selectedProblem, onFilesUpdated) {
   const inputRef = useRef(0);
   const [fileName, setFileName] = useState("index.js");
-  const [files, setFiles] = useState(DEFAULT_FILES);
+  const [files, setFiles] = useState(CONFIG_FILES);
   const [addFile, setAddFile] = useState(false);
   const [externalFiles, setExternalFiles] = useState(null); // Files from parent (GitHub pull)
 
@@ -26,6 +31,9 @@ export function useFileManagement(selectedProblem, onFilesUpdated) {
     // Also save to localStorage to keep them in sync
     if (selectedProblem) {
       saveProblem(externalFiles);
+    } else {
+      // Save config files to local storage if no problem is selected
+      saveConfigFilesToStorage(externalFiles);
     }
   };
 
@@ -79,11 +87,18 @@ export function useFileManagement(selectedProblem, onFilesUpdated) {
         }
       }
     } else {
-      // Reset to configuration files when no problem is selected
-      // setFiles(CONFIG_FILES);
+      // Load configuration files from local storage when no problem is selected
+      const storedConfigFiles = loadConfigFilesFromStorage();
+      if (storedConfigFiles) {
+        setFiles(storedConfigFiles);
+      } else {
+        // Fallback to default config files if nothing is stored
+        setFiles(CONFIG_FILES);
+        saveConfigFilesToStorage(CONFIG_FILES);
+      }
       // setExternalFiles(null);
     }
-  }, [selectedProblem, loadProblem, externalFiles]);
+  }, [selectedProblem, loadProblem]);
 
   // Notify parent when files change
   useEffect(() => {
@@ -91,6 +106,21 @@ export function useFileManagement(selectedProblem, onFilesUpdated) {
       onFilesUpdated(files);
     }
   }, [files, onFilesUpdated]);
+
+  // Auto-save config files to local storage when modified (only when no problem selected)
+  useEffect(() => {
+    if (!selectedProblem && files.length > 0) {
+      // Check if files are config files (have config property or are default config files)
+      const hasConfigFiles = files.some(file => 
+        file.config || 
+        ['snippets.js', 'settings.json', 'package.json', 'README.md'].includes(file.name)
+      );
+      
+      if (hasConfigFiles) {
+        saveConfigFilesToStorage(files);
+      }
+    }
+  }, [files, selectedProblem]);
 
   const activeFile = files.find((file) => file.active);
 

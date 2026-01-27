@@ -2,7 +2,8 @@
 
 export const STORAGE_KEYS = {
   SOLVED_PROBLEMS: 'solvedProblems',
-  PROBLEM_METADATA: 'problemMetadata'
+  PROBLEM_METADATA: 'problemMetadata',
+  CONFIG_FILES: 'configFiles'
 };
 
 export function sanitizeProblemTitle(title) {
@@ -96,4 +97,45 @@ export function getAllStoredProblems() {
 export function hasProblemInStorage(problemTitle) {
   const storageKey = getProblemStorageKey(problemTitle);
   return localStorage.getItem(storageKey) !== null;
+}
+
+// Configuration files storage functions
+export function saveConfigFilesToStorage(files) {
+  try {
+    const configData = {
+      files: files.map(file => ({
+        name: file.name,
+        content: file.content,
+        language: file.language,
+        active: file.active,
+        config: file.config || false
+      })),
+      lastModified: new Date().toISOString(),
+      version: '1.0.0'
+    };
+    
+    localStorage.setItem(STORAGE_KEYS.CONFIG_FILES, JSON.stringify(configData));
+    return true;
+  } catch (error) {
+    console.error('Failed to save config files to storage:', error);
+    return false;
+  }
+}
+
+export function loadConfigFilesFromStorage() {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEYS.CONFIG_FILES);
+    
+    if (!stored) return null;
+    
+    const configData = JSON.parse(stored);
+    return configData.files;
+  } catch (error) {
+    console.error('Failed to load config files from storage:', error);
+    return null;
+  }
+}
+
+export function hasConfigFilesInStorage() {
+  return localStorage.getItem(STORAGE_KEYS.CONFIG_FILES) !== null;
 }
