@@ -219,7 +219,11 @@ export default function SubmissionSection({ problemId }) {
           )}
         </div>
       )}
-
+      {!canComment && (
+        <div className={styles.noSubmissions}>
+          <p>Login to share your approach!</p>
+        </div>
+      )}
       <div className={styles.submissionsList}>
         {submissions.map((submission) => (
           <div key={submission.id} className={styles.submission}>
@@ -293,11 +297,7 @@ export default function SubmissionSection({ problemId }) {
 
         {submissions.length === 0 && (
           <>
-            {!canComment ? (
-              <div className={styles.noSubmissions}>
-                <p>Login to share your approach!</p>
-              </div>
-            ) : (
+            {canComment && (
               <div className={styles.noSubmissions}>
                 <p>
                   No solutions submitted yet. Be the first to share your

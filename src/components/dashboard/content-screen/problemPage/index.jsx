@@ -1,6 +1,9 @@
 import styles from "./index.module.sass";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { useState } from "react";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { FiCopy, FiCheck } from "react-icons/fi";
 import Navbar from "../navbar";
 import CommentSection from "../../../discussion/CommentSection";
 import SubmissionSection from "../../../discussion/SubmissionSection";
@@ -102,12 +105,57 @@ export default function ProblemPage({
   }
 
   function Solution() {
+    const [copiedIndex, setCopiedIndex] = useState(null);
+
+    const copyToClipboard = async (code, index) => {
+      try {
+        await navigator.clipboard.writeText(code);
+        setCopiedIndex(index);
+        setTimeout(() => setCopiedIndex(null), 2000);
+      } catch (err) {
+        console.error('Failed to copy code:', err);
+      }
+    };
+
     return (
       <div className={styles.solution}>
         {selectProblem?.solution.map((item, index) => (
           <div key={index} className={styles.approach}>
-            <h3>{item?.approach}</h3>
-            <pre>{item?.code}</pre>
+            <div className={styles.approachHeader}>
+              <h3>{item?.approach}</h3>
+              <button
+                className={styles.copyButton}
+                onClick={() => copyToClipboard(item?.code, index)}
+                title="Copy code"
+              >
+                {copiedIndex === index ? <FiCheck /> : <FiCopy />}
+              </button>
+            </div>
+            <div className={styles.codeContainer}>
+              <SyntaxHighlighter
+                language="javascript"
+                style={vscDarkPlus}
+                customStyle={{
+                  margin: 0,
+                  padding: '1.5rem',
+                  fontSize: '0.875rem',
+                  lineHeight: '1.6',
+                  background: '#1e1e1e',
+                  borderRadius: '8px',
+                  fontFamily: "'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace"
+                }}
+                showLineNumbers
+                wrapLines
+                lineProps={(lineNumber) => ({
+                  style: {
+                    display: 'block',
+                    paddingLeft: '0.5rem'
+                  }
+                })}
+              >
+                {item?.code}
+              </SyntaxHighlighter>
+            </div>
           </div>
         ))}
       </div>
