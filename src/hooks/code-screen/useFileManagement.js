@@ -40,51 +40,52 @@ export function useFileManagement(selectedProblem, onFilesUpdated) {
   // Load problem files when selected problem changes
   useEffect(() => {
     if (selectedProblem) {
-      // Only load from localStorage if we don't have external files
-      if (!externalFiles) {
-        const storedProblem = loadProblem();
-        if (storedProblem && storedProblem.files.length > 0) {
-          const problemFiles = storedProblem.files.map((file, index) => ({
-            name: file.name,
-            language: file.language,
-            content: file.content,
-            active: index === 0,
-            default: false,
-          }));
-          setFiles(problemFiles);
-        } else {
-          // Load from problem data (default)
-          const problemFiles = selectedProblem.files.map((file, index) => ({
-            name: file.name,
-            language: findLanguage(file.name),
-            content: file.code,
-            active: index === 0,
-            default: false,
-          }));
-          
-          // Add tests.js file if tests exist
-          if (selectedProblem.tests && Array.isArray(selectedProblem.tests) && selectedProblem.tests.length > 0) {
-            try {
-              // Simply join all test codes together
-              const testsContent = selectedProblem.tests.map(test => test.code || '').filter(code => code.trim()).join('\n\n');
-              
-              if (testsContent.trim()) {
-                problemFiles.push({
-                  name: 'tests.js',
-                  language: 'javascript',
-                  content: testsContent,
-                  active: false,
-                  default: false,
-                });
-              }
-            } catch (error) {
-              console.error('Error creating tests.js file:', error);
-              // Don't break the file loading process
+      // Always clear external files when a problem is selected
+      setExternalFiles(null);
+      
+      // Load from localStorage first
+      const storedProblem = loadProblem();
+      if (storedProblem && storedProblem.files.length > 0) {
+        const problemFiles = storedProblem.files.map((file, index) => ({
+          name: file.name,
+          language: file.language,
+          content: file.content,
+          active: index === 0,
+          default: false,
+        }));
+        setFiles(problemFiles);
+      } else {
+        // Load from problem data (default)
+        const problemFiles = selectedProblem.files.map((file, index) => ({
+          name: file.name,
+          language: findLanguage(file.name),
+          content: file.code,
+          active: index === 0,
+          default: false,
+        }));
+        
+        // Add tests.js file if tests exist
+        if (selectedProblem.tests && Array.isArray(selectedProblem.tests) && selectedProblem.tests.length > 0) {
+          try {
+            // Simply join all test codes together
+            const testsContent = selectedProblem.tests.map(test => test.code || '').filter(code => code.trim()).join('\n\n');
+            
+            if (testsContent.trim()) {
+              problemFiles.push({
+                name: 'tests.js',
+                language: 'javascript',
+                content: testsContent,
+                active: false,
+                default: false,
+              });
             }
+          } catch (error) {
+            console.error('Error creating tests.js file:', error);
+            // Don't break the file loading process
           }
-          
-          setFiles(problemFiles);
         }
+        
+        setFiles(problemFiles);
       }
     } else {
       // Load configuration files from local storage when no problem is selected
@@ -96,7 +97,6 @@ export function useFileManagement(selectedProblem, onFilesUpdated) {
         setFiles(CONFIG_FILES);
         saveConfigFilesToStorage(CONFIG_FILES);
       }
-      setExternalFiles(null);
     }
   }, [selectedProblem, loadProblem]);
 
