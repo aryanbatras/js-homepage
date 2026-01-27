@@ -1,13 +1,28 @@
 import { Canvas } from "@react-three/fiber";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, Suspense } from "react";
 import { gsap } from "gsap";
 import "./index.sass";
-import { useGLTF, Html } from "@react-three/drei";
+import { useGLTF, Html, useProgress } from "@react-three/drei";
 import Homepage from "../index";
 import React from "react";
 import downArrow from "../../../assets/down-arrow.png";
 import { OrbitControls } from "@react-three/drei";
+
+function Loader() {
+  const { progress } = useProgress();
+  return (
+    <Html center>
+      <div className="model-loader">
+        <div className="loader-content">
+          <div className="loader-spinner"></div>
+          <div className="loader-text">{Math.round(progress)}% loaded</div>
+          <div className="loader-subtitle">Loading 3D MacBook model...</div>
+        </div>
+      </div>
+    </Html>
+  );
+}
 
 function SectionMacBook({ insideMac = false }) {
   const canvasRef = useRef(null);
@@ -313,15 +328,17 @@ function SectionMacBook({ insideMac = false }) {
         >
           <ambientLight intensity={50} />
           <directionalLight position={[10, 10, 5]} intensity={50} />
-          <MacModel
-            setReady={setReady}
-            modelRef={modelRef}
-            screenFlipRef={screenFlipRef}
-            screenRef={screenRef}
-            screenFrameRef={screenFrameRef}
-            htmlRef={htmlRef}
-            scrollOffset={scrollOffset}
-          />
+          <Suspense fallback={<Loader />}>
+            <MacModel
+              setReady={setReady}
+              modelRef={modelRef}
+              screenFlipRef={screenFlipRef}
+              screenRef={screenRef}
+              screenFrameRef={screenFrameRef}
+              htmlRef={htmlRef}
+              scrollOffset={scrollOffset}
+            />
+          </Suspense>
           {/* <OrbitControls enableZoom={false} enablePan={false} /> */}
         </Canvas>
         <div ref={dragRef} className="macbook__drag-indicator">
