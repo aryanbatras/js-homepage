@@ -185,7 +185,7 @@ export default function AIChat({
               <div
                 key={i}
                 className={`${styles.message} ${styles[msg.role]} ${msg.isError ? styles.error : ""}`}
-              >
+              >  
                 <div className={styles.text}>
                   <ReactMarkdown
                     components={{

@@ -1,9 +1,6 @@
 class AIService {
   constructor() {
-    this.accountId = import.meta.env.VITE_CLOUDFLARE_ACCOUNT_ID;
-    this.apiKey = import.meta.env.VITE_CLOUDFLARE_API_KEY;
-    this.model = import.meta.env.VITE_CLOUDFLARE_MODEL;
-    this.workerUrl = `https://api.cloudflare.com/client/v4/accounts/${this.accountId}/ai/run/${this.model}`;
+    this.workerUrl = 'https://round-union-4fa3.batraaryan03.workers.dev';
   }
 
   async sendMessage(message, codeContext = '') {
@@ -14,7 +11,6 @@ class AIService {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.apiKey}`
         },
         body: JSON.stringify({
           message,
