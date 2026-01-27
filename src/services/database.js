@@ -13,7 +13,6 @@ export const addComment = async (problemId, userId, username, avatar, comment) =
     });
     return docRef.id;
   } catch (error) {
-    console.error('Error adding comment:', error);
     throw error;
   }
 };
@@ -32,7 +31,6 @@ export const addSolution = async (problemId, userId, username, avatar, approach,
     });
     return docRef.id;
   } catch (error) {
-    console.error('Error adding solution:', error);
     throw error;
   }
 };
@@ -63,7 +61,6 @@ export const likeComment = async (problemId, commentId) => {
       });
     }
   } catch (error) {
-    console.error('Error liking comment:', error);
     throw error;
   }
 };
@@ -79,7 +76,6 @@ export const unlikeComment = async (problemId, commentId) => {
       });
     }
   } catch (error) {
-    console.error('Error unliking comment:', error);
     throw error;
   }
 };

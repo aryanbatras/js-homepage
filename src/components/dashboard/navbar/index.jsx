@@ -74,7 +74,7 @@ export default function DashboardNavbar({
   };
 
   const toggleAIChatbot = () => {
-    console.log('AI Chatbot button clicked!');
+    // console.log('AI Chatbot button clicked!');
     onToggleAIChatbot();
   };
 

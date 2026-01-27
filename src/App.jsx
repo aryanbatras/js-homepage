@@ -16,37 +16,19 @@ import Section1 from "./pages/homepage/section1";
 // import TestFirebase from "./components/discussion/TestFirebase";
 function ProtectedRoute({ children }) {
   const { user, token, isLoading } = useAuth();
-
-  console.log('🔍 ProtectedRoute rendering - full auth state:', {
-    user: user,
-    token: !!token,
-    isLoading,
-    userType: typeof user,
-    userKeys: user ? Object.keys(user) : 'no user',
-    userEmail: user?.email,
-    userName: user?.name,
-    userId: user?.id,
-    isGuest: user?.isGuest
-  });
   
   if (isLoading) {
-    console.log('🔍 ProtectedRoute - showing loading');
     return <div>Loading...</div>;
   }
   
   if (!user) {
-    console.log('🔍 ProtectedRoute - no user, redirecting to login');
-    console.log('🔍 User is null/undefined:', user === null || user === undefined);
     return <Navigate to="/login" />;
   }
   
-  console.log('🔍 ProtectedRoute - user authenticated, rendering children');
-  console.log('🔍 User object being passed to children:', user);
   return children;
 }
 
 function AppRoutes() {
-  console.log('🔍 AppRoutes rendering, current path:', window.location.pathname);
   
   return (
     <Routes>

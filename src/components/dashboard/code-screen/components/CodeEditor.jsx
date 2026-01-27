@@ -5,7 +5,6 @@ const resizeObserverErrorHandler = (e) => {
   if (e.message === 'ResizeObserver loop completed with undelivered notifications.') {
     return;
   }
-  console.error(e);
 };
 
 window.addEventListener('error', resizeObserverErrorHandler);
@@ -32,7 +31,6 @@ export function CodeEditor({
     if (snippetsFile && (!activeFile || activeFile?.name !== 'snippets.js')) {
       // Only parse if we haven't initialized yet
       if (!snippetsInitialized.current) {
-        console.log('Initial setup: Parsing snippets from file content');
         const parsedSnippets = parseSnippetsFromContent(snippetsFile.content);
         setSnippets(parsedSnippets);
         snippetsInitialized.current = true;
@@ -44,7 +42,6 @@ export function CodeEditor({
   useEffect(() => {
     const settingsFile = files?.find(file => file.name === 'settings.json');
     if (settingsFile && (!activeFile || activeFile?.name !== 'settings.json')) {
-      console.log('Updating settings from file content');
       try {
         const parsedSettings = JSON.parse(settingsFile.content);
         setEditorSettings(parsedSettings);
@@ -54,7 +51,6 @@ export function CodeEditor({
           setFontSize(parsedSettings.editor.fontSize);
         }
       } catch (error) {
-        console.error('Error parsing settings.json:', error);
       }
     }
   }, [files?.find(file => file.name === 'settings.json')?.content, activeFile?.name]);
@@ -80,7 +76,6 @@ export function CodeEditor({
           provideCompletionItems: () => {
             const languageSnippets = snippets[language] || [];
             const suggestions = createMonacoSuggestions({ [language]: languageSnippets }, monacoInstance);
-            console.log(`Suggestions for ${language}:`, suggestions[language]);
             return { suggestions: suggestions[language] || [] };
           },
         });

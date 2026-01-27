@@ -12,7 +12,7 @@ import { useState, useEffect } from "react";
 import { problemsByCategory } from "../../components/dashboard/content-screen/store/categories";
 
 export default function Dashboard() {
-  console.log('🔍 Dashboard component rendering');
+  // console.log('🔍 Dashboard component rendering');
   
   const [isProblemsPanelOpen, setIsProblemsPanelOpen] = useState(false);
   const [selectedProblemIndex, setSelectedProblemIndex] = useState(null);
@@ -28,12 +28,12 @@ export default function Dashboard() {
   const { screenResizer, setScreenResizer, setIsDragging } = useScreenResizer(isAIChatVisible, aiChatWidth);
   const [problemType, setProblemType] = useState('console');
 
-  console.log('🔍 Dashboard state initialized');
-  console.log('🔍 Dashboard - hooks initialized:', {
-    aiChatWidth,
-    isAIChatResizing,
-    screenResizer
-  });
+  // // console.log('🔍 Dashboard state initialized');
+  // console.log('🔍 Dashboard - hooks initialized:', {
+  //   aiChatWidth,
+  //   isAIChatResizing,
+  //   screenResizer
+  // });
 
   const toggleProblemsPanel = () => {
     setIsProblemsPanelOpen(!isProblemsPanelOpen);
@@ -107,18 +107,18 @@ export default function Dashboard() {
   };
 
   const toggleAIChat = () => {
-    console.log('toggleAIChat called, current state:', isAIChatVisible);
+    // console.log('toggleAIChat called, current state:', isAIChatVisible);
     setIsAIChatVisible(!isAIChatVisible);
   };
 
-  // Add useEffect to track re-renders
-  useEffect(() => {
-    console.log('🔍 Dashboard useEffect - component re-rendered');
-  });
+  // // Add useEffect to track re-renders
+  // useEffect(() => {
+  //   // console.log('🔍 Dashboard useEffect - component re-rendered');
+  // });
 
   // Update selectedProblem when index or category changes
   useEffect(() => {
-    console.log('🔍 Dashboard - category changed, resetting problem');
+    // console.log('🔍 Dashboard - category changed, resetting problem');
     setSelectedProblemIndex(null); // Reset problem index when category changes
     setSelectedProblem(null);
     // Only reset GitHub files if we're not dealing with configuration files (no problem selected)
@@ -128,22 +128,22 @@ export default function Dashboard() {
   }, [selectedCategory]);
 
   useEffect(() => {
-    console.log('🔍 Dashboard - problem index changed:', selectedProblemIndex, 'category:', selectedCategory);
+    // console.log('🔍 Dashboard - problem index changed:', selectedProblemIndex, 'category:', selectedCategory);
     if (selectedProblemIndex !== null && selectedCategory) {
       const categoryData = problemsByCategory[selectedCategory] || [];
-      console.log('🔍 Dashboard - category data length:', categoryData.length);
+      // console.log('🔍 Dashboard - category data length:', categoryData.length);
       if (categoryData[selectedProblemIndex]) {
         const problem = categoryData[selectedProblemIndex];
-        console.log('🔍 Dashboard - setting selected problem:', problem);
+        // console.log('🔍 Dashboard - setting selected problem:', problem);
         setSelectedProblem(problem);
         setGithubFiles(null); // Reset GitHub files when problem changes
       } else {
-        console.log('🔍 Dashboard - no problem found at index:', selectedProblemIndex);
+        // console.log('🔍 Dashboard - no problem found at index:', selectedProblemIndex);
         setSelectedProblem(null);
         // setGithubFiles(null); // Reset GitHub files when no problem
       }
     } else {
-      console.log('🔍 Dashboard - clearing selected problem');
+      // console.log('🔍 Dashboard - clearing selected problem');
       setSelectedProblem(null);
       // Don't reset GitHub files here - we might be dealing with configuration files
     }

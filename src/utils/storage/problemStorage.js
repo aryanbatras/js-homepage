@@ -35,7 +35,6 @@ export function saveProblemToStorage(problemTitle, files, metadata = {}) {
     localStorage.setItem(storageKey, JSON.stringify(problemData));
     return true;
   } catch (error) {
-    console.error('Failed to save problem to storage:', error);
     return false;
   }
 }
@@ -50,7 +49,6 @@ export function loadProblemFromStorage(problemTitle) {
     const problemData = JSON.parse(stored);
     return problemData;
   } catch (error) {
-    console.error('Failed to load problem from storage:', error);
     return null;
   }
 }
@@ -61,7 +59,6 @@ export function deleteProblemFromStorage(problemTitle) {
     localStorage.removeItem(storageKey);
     return true;
   } catch (error) {
-    console.error('Failed to delete problem from storage:', error);
     return false;
   }
 }
@@ -82,14 +79,12 @@ export function getAllStoredProblems() {
             storageKey: key
           });
         } catch (e) {
-          console.error(`Failed to parse stored problem at ${key}:`, e);
         }
       }
     });
     
     return problems.sort((a, b) => new Date(b.lastModified) - new Date(a.lastModified));
   } catch (error) {
-    console.error('Failed to get all stored problems:', error);
     return [];
   }
 }
@@ -117,7 +112,6 @@ export function saveConfigFilesToStorage(files) {
     localStorage.setItem(STORAGE_KEYS.CONFIG_FILES, JSON.stringify(configData));
     return true;
   } catch (error) {
-    console.error('Failed to save config files to storage:', error);
     return false;
   }
 }
@@ -131,7 +125,6 @@ export function loadConfigFilesFromStorage() {
     const configData = JSON.parse(stored);
     return configData.files;
   } catch (error) {
-    console.error('Failed to load config files from storage:', error);
     return null;
   }
 }

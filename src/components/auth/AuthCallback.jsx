@@ -14,19 +14,14 @@ export default function AuthCallback() {
   const { login } = useAuth();
 
   useEffect(() => {
-    console.log('🔍 AuthCallback mounted, current URL:', window.location.href);
-    console.log('🔍 AuthCallback - environment check - DEV:', import.meta.env.DEV, 'MODE:', import.meta.env.MODE);
     
     const handleCallback = async () => {
       try {
-        console.log('🔍 Starting auth callback...');
         setStep('processing');
         
-        const isTesting = import.meta.env.DEV; 
-        console.log('🔍 Environment check - DEV:', isTesting, 'MODE:', import.meta.env.MODE);
+        const isTesting = import.meta.env.DEV;
         
         if (isTesting) {
-          console.log('🔍 Development mode - using mock data');
           const mockToken = 'mock-github-token-for-testing';
           const mockUserData = {
             id: 12345,
@@ -45,26 +40,16 @@ export default function AuthCallback() {
           login(mockToken, mockUserData);
           
           setTimeout(() => {
-            console.log('🔍 Development mode - navigating to dashboard');
             navigate('/dashboard');
           }, 6000);
           return;
         }
         
-        console.log('🔍 Production mode - checking URL parameters');
         const urlParams = new URLSearchParams(window.location.search);
         const token = urlParams.get('token');
         const userDataStr = urlParams.get('user_data');
         
-        console.log('🔍 URL params - token exists:', !!token, 'user_data exists:', !!userDataStr);
-        console.log('🔍 Full URL params:', Object.fromEntries(urlParams.entries()));
-        
         if (!token || !userDataStr) {
-          console.log('🔍 Missing token or user data - throwing error');
-          console.log('🔍 This might be due to GitHub OAuth flow not working in production');
-          
-          // Fallback to guest mode in production when OAuth fails
-          console.log('🔍 Falling back to guest mode due to OAuth failure');
           const fallbackGuestData = {
             id: 'guest-fallback-' + Date.now(),
             login: 'guest-user',
@@ -80,7 +65,6 @@ export default function AuthCallback() {
           login(fallbackToken, fallbackGuestData);
           
           setTimeout(() => {
-            console.log('🔍 Fallback mode - navigating to dashboard');
             navigate('/dashboard');
           }, 2000);
           return;
@@ -88,15 +72,11 @@ export default function AuthCallback() {
 
         // Parse user data from backend
         const userData = JSON.parse(decodeURIComponent(userDataStr));
-        console.log('🔍 Parsed user data:', userData);
 
         setStep('creating_repo');
         
-        // Create GitHub service and repository
-        console.log('🔍 Creating GitHub service and repository...');
         const githubService = new GitHubService(token);
         const repo = await githubService.createPublicRepository(userData.login);
-        console.log('🔍 Repository created:', repo);
 
         // Save repository info to user data
         userData.repository = repo.full_name;
@@ -108,21 +88,16 @@ export default function AuthCallback() {
         // console.log('🔍 Creating configuration files...');
         // const problemService = new GitHubProblemService(token);
         // await problemService.saveConfigurationFiles(userData.login, repo.name, CONFIG_FILES);
-        // console.log('🔍 Configuration files created');
 
         setStep('finalizing');
         login(token, userData);
-        console.log('🔍 User logged in successfully');
         
         // Redirect to dashboard
         setTimeout(() => {
-          console.log('🔍 Production mode - navigating to dashboard');
           navigate('/dashboard');
         }, 6000);
         
       } catch (err) {
-        console.error('🔍 Auth callback error:', err);
-        console.error('🔍 Error details:', err.message, err.stack);
         setError(err.message);
         setStep('error');
       } finally {

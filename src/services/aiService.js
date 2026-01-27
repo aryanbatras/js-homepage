@@ -36,7 +36,6 @@ class AIService {
         responseTime: responseTime
       };
     } catch (error) {
-      console.error('AI Service Error:', error);
       return {
         error: `Error: ${error.message}`,
         responseTime: Date.now() - startTime

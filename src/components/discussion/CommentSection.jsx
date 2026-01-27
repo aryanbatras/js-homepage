@@ -44,7 +44,6 @@ export default function CommentSection({ problemId }) {
     try {
       await likeComment(commentId);
     } catch (error) {
-      console.error('Error liking comment:', error);
     }
   };
 

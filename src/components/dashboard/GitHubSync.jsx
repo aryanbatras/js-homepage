@@ -71,7 +71,6 @@ export default function GitHubSync({
       setSyncStatus("idle");
       setSyncMessage("");
     } catch (error) {
-      console.error("Failed to prepare push:", error);
       setSyncStatus("error");
       setSyncMessage(`Failed to prepare push: ${error.message}`);
 
@@ -107,7 +106,6 @@ export default function GitHubSync({
         throw new Error("Failed to save configuration files");
       }
     } catch (error) {
-      console.error("Push configuration files failed:", error);
       setSyncStatus("error");
       setSyncMessage(`Failed to push: ${error.message}`);
 
@@ -164,7 +162,6 @@ export default function GitHubSync({
         throw new Error(result.error);
       }
     } catch (error) {
-      console.error("Push to GitHub failed:", error);
       setSyncStatus("error");
       setSyncMessage(`Failed to push: ${error.message}`);
 
@@ -235,7 +232,6 @@ export default function GitHubSync({
         }, 5000);
       }
     } catch (error) {
-      console.error("Pull from GitHub failed:", error);
       setSyncStatus("error");
       setSyncMessage(`Failed to pull: ${error.message}`);
 
@@ -275,7 +271,6 @@ export default function GitHubSync({
         setSyncMessage("");
       }, 3000);
     } catch (error) {
-      console.error("Pull configuration files failed:", error);
       setSyncStatus("error");
       setSyncMessage(`Failed to pull: ${error.message}`);
 

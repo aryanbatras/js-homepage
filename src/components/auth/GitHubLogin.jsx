@@ -7,7 +7,6 @@ import styles from './GitHubLogin.module.sass';
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://github-oauth-worker.batraaryan03.workers.dev';
 
 export default function GitHubLogin() {
-  console.log('🔍 GitHubLogin component mounted');
   
   const [showPermissionDialog, setShowPermissionDialog] = useState(false);
   const [disclaimerAccepted, setDisclaimerAccepted] = useState(false);
@@ -15,28 +14,15 @@ export default function GitHubLogin() {
   const navigate = useNavigate();
   const { login, user, token, isLoading } = useAuth();
 
-  console.log('🔍 GitHubLogin - auth state:', { 
-    user: user, 
-    token: !!token, 
-    isLoading,
-    userEmail: user?.email,
-    userName: user?.name
-  });
-  console.log('🔍 GitHubLogin mounted, current URL:', window.location.href);
-  console.log('🔍 GitHubLogin - environment:', import.meta.env.MODE, import.meta.env.DEV);
-
   const handleGitHubLogin = () => {
-    console.log('🔍 GitHub login button clicked');
     setShowPermissionDialog(true);
   };
 
   const handleGuestLogin = () => {
-    console.log('🔍 Guest login button clicked');
     setShowGuestDialog(true);
   };
 
   const handleGuestAccept = () => {
-    console.log('🔍 Guest login accepted');
     const mockGuestData = {
       id: 'guest-' + Date.now(),
       login: 'guest-user',
@@ -46,22 +32,14 @@ export default function GitHubLogin() {
       isGuest: true
     };
     
-    console.log('🔍 Creating guest user data:', mockGuestData);
     const guestToken = 'guest-token-' + Date.now();
-    
-    console.log('🔍 Calling login function with guest data');
     login(guestToken, mockGuestData);
     
-    console.log('🔍 Guest login called, navigating to dashboard');
     navigate('/dashboard');
   };
 
   const handlePermissionAccept = () => {
-    console.log('🔍 GitHub login permission accepted');
     const authUrl = `${BACKEND_URL}/auth/github`;
-    console.log('🔍 Redirecting to GitHub OAuth:', authUrl);
-    console.log('🔍 Backend URL being used:', BACKEND_URL);
-    console.log('🔍 Current environment:', import.meta.env.MODE);
     
     // Add a small delay to ensure logs are visible
     setTimeout(() => {
@@ -69,16 +47,7 @@ export default function GitHubLogin() {
     }, 100);
   };
 
-  // Add useEffect to monitor auth state changes
   useEffect(() => {
-    console.log('🔍 GitHubLogin useEffect - auth state changed:', {
-      user: user,
-      token: !!token,
-      isLoading,
-      userEmail: user?.email,
-      userName: user?.name,
-      isGuest: user?.isGuest
-    });
   }, [user, token, isLoading]);
 
   return (

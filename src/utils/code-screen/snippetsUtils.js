@@ -1,6 +1,5 @@
 export function parseSnippetsFromContent(snippetsContent) {
   try {
-    console.log('Parsing snippets content:', snippetsContent.substring(0, 200) + '...');
     
     // Multiple regex patterns to handle different formatting styles
     const patterns = [
@@ -22,8 +21,6 @@ export function parseSnippetsFromContent(snippetsContent) {
       configMatch = snippetsContent.match(pattern);
       if (configMatch) {
         configString = configMatch[1];
-        console.log('Config string found with pattern:', pattern.toString());
-        console.log('Config string preview:', configString.substring(0, 200) + '...');
         break;
       }
     }
@@ -37,7 +34,6 @@ export function parseSnippetsFromContent(snippetsContent) {
         try {
           snippetsConfig = new Function(`return ${configString}`)();
         } catch (e1) {
-          console.log('Direct parsing failed, trying alternative method');
           
           // Method 2: Clean up the string and try again
           try {
@@ -47,18 +43,16 @@ export function parseSnippetsFromContent(snippetsContent) {
               .trim();
             snippetsConfig = new Function(`return ${cleanedConfig}`)();
           } catch (e2) {
-            console.log('Cleaned parsing failed, trying eval as last resort');
             
             // Method 3: Last resort with eval (only if we're confident about the content)
             try {
               snippetsConfig = eval(`(${configString})`);
             } catch (e3) {
-              throw new Error('All parsing methods failed');
+              // throw new Error('All parsing methods failed');
             }
           }
         }
         
-        console.log('Successfully parsed snippets:', snippetsConfig);
         
         // Validate that we got a proper config object with expected structure
         if (snippetsConfig && typeof snippetsConfig === 'object') {
@@ -69,10 +63,8 @@ export function parseSnippetsFromContent(snippetsContent) {
           });
           
           if (hasValidStructure || Object.keys(snippetsConfig).length === 0) {
-            console.log('Valid snippet configuration detected');
             return snippetsConfig;
           } else {
-            console.log('Invalid structure, but returning parsed object');
             return snippetsConfig;
           }
         }
@@ -80,7 +72,6 @@ export function parseSnippetsFromContent(snippetsContent) {
         console.error('Failed to parse config object:', parseError);
       }
     } else {
-      console.log('No config object found in content, checking for alternative formats');
       
       // Try to find any JSON-like structure in the content
       const jsonMatch = snippetsContent.match(/({[\s\S]*?})/);
@@ -88,17 +79,14 @@ export function parseSnippetsFromContent(snippetsContent) {
         try {
           const potentialConfig = new Function(`return ${jsonMatch[1]}`)();
           if (potentialConfig && typeof potentialConfig === 'object') {
-            console.log('Found alternative JSON structure, using it');
             return potentialConfig;
           }
         } catch (e) {
-          console.log('Alternative JSON parsing failed');
         }
       }
     }
 
     // Only return defaults as absolute last resort
-    console.log('All parsing attempts failed, returning default snippets');
     return getDefaultSnippets();
   } catch (error) {
     console.error('Critical error parsing snippets:', error);
