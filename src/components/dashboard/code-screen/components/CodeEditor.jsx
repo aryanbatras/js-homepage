@@ -23,9 +23,8 @@ export function CodeEditor({
   const [providers, setProviders] = useState({}); // Track registered providers
   const [editorSettings, setEditorSettings] = useState({}); // Track editor settings
   
-  // Refs to track initialization state
+  // Ref to track initialization state
   const snippetsInitialized = useRef(false);
-  const settingsInitialized = useRef(false);
 
   // Update snippets when snippets.js file content changes (but only when not actively editing AND only on initial load)
   useEffect(() => {
@@ -41,25 +40,21 @@ export function CodeEditor({
     }
   }, [files?.find(file => file.name === 'snippets.js')?.content, activeFile?.name]);
 
-  // Update editor settings when settings.json file content changes (only on initial setup)
+  // Update editor settings when settings.json file content changes
   useEffect(() => {
     const settingsFile = files?.find(file => file.name === 'settings.json');
     if (settingsFile && (!activeFile || activeFile?.name !== 'settings.json')) {
-      // Only parse if we haven't initialized yet
-      if (!settingsInitialized.current) {
-        console.log('Initial setup: Parsing settings from file content');
-        try {
-          const parsedSettings = JSON.parse(settingsFile.content);
-          setEditorSettings(parsedSettings);
-          
-          // Apply font size immediately if available
-          if (parsedSettings.editor?.fontSize) {
-            setFontSize(parsedSettings.editor.fontSize);
-          }
-        } catch (error) {
-          console.error('Error parsing settings.json:', error);
+      console.log('Updating settings from file content');
+      try {
+        const parsedSettings = JSON.parse(settingsFile.content);
+        setEditorSettings(parsedSettings);
+        
+        // Apply font size immediately if available
+        if (parsedSettings.editor?.fontSize) {
+          setFontSize(parsedSettings.editor.fontSize);
         }
-        settingsInitialized.current = true;
+      } catch (error) {
+        console.error('Error parsing settings.json:', error);
       }
     }
   }, [files?.find(file => file.name === 'settings.json')?.content, activeFile?.name]);
@@ -67,7 +62,7 @@ export function CodeEditor({
 
   // Re-register completion providers when snippets change
   useEffect(() => {
-    if (monacoInstance && Object.keys(snippets).length > 0) {
+    if (monacoInstance && snippets && Object.keys(snippets).length > 0) {
       // console.log('Registering completion providers with snippets:', snippets);
       
       // Dispose existing providers first
