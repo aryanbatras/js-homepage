@@ -257,7 +257,12 @@ export default function GitHubSync({
       const configFiles = await githubService.getConfigurationFiles(owner, repo);
 
       if (onFilesFromGitHub) {
-        onFilesFromGitHub(configFiles);
+        const updatedFiles = configFiles.map((file, index) => ({
+          ...file,
+          active: index === 0,
+          default: false,
+        }));
+        onFilesFromGitHub(updatedFiles);
       }
 
       setSyncStatus("success");
