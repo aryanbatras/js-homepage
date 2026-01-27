@@ -17,24 +17,24 @@ export function CodeEditor({
 }) {
 
   const [fontSize, setFontSize] = useState(28);
-  const [snippets, setSnippets] = useState(null);
+  const [snippets, setSnippets] = useState(getDefaultSnippets());
   const [monacoInstance, setMonacoInstance] = useState(null);
   const [providers, setProviders] = useState({}); // Track registered providers
   const [editorSettings, setEditorSettings] = useState({}); // Track editor settings
   
   // Ref to track initialization state
-  const snippetsInitialized = useRef(false);
+  // const snippetsInitialized = useRef(false);
 
   // Update snippets when snippets.js file content changes (but only when not actively editing AND only on initial load)
   useEffect(() => {
     const snippetsFile = files?.find(file => file.name === 'snippets.js');
     if (snippetsFile && (!activeFile || activeFile?.name !== 'snippets.js')) {
       // Only parse if we haven't initialized yet
-      if (!snippetsInitialized.current) {
+      // if (!snippetsInitialized.current) {
         const parsedSnippets = parseSnippetsFromContent(snippetsFile.content);
         setSnippets(parsedSnippets);
-        snippetsInitialized.current = true;
-      }
+      //   snippetsInitialized.current = true;
+      // }
     }
   }, [files?.find(file => file.name === 'snippets.js')?.content, activeFile?.name]);
 
@@ -69,7 +69,7 @@ export function CodeEditor({
       });
       
       const newProviders = {};
-      const languages = ['javascript', 'typescript', 'html', 'css'];
+      const languages = ['javascript', 'typescript', 'html', 'css', 'json', 'markdown'];
       
       languages.forEach(language => {
         const provider = monacoInstance.languages.registerCompletionItemProvider(language, {

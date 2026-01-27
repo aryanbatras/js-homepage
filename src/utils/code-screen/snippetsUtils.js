@@ -5,9 +5,13 @@ export function parseSnippetsFromContent(snippetsContent) {
     const patterns = [
       // Standard export with semicolon
       /export const SNIPPETS_CONFIG\s*=\s*({[\s\S]*?});/m,
-      // Export without semicolon
-      /export const SNIPPETS_CONFIG\s*=\s*({[\s\S]*?})(?=\n\n|\nexport|\n$|$)/m,
-      // More permissive pattern
+      // Export without semicolon, handling comments after closing brace
+      /export const SNIPPETS_CONFIG\s*=\s*({[\s\S]*?})\s*\/\/.*$/m,
+      // Export without semicolon, handling any content after closing brace
+      /export const SNIPPETS_CONFIG\s*=\s*({[\s\S]*?})\s*$/m,
+      // More permissive pattern - capture everything between first { and matching }
+      /export const SNIPPETS_CONFIG\s*=\s*(\{(?:[^{}]*|\{(?:[^{}]*|\{[^{}]*\})*\})*\})/m,
+      // Most permissive - just capture the object after the assignment
       /SNIPPETS_CONFIG\s*=\s*({[\s\S]*?})/m,
       // Fallback pattern that looks for any object assignment
       /const\s+\w*[Cc]onfig\s*=\s*({[\s\S]*?})/m
@@ -17,12 +21,19 @@ export function parseSnippetsFromContent(snippetsContent) {
     let configString = null;
     
     // Try each pattern until we find a match
-    for (const pattern of patterns) {
+    for (let i = 0; i < patterns.length; i++) {
+      const pattern = patterns[i];
       configMatch = snippetsContent.match(pattern);
       if (configMatch) {
         configString = configMatch[1];
+        console.log(`Pattern ${i + 1} matched successfully`);
         break;
       }
+    }
+    
+    if (!configString) {
+      console.error('No pattern matched the snippets content');
+      console.log('Content preview:', snippetsContent.substring(0, 300));
     }
     
     if (configString) {
@@ -48,7 +59,35 @@ export function parseSnippetsFromContent(snippetsContent) {
             try {
               snippetsConfig = eval(`(${configString})`);
             } catch (e3) {
-              // throw new Error('All parsing methods failed');
+              // Method 4: Last resort - manual brace balancing
+              try {
+                const startIndex = snippetsContent.indexOf('{');
+                if (startIndex !== -1) {
+                  let braceCount = 0;
+                  let endIndex = -1;
+                  
+                  for (let i = startIndex; i < snippetsContent.length; i++) {
+                    if (snippetsContent[i] === '{') {
+                      braceCount++;
+                    } else if (snippetsContent[i] === '}') {
+                      braceCount--;
+                      if (braceCount === 0) {
+                        endIndex = i + 1;
+                        break;
+                      }
+                    }
+                  }
+                  
+                  if (endIndex !== -1) {
+                    const balancedObject = snippetsContent.substring(startIndex, endIndex);
+                    snippetsConfig = new Function(`return ${balancedObject}`)();
+                    console.log('Manual brace balancing succeeded');
+                  }
+                }
+              } catch (e4) {
+                console.error('All parsing methods failed');
+                return getDefaultSnippets();
+              }
             }
           }
         }
@@ -56,6 +95,8 @@ export function parseSnippetsFromContent(snippetsContent) {
         
         // Validate that we got a proper config object with expected structure
         if (snippetsConfig && typeof snippetsConfig === 'object') {
+          console.log('Successfully parsed snippets config:', Object.keys(snippetsConfig));
+          
           // Ensure it has at least some language keys or snippet arrays
           const hasValidStructure = Object.keys(snippetsConfig).some(key => {
             const value = snippetsConfig[key];
@@ -63,8 +104,10 @@ export function parseSnippetsFromContent(snippetsContent) {
           });
           
           if (hasValidStructure || Object.keys(snippetsConfig).length === 0) {
+            console.log('Returning parsed snippets config');
             return snippetsConfig;
           } else {
+            console.log('Config has no valid structure, but returning anyway');
             return snippetsConfig;
           }
         }
@@ -176,7 +219,7 @@ export function createMonacoSuggestions(snippetsConfig, monaco) {
     
     suggestions[language] = languageSnippets.map(snippet => ({
       label: snippet.label,
-      kind: monaco.languages.CompletionItemKind[snippet.kind.toUpperCase()] || monaco.languages.CompletionItemKind.Function,
+      kind: monaco.languages.CompletionItemKind.Snippet || monaco.languages.CompletionItemKind[snippet.kind.toUpperCase()],
       insertText: snippet.insertText,
       insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
       documentation: snippet.documentation
