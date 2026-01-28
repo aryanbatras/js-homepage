@@ -121,6 +121,7 @@ export const updateUserStreak = async (username) => {
       let newStreak = streakData.currentStreak;
       let newLongestStreak = streakData.longestStreak;
       let streakHistory = streakData.streakHistory || [];
+      let milestones = streakData.milestones || [];
       
       if (lastActive === today) {
         // Already active today, no change
@@ -138,32 +139,33 @@ export const updateUserStreak = async (username) => {
         newLongestStreak = newStreak;
       }
       
-      // Add to history
-      streakHistory.push({
-        date: serverTimestamp(),
+      // Add to history - create new array without serverTimestamp inside
+      const newHistoryEntry = {
+        date: new Date(),
         streak: newStreak
-      });
+      };
       
       // Check for milestones
       if (newStreak === 7 || newStreak === 30 || newStreak === 100 || newStreak === 365) {
-        const milestones = streakData.milestones || [];
-        milestones.push({
+        const newMilestone = {
           streak: newStreak,
-          achievedAt: serverTimestamp()
-        });
+          achievedAt: new Date()
+        };
+        milestones = [...milestones, newMilestone];
       }
       
       await updateDoc(streakRef, {
         currentStreak: newStreak,
         longestStreak: newLongestStreak,
         lastActiveDate: serverTimestamp(),
-        streakHistory: streakHistory
+        streakHistory: [...streakHistory, newHistoryEntry],
+        milestones: milestones
       });
       
       return {
         currentStreak: newStreak,
         longestStreak: newLongestStreak,
-        isNewMilestone: streakData.milestones ? streakData.milestones.length < streakData.milestones.length + 1 : true
+        isNewMilestone: milestones.length > (streakData.milestones?.length || 0)
       };
     } else {
       // Create streak document if it doesn't exist
@@ -172,7 +174,7 @@ export const updateUserStreak = async (username) => {
         longestStreak: 1,
         lastActiveDate: serverTimestamp(),
         streakHistory: [{
-          date: serverTimestamp(),
+          date: new Date(),
           streak: 1
         }],
         milestones: []

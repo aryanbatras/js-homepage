@@ -23,25 +23,38 @@ export default function ProblemPage({
   // Listen for code execution to detect solved problems
   useEffect(() => {
     const handleCodeExecution = async (event) => {
-      const { success, error } = event.detail;
+      const { success, error, output } = event.detail;
       
-      if (selectProblem && success && !error) {
-        // Problem was solved successfully
-        await solveProblem({
-          id: selectProblem.title,
-          title: selectProblem.title,
-          category: selectProblem.category || 'general',
-          difficulty: selectProblem.difficulty || 'easy',
-          xp: calculateXP(selectProblem.difficulty)
-        });
-      } else if (selectProblem && !success) {
-        // Problem was attempted but failed
-        await attemptProblem({
-          id: selectProblem.title,
-          title: selectProblem.title,
-          category: selectProblem.category || 'general',
-          difficulty: selectProblem.difficulty || 'easy'
-        });
+      if (selectProblem) {
+        // Check if there are actual errors in the output
+        const hasErrors = error || (output && output.some(out => 
+          out.includes('Error:') || 
+          out.includes('TypeError:') || 
+          out.includes('ReferenceError:') ||
+          out.includes('SyntaxError:') ||
+          out.includes('Cannot read properties')
+        ));
+        
+        if (success && !hasErrors) {
+          // Problem was solved successfully
+          console.log('Problem solved successfully:', selectProblem.title);
+          await solveProblem({
+            id: selectProblem.title,
+            title: selectProblem.title,
+            category: selectProblem.category || 'general',
+            difficulty: selectProblem.difficulty || 'easy',
+            xp: calculateXP(selectProblem.difficulty)
+          });
+        } else {
+          // Problem was attempted but failed or had errors
+          console.log('Problem attempted with errors:', selectProblem.title, hasErrors);
+          await attemptProblem({
+            id: selectProblem.title,
+            title: selectProblem.title,
+            category: selectProblem.category || 'general',
+            difficulty: selectProblem.difficulty || 'easy'
+          });
+        }
       }
     };
 

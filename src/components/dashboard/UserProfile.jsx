@@ -199,8 +199,8 @@ export default function UserProfile({ isOpen, onClose }) {
     const totalXP = progress?.xpEarned || 0;
     const currentLevel = progress?.level || 1;
     
-    // Calculate success rate
-    const successRate = attemptedCount > 0 ? (solvedCount / attemptedCount) * 100 : 0;
+    // Calculate success rate - cap at 100%
+    const successRate = attemptedCount > 0 ? Math.min((solvedCount / attemptedCount) * 100, 100) : 0;
     
     // Get difficulty progress from actual data
     const difficultyProgress = progress?.difficultyProgress || { 
@@ -211,53 +211,59 @@ export default function UserProfile({ isOpen, onClose }) {
 
     // Calculate XP needed for next level (simple formula: level * 100)
     const xpNeeded = currentLevel * 100;
-    const xpProgress = (totalXP % xpNeeded) / xpNeeded * 100;
+    const currentXPInLevel = totalXP % xpNeeded;
+    const xpProgress = (currentXPInLevel / xpNeeded) * 100;
 
     return (
       <div className={styles.progress}>
         <div className={styles.progressOverview}>
-          <div className={styles.progressCard}>
-            <h3>Problems Solved</h3>
+          <div className={`${styles.progressCard} ${styles.highlighted}`}>
+            <h3>🎯 Level Progress</h3>
             <div className={styles.progressBar}>
               <div 
-                className={styles.progressFill} 
-                style={{ width: `${Math.min(successRate, 100)}%` }}
-              />
-            </div>
-            <div className={styles.progressText}>
-              {solvedCount} problems solved • {attemptedCount} attempted
-            </div>
-          </div>
-          
-          <div className={styles.progressCard}>
-            <h3>Success Rate</h3>
-            <div className={styles.progressBar}>
-              <div 
-                className={styles.progressFill} 
-                style={{ width: `${successRate}%` }}
-              />
-            </div>
-            <div className={styles.progressText}>
-              {Math.round(successRate)}% success rate
-            </div>
-          </div>
-          
-          <div className={styles.progressCard}>
-            <h3>Level Progress</h3>
-            <div className={styles.progressBar}>
-              <div 
-                className={styles.progressFill} 
+                className={`${styles.progressFill} ${styles.levelProgress}`} 
                 style={{ width: `${xpProgress}%` }}
               />
             </div>
             <div className={styles.progressText}>
-              Level {currentLevel} • {totalXP} XP
+              Level {currentLevel} • {totalXP} XP • {Math.round(xpProgress)}% to next level
+            </div>
+          </div>
+          
+          <div className={styles.progressCard}>
+            <h3>✅ Problems Solved</h3>
+            <div className={styles.progressBar}>
+              <div 
+                className={`${styles.progressFill} ${styles.successProgress}`} 
+                style={{ width: `${successRate}%` }}
+              />
+            </div>
+            <div className={styles.progressText}>
+              {solvedCount} solved • {attemptedCount} attempted • {Math.round(successRate)}% success rate
+            </div>
+          </div>
+          
+          <div className={styles.progressCard}>
+            <h3>📊 Overall Stats</h3>
+            <div className={styles.statsGrid}>
+              <div className={styles.stat}>
+                <span className={styles.statValue}>{solvedCount}</span>
+                <span className={styles.statLabel}>Problems Solved</span>
+              </div>
+              <div className={styles.stat}>
+                <span className={styles.statValue}>{Math.round(successRate)}%</span>
+                <span className={styles.statLabel}>Success Rate</span>
+              </div>
+              <div className={styles.stat}>
+                <span className={styles.statValue}>{totalXP}</span>
+                <span className={styles.statLabel}>Total XP</span>
+              </div>
             </div>
           </div>
         </div>
 
         <div className={styles.difficultyProgress}>
-          <h3>Progress by Difficulty</h3>
+          <h3>🎮 Progress by Difficulty</h3>
           <div className={styles.difficultyGrid}>
             <div className={styles.difficultyCard}>
               <div className={styles.difficultyLabel}>Easy</div>

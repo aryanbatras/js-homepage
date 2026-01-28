@@ -188,12 +188,15 @@ export const useUserProfile = () => {
   const checkAndAwardAchievements = async (username, problemData, streakResult) => {
     try {
       const achievementsToAward = [];
+      const currentSolvedCount = solvedProblems.length;
+      const currentStreak = streakResult?.currentStreak || 0;
+      const totalXP = progress?.xpEarned || 0;
       
-      // First problem solved
-      if (solvedProblems.length === 0) {
+      // Problem solving milestones
+      if (currentSolvedCount === 0) {
         achievementsToAward.push({
           id: 'first-problem',
-          name: 'Hello World!',
+          name: '🎯 Hello World!',
           description: 'Solved your first problem',
           icon: '🎯',
           category: 'milestone',
@@ -202,11 +205,10 @@ export const useUserProfile = () => {
         });
       }
       
-      // 10 problems solved
-      if (solvedProblems.length === 9) {
+      if (currentSolvedCount === 9) {
         achievementsToAward.push({
           id: 'ten-problems',
-          name: 'Getting Started',
+          name: '🌟 Getting Started',
           description: 'Solved 10 problems',
           icon: '🌟',
           category: 'milestone',
@@ -215,58 +217,156 @@ export const useUserProfile = () => {
         });
       }
       
-      // 100 problems solved
-      if (solvedProblems.length === 99) {
+      if (currentSolvedCount === 24) {
         achievementsToAward.push({
-          id: 'hundred-problems',
-          name: 'JavaScript Master',
-          description: 'Solved 100 problems',
-          icon: '🏆',
+          id: 'twenty-five-problems',
+          name: '🚀 Rising Star',
+          description: 'Solved 25 problems',
+          icon: '🚀',
+          category: 'milestone',
+          rarity: 'uncommon',
+          xpBonus: 50
+        });
+      }
+      
+      if (currentSolvedCount === 49) {
+        achievementsToAward.push({
+          id: 'fifty-problems',
+          name: '⭐ Problem Solver',
+          description: 'Solved 50 problems',
+          icon: '⭐',
           category: 'milestone',
           rarity: 'rare',
+          xpBonus: 75
+        });
+      }
+      
+      if (currentSolvedCount === 99) {
+        achievementsToAward.push({
+          id: 'hundred-problems',
+          name: '🏆 JavaScript Master',
+          description: 'Solved 100 problems',
+          icon: '�',
+          category: 'milestone',
+          rarity: 'epic',
           xpBonus: 100
         });
       }
       
       // Streak achievements
-      if (streakResult && streakResult.isNewMilestone) {
-        const streak = streakResult.currentStreak;
-        let badgeName = '';
-        let icon = '🔥';
-        let rarity = 'common';
-        let xpBonus = 20;
-        
-        if (streak === 7) {
-          badgeName = 'Week Warrior';
-          icon = '📅';
-          rarity = 'common';
-          xpBonus = 20;
-        } else if (streak === 30) {
-          badgeName = 'Monthly Master';
-          icon = '🗓️';
-          rarity = 'rare';
-          xpBonus = 50;
-        } else if (streak === 100) {
-          badgeName = 'Century Streak';
-          icon = '💎';
-          rarity = 'epic';
-          xpBonus = 200;
-        } else if (streak === 365) {
-          badgeName = 'Year of Code';
-          icon = '🌟';
+      if (currentStreak === 3 && !achievements.some(a => a.id === 'three-day-streak')) {
+        achievementsToAward.push({
+          id: 'three-day-streak',
+          name: '🔥 On Fire!',
+          description: '3 day solving streak',
+          icon: '🔥',
+          category: 'streak',
+          rarity: 'common',
+          xpBonus: 15
+        });
+      }
+      
+      if (currentStreak === 7 && !achievements.some(a => a.id === 'week-streak')) {
+        achievementsToAward.push({
+          id: 'week-streak',
+          name: '💪 Weekly Warrior',
+          description: '7 day solving streak',
+          icon: '💪',
+          category: 'streak',
+          rarity: 'uncommon',
+          xpBonus: 30
+        });
+      }
+      
+      if (currentStreak === 30 && !achievements.some(a => a.id === 'month-streak')) {
+        achievementsToAward.push({
+          id: 'month-streak',
+          name: '👑 Monthly Master',
+          description: '30 day solving streak',
+          icon: '👑',
+          category: 'streak',
+          rarity: 'epic',
+          xpBonus: 100
+        });
+      }
+      
+      // XP achievements
+      if (totalXP >= 100 && totalXP < 200 && !achievements.some(a => a.id === 'century-xp')) {
+        achievementsToAward.push({
+          id: 'century-xp',
+          name: '💎 Century Club',
+          description: 'Earned 100+ XP',
+          icon: '💎',
+          category: 'xp',
+          rarity: 'uncommon',
+          xpBonus: 20
+        });
+      }
+      
+      if (totalXP >= 500 && totalXP < 600 && !achievements.some(a => a.id === 'half-thousand-xp')) {
+        achievementsToAward.push({
+          id: 'half-thousand-xp',
+          name: '🌟 XP Hunter',
+          description: 'Earned 500+ XP',
+          icon: '🌟',
+          category: 'xp',
+          rarity: 'rare',
+          xpBonus: 50
+        });
+      }
+      
+      if (totalXP >= 1000 && !achievements.some(a => a.id === 'thousand-xp')) {
+        achievementsToAward.push({
+          id: 'thousand-xp',
+          name: '🏆 XP Legend',
+          description: 'Earned 1000+ XP',
+          icon: '🏆',
+          category: 'xp',
           rarity: 'legendary',
-          xpBonus = 500;
+          xpBonus: 200
+        });
+      }
+      
+      // Difficulty-specific achievements
+      if (problemData.difficulty === 'hard') {
+        const hardSolved = solvedProblems.filter(p => p.difficulty === 'hard').length;
+        if (hardSolved === 1) {
+          achievementsToAward.push({
+            id: 'first-hard',
+            name: '💪 Hard Mode Activated',
+            description: 'Solved your first hard problem',
+            icon: '💪',
+            category: 'difficulty',
+            rarity: 'uncommon',
+            xpBonus: 20
+          });
         }
         
-        if (badgeName) {
+        if (hardSolved === 10) {
           achievementsToAward.push({
-            id: `${streak}-day-streak`,
-            name: badgeName,
-            description: `Maintained a ${streak}-day streak`,
-            icon: icon,
-            category: 'streak',
-            rarity: rarity,
-            xpBonus: xpBonus
+            id: 'ten-hard',
+            name: '🔥 Hard Core',
+            description: 'Solved 10 hard problems',
+            icon: '🔥',
+            category: 'difficulty',
+            rarity: 'rare',
+            xpBonus: 50
+          });
+        }
+      }
+      
+      // Consistency achievements
+      if (currentSolvedCount > 0 && currentSolvedCount % 5 === 0) {
+        const achievementId = `consistent-${currentSolvedCount}`;
+        if (!achievements.some(a => a.id === achievementId)) {
+          achievementsToAward.push({
+            id: achievementId,
+            name: '📈 Consistent Coder',
+            description: `Solved ${currentSolvedCount} problems consistently`,
+            icon: '📈',
+            category: 'consistency',
+            rarity: currentSolvedCount < 20 ? 'common' : currentSolvedCount < 50 ? 'uncommon' : 'rare',
+            xpBonus: Math.floor(currentSolvedCount / 5) * 5
           });
         }
       }
@@ -276,8 +376,10 @@ export const useUserProfile = () => {
         await addAchievement(username, achievement);
       }
       
+      return achievementsToAward;
     } catch (error) {
       console.error('Error checking achievements:', error);
+      return [];
     }
   };
 
