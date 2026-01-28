@@ -219,6 +219,10 @@ export default function Dashboard() {
     return <div
       className={styles.screenResizer}
       onMouseDown={(e) => setIsDragging(true)}
+      onTouchStart={(e) => {
+        e.preventDefault();
+        setIsDragging(true);
+      }}
     >
       <CiMenuKebab />
     </div>;
@@ -228,6 +232,10 @@ export default function Dashboard() {
     return <div
       className={styles.aiChatResizer}
       onMouseDown={startAIChatResizing}
+      onTouchStart={(e) => {
+        e.preventDefault();
+        startAIChatResizing();
+      }}
     />;
   }
 }

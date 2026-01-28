@@ -22,7 +22,31 @@ export function useVerticalResizer() {
       setVerticalResizer(constrainedHeight);
     };
 
+    const handleTouchMove = (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      
+      const touch = e.touches[0];
+      const container = document.querySelector(`.${styles.code_screen}`);
+      if (!container) return;
+      
+      const containerRect = container.getBoundingClientRect();
+      const containerHeight = containerRect.height;
+      
+      const touchY = touch.clientY - containerRect.top;
+      const newHeightPercent = (touchY / containerHeight) * 100;
+      
+      const constrainedHeight = Math.max(0, Math.min(100, newHeightPercent));
+      setVerticalResizer(constrainedHeight);
+    };
+
     const handleMouseUp = () => {
+      setIsDragging(false);
+      document.body.style.userSelect = '';
+      document.body.style.cursor = '';
+    };
+
+    const handleTouchEnd = () => {
       setIsDragging(false);
       document.body.style.userSelect = '';
       document.body.style.cursor = '';
@@ -31,13 +55,13 @@ export function useVerticalResizer() {
     if (isDragging) {
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
+      document.addEventListener('touchmove', handleTouchMove, { passive: false });
+      document.addEventListener('touchend', handleTouchEnd);
       document.body.style.userSelect = 'none';
       document.body.style.cursor = 'row-resize';
       
-      // Prevent text selection in all elements
       document.addEventListener('selectstart', preventSelection);
       
-      // Prevent iframe interaction during drag
       const iframes = document.querySelectorAll('iframe');
       iframes.forEach(iframe => {
         iframe.style.pointerEvents = 'none';
@@ -46,11 +70,12 @@ export function useVerticalResizer() {
       return () => {
         document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseup', handleMouseUp);
+        document.removeEventListener('touchmove', handleTouchMove);
+        document.removeEventListener('touchend', handleTouchEnd);
         document.removeEventListener('selectstart', preventSelection);
         document.body.style.userSelect = '';
         document.body.style.cursor = '';
         
-        // Restore iframe interaction
         const iframes = document.querySelectorAll('iframe');
         iframes.forEach(iframe => {
           iframe.style.pointerEvents = '';

@@ -381,6 +381,10 @@ export default function DashboardCodeScreen({ screenResizer, selectedProblem, ha
       <div
         className={styles.verticalResizer}
         onMouseDown={(e) => setIsDragging(true)}
+        onTouchStart={(e) => {
+          e.preventDefault();
+          setIsDragging(true);
+        }}
         onMouseMove={(e) => e.stopPropagation()}
         onMouseUp={() => setIsDragging(false)}
       >
