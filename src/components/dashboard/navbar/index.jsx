@@ -11,6 +11,8 @@ import { LuLayoutDashboard } from "react-icons/lu";
 import { IoSettings } from "react-icons/io5";
 import GitHubSync from "../GitHubSync";
 import { Link } from "react-router-dom";
+import UserProfile from "../UserProfile";
+import { useAuth } from "../../../contexts/AuthContext";
 
 export default function DashboardNavbar({
   isProblemsPanelOpen,
@@ -31,6 +33,7 @@ export default function DashboardNavbar({
 }) {
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isProfileVisible, setIsProfileVisible] = useState(false);
+  const { user } = useAuth();
 
   const handleRun = () => {
     window.dispatchEvent(new CustomEvent("runCode"));
@@ -79,12 +82,10 @@ export default function DashboardNavbar({
   };
 
   const toggleProfile = () => {
-    setIsProfileVisible(!isProfileVisible);
-    window.dispatchEvent(
-      new CustomEvent("toggleProfile", {
-        detail: { isProfileVisible: !isProfileVisible },
-      }),
-    );
+    // Only show profile for authenticated users (not guests)
+    if (user && !user.isGuest) {
+      setIsProfileVisible(!isProfileVisible);
+    }
   };
   return (
     <nav className={styles.navbar}>
@@ -137,10 +138,12 @@ export default function DashboardNavbar({
             <IoSettings />
             <div className={styles.icon__overlay}>Settings</div>
           </div>
-          {/* <div className={styles.icon__small__left} onClick={toggleProfile}>
-            <FaUser />
-            <div className={styles.icon__overlay}>Profile</div>
-          </div> */}
+          {user && !user.isGuest && (
+            <div className={styles.icon__small} onClick={toggleProfile}>
+              <FaUser />
+              <div className={styles.icon__overlay}>Profile</div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -153,6 +156,13 @@ export default function DashboardNavbar({
           hasStoredVersion={hasStoredVersion}
         />
       </div>
+
+      {isProfileVisible && (
+        <UserProfile 
+          isOpen={isProfileVisible} 
+          onClose={() => setIsProfileVisible(false)} 
+        />
+      )}
     </nav>
   );
 }

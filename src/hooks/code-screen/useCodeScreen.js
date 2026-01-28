@@ -59,6 +59,8 @@ export function useCodeScreen(files) {
     setConsoleOutput([]);
     const originalLog = console.log;
     const outputs = [];
+    let hasError = false;
+    
     console.log = (...args) => {
       outputs.push(args.join(" "));
       originalLog(...args);
@@ -72,6 +74,7 @@ export function useCodeScreen(files) {
         executeCode(); 
         setConsoleOutput(outputs);
       } catch (error) {
+        hasError = true;
         if (error.message.includes("Unexpected token '<'")) {
           setConsoleOutput([
             "Note: This console is for pure JavaScript output. If you're trying to observe React JS behavior, please use the preview to see the output.",
@@ -82,6 +85,16 @@ export function useCodeScreen(files) {
         }
       } finally {
         console.log = originalLog;
+        
+        // Emit code execution result for problem solving detection
+        window.dispatchEvent(new CustomEvent('codeExecutionResult', {
+          detail: {
+            success: !hasError,
+            error: hasError ? (outputs[0] || 'Unknown error') : null,
+            output: outputs
+          }
+        }));
+        
         if (outputs.length === 0) {
           // Check if we're in tests.js file
           const activeFile = files.find(file => file.active);
@@ -99,7 +112,17 @@ export function useCodeScreen(files) {
         }
       }
     } else {
+      hasError = true;
       setConsoleOutput(["Error: No active JavaScript file found!"]);
+      
+      // Emit error result
+      window.dispatchEvent(new CustomEvent('codeExecutionResult', {
+        detail: {
+          success: false,
+          error: 'No active JavaScript file found!',
+          output: []
+        }
+      }));
     }
     setConsoleState(true);
     hidePreview();

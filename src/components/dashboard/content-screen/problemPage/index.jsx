@@ -1,12 +1,14 @@
 import styles from "./index.module.sass";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { FiCopy, FiCheck } from "react-icons/fi";
 import Navbar from "../navbar";
 import CommentSection from "../../../discussion/CommentSection";
 import SubmissionSection from "../../../discussion/SubmissionSection";
+import BookmarkButton from "../../BookmarkButton";
+import { useUserProfile } from "../../../../hooks/useUserProfile.js";
 export default function ProblemPage({ 
   selectProblem, 
   setSelectProblem, 
@@ -16,6 +18,45 @@ export default function ProblemPage({
   data 
 }) {
   const [navbarOption, setNavbarOption] = useState("description");
+  const { solveProblem, attemptProblem } = useUserProfile();
+  
+  // Listen for code execution to detect solved problems
+  useEffect(() => {
+    const handleCodeExecution = async (event) => {
+      const { success, error } = event.detail;
+      
+      if (selectProblem && success && !error) {
+        // Problem was solved successfully
+        await solveProblem({
+          id: selectProblem.id || selectProblem.title,
+          title: selectProblem.title,
+          category: selectProblem.category || 'general',
+          difficulty: selectProblem.difficulty || 'easy',
+          xp: calculateXP(selectProblem.difficulty)
+        });
+      } else if (selectProblem && !success) {
+        // Problem was attempted but failed
+        await attemptProblem({
+          id: selectProblem.id || selectProblem.title,
+          title: selectProblem.title,
+          category: selectProblem.category || 'general',
+          difficulty: selectProblem.difficulty || 'easy'
+        });
+      }
+    };
+
+    window.addEventListener('codeExecutionResult', handleCodeExecution);
+    return () => window.removeEventListener('codeExecutionResult', handleCodeExecution);
+  }, [selectProblem, solveProblem, attemptProblem]);
+
+  const calculateXP = (difficulty) => {
+    switch (difficulty?.toLowerCase()) {
+      case 'easy': return 10;
+      case 'medium': return 25;
+      case 'hard': return 50;
+      default: return 10;
+    }
+  };
   
   const goToPreviousProblem = () => {
     const newIndex = selectedProblemIndex - 1;
@@ -37,11 +78,16 @@ export default function ProblemPage({
   return (
     <div className={styles.container}>
       <Navbar setNavbarOption={setNavbarOption} currentOption={navbarOption} />
-      <button className={styles.button} onClick={() => {setSelectedProblemIndex(null); onToggleProblemsPanel();}}>
-        <MdOutlineArrowBackIosNew />
-        <span>Back to Problems</span>
-      </button>
-      <h1 className={styles.title}>{selectProblem?.title}</h1>
+      <div className={styles.problemHeader}>
+        <button className={styles.button} onClick={() => {setSelectedProblemIndex(null); onToggleProblemsPanel();}}>
+          <MdOutlineArrowBackIosNew />
+          <span>Back to Problems</span>
+        </button>
+        <div className={styles.titleSection}>
+          <h1 className={styles.title}>{selectProblem?.title}</h1>
+          {selectProblem && <BookmarkButton problem={selectProblem} />}
+        </div>
+      </div>
 
       {navbarOption === "description" && (
         <>

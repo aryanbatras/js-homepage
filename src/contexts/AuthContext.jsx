@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import { initializeUserProfile } from '../services/userProfile';
 
 const AuthContext = createContext();
 
@@ -38,16 +39,20 @@ export function AuthProvider({ children }) {
     setIsLoading(false);
   }, []);
 
-  const login = (githubToken, userData) => {
-    
+  const login = async (githubToken, userData) => {
     setToken(githubToken);
     setUser(userData);
     
-    // Only save to cookies for real GitHub users, not guest users
+    // Initialize user profile in Firestore for real GitHub users
     if (!userData.isGuest) {
+      try {
+        await initializeUserProfile(userData);
+      } catch (error) {
+        console.error('Error initializing user profile:', error);
+      }
+      
       Cookies.set('github_token', githubToken, { expires: 30 });
       Cookies.set('github_user', JSON.stringify(userData), { expires: 30 });
-    } else {
     }
     
     setTimeout(() => {

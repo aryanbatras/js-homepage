@@ -1,0 +1,47 @@
+.bookmarkButton
+  display: flex
+  align-items: center
+  gap: 0.5rem
+  background: transparent
+  border: 1px solid rgba(0, 0, 0, 0.1)
+  color: rgba(0, 0, 0, 0.6)
+  padding: 0.5rem 1rem
+  font-size: 0.875rem
+  font-weight: 400
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+  cursor: pointer
+  border-radius: 6px
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+  letter-spacing: 0.01em
+
+  @media (max-width: 768px)
+    padding: 0.375rem 0.75rem
+    font-size: 0.8125rem
+
+  &:hover:not(:disabled)
+    background: rgba(0, 0, 0, 0.05)
+    border-color: rgba(0, 0, 0, 0.2)
+    color: rgba(0, 0, 0, 0.8)
+
+  &.bookmarked
+    background: rgba(242, 155, 5, 0.1)
+    border-color: rgba(242, 155, 5, 0.3)
+    color: #f29b05
+
+    &:hover:not(:disabled)
+      background: rgba(242, 155, 5, 0.2)
+      border-color: rgba(242, 155, 5, 0.4)
+
+  &:disabled
+    opacity: 0.5
+    cursor: not-allowed
+
+  svg
+    font-size: 0.875rem
+
+    @media (max-width: 768px)
+      font-size: 0.75rem
+
+  span
+    @media (max-width: 768px)
+      display: none
