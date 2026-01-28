@@ -282,7 +282,7 @@ export default function UserProfile({ isOpen, onClose }) {
                 </span>
                 <span className={styles.category}>{bookmark.category}</span>
                 <span className={styles.bookmarkedDate}>
-                  Bookmarked {new Date(bookmarkedAt.toDate()).toLocaleDateString()}
+                  Bookmarked {new Date(bookmark.bookmarkedAt.toDate()).toLocaleDateString()}
                 </span>
               </div>
               {bookmark.notes && (
