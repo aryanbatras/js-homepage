@@ -23,13 +23,15 @@ function Navbar() {
         <FaSquareJs className="navbar__jsicon" />
       </a>
       <div className={`navbar__links ${isMobileMenuOpen ? 'navbar__links--open' : ''}`}>
-        <button 
-          className="navbar__mobile-close"
-          onClick={toggleMobileMenu}
-          aria-label="Close mobile menu"
-        >
-          <FiX />
-        </button>
+        {isMobileMenuOpen && (
+          <button 
+            className="navbar__mobile-close"
+            onClick={toggleMobileMenu}
+            aria-label="Close mobile menu"
+          >
+            <FiX />
+          </button>
+        )}
         <a href="/js-homepage/" className="navbar__link" onClick={() => setIsMobileMenuOpen(false)}>
           <span>Home</span>
         </a>
