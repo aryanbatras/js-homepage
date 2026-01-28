@@ -15,7 +15,7 @@ export default function BookmarkButton({ problem }) {
 
   const checkBookmarkStatus = async () => {
     try {
-      const bookmarked = await isBookmarked(problem.id);
+      const bookmarked = await isBookmarked(problem.title);
       setIsBookmarkedState(bookmarked);
     } catch (error) {
       console.error('Error checking bookmark status:', error);
@@ -28,11 +28,11 @@ export default function BookmarkButton({ problem }) {
     setLoading(true);
     try {
       if (isBookmarkedState) {
-        await removeBookmark(problem.id);
+        await removeBookmark(problem.title);
         setIsBookmarkedState(false);
       } else {
         await bookmarkProblem({
-          id: problem.id,
+          id: problem.title,
           title: problem.title,
           category: problem.category || 'general',
           difficulty: problem.difficulty || 'easy'

@@ -28,7 +28,7 @@ export default function ProblemPage({
       if (selectProblem && success && !error) {
         // Problem was solved successfully
         await solveProblem({
-          id: selectProblem.id || selectProblem.title,
+          id: selectProblem.title,
           title: selectProblem.title,
           category: selectProblem.category || 'general',
           difficulty: selectProblem.difficulty || 'easy',
@@ -37,7 +37,7 @@ export default function ProblemPage({
       } else if (selectProblem && !success) {
         // Problem was attempted but failed
         await attemptProblem({
-          id: selectProblem.id || selectProblem.title,
+          id: selectProblem.title,
           title: selectProblem.title,
           category: selectProblem.category || 'general',
           difficulty: selectProblem.difficulty || 'easy'
