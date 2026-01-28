@@ -1,10 +1,10 @@
-import { doc, setDoc, getDoc, updateDoc, arrayUnion, arrayRemove, increment, serverTimestamp, collection, query, where, orderBy, limit, getDocs, onSnapshot } from 'firebase/firestore';
+import { doc, setDoc, getDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove, increment, serverTimestamp, collection, query, where, orderBy, limit, getDocs, onSnapshot } from 'firebase/firestore';
 import { db } from '../config/firebase';
 
 // Initialize user profile when they first login
 export const initializeUserProfile = async (githubUser) => {
   try {
-    const userRef = doc(db, 'USERS', githubUser.login.toLowerCase());
+    const userRef = doc(db, 'users', githubUser.login.toLowerCase());
     const userDoc = await getDoc(userRef);
     
     if (!userDoc.exists()) {
@@ -41,43 +41,25 @@ export const initializeUserProfile = async (githubUser) => {
 const initializeUserSubcollections = async (username) => {
   try {
     // Initialize profile settings
-    const profileRef = doc(db, 'USERS', username, 'profile', 'settings');
+    const profileRef = doc(db, 'users', username, 'profile', 'settings');
     await setDoc(profileRef, {
       theme: 'dark',
       notifications: true,
       publicProfile: true,
       showStreak: true,
-      showProgress: true,
-      createdAt: serverTimestamp()
+      showProgress: true
     });
 
-    // Initialize streak
-    const streakRef = doc(db, 'USERS', username, 'streak', 'current');
-    await setDoc(streakRef, {
-      currentStreak: 0,
-      longestStreak: 0,
-      lastActiveDate: null,
-      streakHistory: [],
-      milestones: [],
-      createdAt: serverTimestamp()
-    });
-
-    // Initialize progress
-    const progressRef = doc(db, 'USERS', username, 'progress', 'overview');
-    await setDoc(progressRef, {
-      totalProblemsSolved: 0,
-      problemsAttempted: 0,
-      successRate: 0,
-      favoriteCategories: [],
-      difficultyProgress: {
-        easy: { solved: 0, total: 0 },
-        medium: { solved: 0, total: 0 },
-        hard: { solved: 0, total: 0 }
-      },
-      timeSpent: 0,
-      xpEarned: 0,
-      createdAt: serverTimestamp()
-    });
+    // Initialize empty collections
+    const collections = ['achievements', 'streak', 'progress', 'problemsSolved', 'bookmarks', 'activity'];
+    
+    for (const collectionName of collections) {
+      const initRef = doc(db, 'users', username, collectionName, 'init');
+      await setDoc(initRef, {
+        initialized: true,
+        createdAt: serverTimestamp()
+      });
+    }
 
     return true;
   } catch (error) {
@@ -88,7 +70,7 @@ const initializeUserSubcollections = async (username) => {
 
 // Get user profile data
 export const getUserProfile = (username, callback) => {
-  const userRef = doc(db, 'USERS', username.toLowerCase());
+  const userRef = doc(db, 'users', username.toLowerCase());
   
   return onSnapshot(userRef, (doc) => {
     if (doc.exists()) {
@@ -102,7 +84,7 @@ export const getUserProfile = (username, callback) => {
 // Update user streak
 export const updateUserStreak = async (username) => {
   try {
-    const streakRef = doc(db, 'USERS', username.toLowerCase(), 'streak', 'current');
+    const streakRef = doc(db, 'users', username.toLowerCase(), 'streak', 'current');
     const streakDoc = await getDoc(streakRef);
     
     if (streakDoc.exists()) {
@@ -170,7 +152,7 @@ export const updateUserStreak = async (username) => {
 
 // Get user streak data
 export const getUserStreak = (username, callback) => {
-  const streakRef = doc(db, 'USERS', username.toLowerCase(), 'streak', 'current');
+  const streakRef = doc(db, 'users', username.toLowerCase(), 'streak', 'current');
   
   return onSnapshot(streakRef, (doc) => {
     if (doc.exists()) {
@@ -184,7 +166,7 @@ export const getUserStreak = (username, callback) => {
 // Update user progress
 export const updateUserProgress = async (username, problemData, isSolved = false) => {
   try {
-    const progressRef = doc(db, 'USERS', username.toLowerCase(), 'progress', 'overview');
+    const progressRef = doc(db, 'users', username.toLowerCase(), 'progress', 'overview');
     const progressDoc = await getDoc(progressRef);
     
     if (progressDoc.exists()) {
@@ -218,7 +200,7 @@ export const updateUserProgress = async (username, problemData, isSolved = false
 
 // Get user progress
 export const getUserProgress = (username, callback) => {
-  const progressRef = doc(db, 'USERS', username.toLowerCase(), 'progress', 'overview');
+  const progressRef = doc(db, 'users', username.toLowerCase(), 'progress', 'overview');
   
   return onSnapshot(progressRef, (doc) => {
     if (doc.exists()) {
@@ -232,7 +214,7 @@ export const getUserProgress = (username, callback) => {
 // Add solved problem
 export const addSolvedProblem = async (username, problemData) => {
   try {
-    const solvedRef = collection(db, 'USERS', username.toLowerCase(), 'problemsSolved');
+    const solvedRef = collection(db, 'users', username.toLowerCase(), 'problemsSolved');
     
     await setDoc(doc(solvedRef, problemData.id), {
       problemId: problemData.id,
@@ -255,7 +237,7 @@ export const addSolvedProblem = async (username, problemData) => {
 
 // Get solved problems
 export const getSolvedProblems = (username, callback) => {
-  const solvedRef = collection(db, 'USERS', username.toLowerCase(), 'problemsSolved');
+  const solvedRef = collection(db, 'users', username.toLowerCase(), 'problemsSolved');
   const q = query(solvedRef, orderBy('solvedAt', 'desc'));
   
   return onSnapshot(q, (snapshot) => {
@@ -270,7 +252,7 @@ export const getSolvedProblems = (username, callback) => {
 // Add bookmark
 export const addBookmark = async (username, problemData) => {
   try {
-    const bookmarksRef = collection(db, 'USERS', username.toLowerCase(), 'bookmarks');
+    const bookmarksRef = collection(db, 'users', username.toLowerCase(), 'bookmarks');
     
     await setDoc(doc(bookmarksRef, problemData.id), {
       problemId: problemData.id,
@@ -291,7 +273,7 @@ export const addBookmark = async (username, problemData) => {
 // Remove bookmark
 export const removeBookmark = async (username, problemId) => {
   try {
-    const bookmarkRef = doc(db, 'USERS', username.toLowerCase(), 'bookmarks', problemId);
+    const bookmarkRef = doc(db, 'users', username.toLowerCase(), 'bookmarks', problemId);
     await deleteDoc(bookmarkRef);
     
     return true;
@@ -303,7 +285,7 @@ export const removeBookmark = async (username, problemId) => {
 
 // Get bookmarks
 export const getBookmarks = (username, callback) => {
-  const bookmarksRef = collection(db, 'USERS', username.toLowerCase(), 'bookmarks');
+  const bookmarksRef = collection(db, 'users', username.toLowerCase(), 'bookmarks');
   const q = query(bookmarksRef, orderBy('bookmarkedAt', 'desc'));
   
   return onSnapshot(q, (snapshot) => {
@@ -318,7 +300,7 @@ export const getBookmarks = (username, callback) => {
 // Check if problem is bookmarked
 export const isProblemBookmarked = async (username, problemId) => {
   try {
-    const bookmarkRef = doc(db, 'USERS', username.toLowerCase(), 'bookmarks', problemId);
+    const bookmarkRef = doc(db, 'users', username.toLowerCase(), 'bookmarks', problemId);
     const bookmarkDoc = await getDoc(bookmarkRef);
     
     return bookmarkDoc.exists();
@@ -331,7 +313,7 @@ export const isProblemBookmarked = async (username, problemId) => {
 // Add achievement
 export const addAchievement = async (username, achievementData) => {
   try {
-    const achievementsRef = collection(db, 'USERS', username.toLowerCase(), 'achievements');
+    const achievementsRef = collection(db, 'users', username.toLowerCase(), 'achievements');
     
     await setDoc(doc(achievementsRef, achievementData.id), {
       name: achievementData.name,
@@ -344,7 +326,7 @@ export const addAchievement = async (username, achievementData) => {
     });
     
     // Update user total XP
-    const userRef = doc(db, 'USERS', username.toLowerCase());
+    const userRef = doc(db, 'users', username.toLowerCase());
     await updateDoc(userRef, {
       totalXP: increment(achievementData.xpBonus || 0)
     });
@@ -358,7 +340,7 @@ export const addAchievement = async (username, achievementData) => {
 
 // Get achievements
 export const getAchievements = (username, callback) => {
-  const achievementsRef = collection(db, 'USERS', username.toLowerCase(), 'achievements');
+  const achievementsRef = collection(db, 'users', username.toLowerCase(), 'achievements');
   const q = query(achievementsRef, orderBy('unlockedAt', 'desc'));
   
   return onSnapshot(q, (snapshot) => {
@@ -372,7 +354,7 @@ export const getAchievements = (username, callback) => {
 
 // Get user activity for heatmap
 export const getUserActivity = (username, callback) => {
-  const activityRef = collection(db, 'USERS', username.toLowerCase(), 'activity');
+  const activityRef = collection(db, 'users', username.toLowerCase(), 'activity');
   const q = query(activityRef, orderBy('timestamp', 'desc'), limit(365));
   
   return onSnapshot(q, (snapshot) => {
@@ -387,7 +369,7 @@ export const getUserActivity = (username, callback) => {
 // Add activity log
 export const addActivity = async (username, activityData) => {
   try {
-    const activityRef = collection(db, 'USERS', username.toLowerCase(), 'activity');
+    const activityRef = collection(db, 'users', username.toLowerCase(), 'activity');
     
     await setDoc(doc(activityRef, `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`), {
       type: activityData.type,

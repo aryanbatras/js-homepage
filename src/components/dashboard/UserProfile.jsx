@@ -343,7 +343,7 @@ export default function UserProfile({ isOpen, onClose }) {
         <div className={styles.header}>
           <div className={styles.userInfo}>
             <img 
-              src={profile?.avatar || '/default-avatar.png'} 
+              src={profile?.avatar || '/default-avatar.svg'} 
               alt={profile?.displayName}
               className={styles.avatar}
             />
