@@ -14,7 +14,7 @@ function Section1({insideMac = false}) {
             The <span>challenging</span> <br /> 
             way to learn <span>JavaScript</span>
           </span>
-          {insideMac === false && ( 
+          {/* {insideMac === false && (  */}
             <a 
               className="homepage__section1__dashboard-btn"
               href="/js-homepage/dashboard"
@@ -23,7 +23,7 @@ function Section1({insideMac = false}) {
             >
               Start Coding Challenges
             </a>
-          )}
+          {/* )} */}
         </div>
       </div>
   );

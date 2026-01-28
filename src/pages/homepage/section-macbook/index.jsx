@@ -7,7 +7,7 @@ import { useGLTF, Html, useProgress } from "@react-three/drei";
 import Homepage from "../index";
 import React from "react";
 import downArrow from "../../../assets/down-arrow.png";
-import { OrbitControls } from "@react-three/drei";
+// import { OrbitControls } from "@react-three/drei";
 
 function Loader() {
   const { progress } = useProgress();
@@ -53,11 +53,11 @@ function SectionMacBook({ insideMac = false }) {
             pinSpacing: false,
             onUpdate: function (self) {
               const scrollProgress = self.progress;
-              setScrollOffset(scrollProgress * -9000);
+              setScrollOffset(scrollProgress * -8000);
               // htmlRef.current.style.overflow = "visible";
 
               if (htmlRef.current && htmlRef.current.style) {
-                if (scrollProgress > 0.05) {
+                if (scrollProgress > 0.01) {
                   htmlRef.current.style.overflow = "visible";
                   // if (scrollProgress > 0.98) {
                   //   htmlRef.current.style.overflow = "hidden";
@@ -135,10 +135,10 @@ function SectionMacBook({ insideMac = false }) {
           x: -0.2,
           z: -0.1,
           duration: 12,
-          onUpdate: function() {
-            currentTiltX = 0;
-            currentTiltY = 0;
-          },
+          // onUpdate: function() {
+          //   currentTiltX = 0;
+          //   currentTiltY = 0;
+          // },
         });
 
         // PUT SOME SCENES HERE
@@ -148,10 +148,10 @@ function SectionMacBook({ insideMac = false }) {
           x: 0.35,
           z: 0.45,
           duration: 96,
-          onUpdate: function() {
-            currentTiltX = 0;
-            currentTiltY = 0;
-          },
+          // onUpdate: function() {
+          //   currentTiltX = 0;
+          //   currentTiltY = 0;
+          // },
         });
         t.to(
           screenRef.current.position,
@@ -168,10 +168,10 @@ function SectionMacBook({ insideMac = false }) {
           x: -0.5,
           z: -0.75,
           duration: 96,
-          onUpdate: function() {
-            currentTiltX = 0;
-            currentTiltY = 0;
-          },
+          // onUpdate: function() {
+          //   currentTiltX = 0;
+          //   currentTiltY = 0;
+          // },
         });
         t.to(
           screenRef.current.position,
@@ -190,10 +190,10 @@ function SectionMacBook({ insideMac = false }) {
           x: 0,
           z: 0,
           duration: 96,
-          onUpdate: function() {
-            currentTiltX = 0;
-            currentTiltY = 0;
-          },
+          // onUpdate: function() {
+          //   currentTiltX = 0;
+          //   currentTiltY = 0;
+          // },
         });
         t.to(
           screenRef.current.position,
@@ -247,16 +247,16 @@ function SectionMacBook({ insideMac = false }) {
 
         // mac closing
 
-        t.to(screenFlipRef.current.rotation, {
-          x: (Math.PI / 2),
-          duration: 128,
-          ease: "power3.inOut",
-        });
-        t.to(htmlRef.current.style, {
-          opacity: 0,
-          duration: 64,
-          ease: "power4.out",
-        }, "-=64");
+        // t.to(screenFlipRef.current.rotation, {
+        //   x: (Math.PI / 2),
+        //   duration: 128,
+        //   ease: "power3.inOut",
+        // });
+        // t.to(htmlRef.current.style, {
+        //   opacity: 0,
+        //   duration: 64,
+        //   ease: "power4.out",
+        // }, "-=64");
 
         const floatingAnimation = gsap.to(modelRef.current.position, {
           y: "-=0.9",
@@ -268,51 +268,51 @@ function SectionMacBook({ insideMac = false }) {
           repeat: -1,
         });
 
-        let currentTiltX = 0;
-        let currentTiltY = 0;
+        // let currentTiltX = 0;
+        // let currentTiltY = 0;
 
-        const handleMouseMove = (event) => {
-          if (screenRef.current && t.progress() >= 0.05) {
-            const { clientX, clientY } = event;
-            const { innerWidth, innerHeight } = window;
-            const x = (clientX / innerWidth) * 2 - 1;
-            const y = (clientY / innerHeight) * 2 - 1;
-            currentTiltX = x * 0.5;
-            currentTiltY = y * -0.5;
-            gsap.to(screenRef.current.rotation, {
-              x: -currentTiltY,
-              z: -currentTiltX,
-              duration: 0.5,
-              ease: "power2.out",
-              overwrite: true,
-            });
-          }
-        };
+        // const handleMouseMove = (event) => {
+        //   if (screenRef.current && t.progress() >= 0.05) {
+        //     const { clientX, clientY } = event;
+        //     const { innerWidth, innerHeight } = window;
+        //     const x = (clientX / innerWidth) * 2 - 1;
+        //     const y = (clientY / innerHeight) * 2 - 1;
+        //     currentTiltX = x * 0.5;
+        //     currentTiltY = y * -0.5;
+        //     gsap.to(screenRef.current.rotation, {
+        //       x: -currentTiltY,
+        //       z: -currentTiltX,
+        //       duration: 0.5,
+        //       ease: "power2.out",
+        //       overwrite: true,
+        //     });
+        //   }
+        // };
 
-        const handleTouchMove = (event) => {
-          if (screenRef.current && t.progress() >= 0.01 && event.touches.length > 0) {
-            const { clientX, clientY } = event.touches[0];
-            const { innerWidth, innerHeight } = window;
-            const x = (clientX / innerWidth) * 2 - 1;
-            const y = (clientY / innerHeight) * 2 - 1;
-            currentTiltX = x * 0.5;
-            currentTiltY = y * -0.5;
-            gsap.to(screenRef.current.rotation, {
-              x: -currentTiltY,
-              z: -currentTiltX,
-              duration: 0.5,
-              ease: "power2.out",
-              overwrite: true,
-            });
-          }
-        };
+        // const handleTouchMove = (event) => {
+        //   if (screenRef.current && t.progress() >= 0.01 && event.touches.length > 0) {
+        //     const { clientX, clientY } = event.touches[0];
+        //     const { innerWidth, innerHeight } = window;
+        //     const x = (clientX / innerWidth) * 2 - 1;
+        //     const y = (clientY / innerHeight) * 2 - 1;
+        //     currentTiltX = x * 0.5;
+        //     currentTiltY = y * -0.5;
+        //     gsap.to(screenRef.current.rotation, {
+        //       x: -currentTiltY,
+        //       z: -currentTiltX,
+        //       duration: 0.5,
+        //       ease: "power2.out",
+        //       overwrite: true,
+        //     });
+        //   }
+        // };
 
-        window.addEventListener("mousemove", handleMouseMove);
-        window.addEventListener("touchmove", handleTouchMove, { passive: true });
-        return () => {
-          window.removeEventListener("mousemove", handleMouseMove);
-          window.removeEventListener("touchmove", handleTouchMove);
-        };
+        // window.addEventListener("mousemove", handleMouseMove);
+        // window.addEventListener("touchmove", handleTouchMove, { passive: true });
+        // return () => {
+        //   window.removeEventListener("mousemove", handleMouseMove);
+        //   window.removeEventListener("touchmove", handleTouchMove);
+        // };
       }
     }, 100);
   }, [ready]);
@@ -411,6 +411,7 @@ function MacModel({
               name="Cube008_2"
               ref={screenRef}
               geometry={nodes.Cube008_2.geometry}
+              position={[0,-1,0]}
             >
               <meshStandardMaterial transparent={true} opacity={0} />
               <Html
@@ -418,7 +419,7 @@ function MacModel({
                   // pointerEvents: "none",
                   opacity: "0",
                   width: "330px",
-                  height: "214px",
+                  height: "204px",
                   overflow: "hidden",
                   position: "relative",
                 }}
@@ -466,6 +467,7 @@ function MacModel({
             receiveShadow
             geometry={nodes.Cube002.geometry}
             material={materials.aluminium}
+            // position={[0,-0.2,0]}
           />
           <mesh
             name="Cube002_1"

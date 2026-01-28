@@ -90,7 +90,7 @@ function SectionJourney() {
         </div>
 
         <button className="homepage__section-journey__cta" onClick={handleDashboardClick}>
-          <a href="/js-homepage/dashboard" style={{textDecoration: "none"}}>Continue Your Journey</a>
+          <a href="/js-homepage/dashboard" style={{textDecoration: "none", color: "white"}}>Continue Your Journey</a>
         </button>
 
       </div>
