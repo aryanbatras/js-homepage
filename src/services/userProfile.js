@@ -50,8 +50,33 @@ const initializeUserSubcollections = async (username) => {
       showProgress: true
     });
 
+    // Initialize streak data
+    const streakRef = doc(db, 'users', username, 'streak', 'current');
+    await setDoc(streakRef, {
+      currentStreak: 0,
+      longestStreak: 0,
+      lastActiveDate: null,
+      streakHistory: [],
+      milestones: []
+    });
+
+    // Initialize progress data
+    const progressRef = doc(db, 'users', username, 'progress', 'overview');
+    await setDoc(progressRef, {
+      totalProblemsSolved: 0,
+      problemsAttempted: 0,
+      xpEarned: 0,
+      level: 1,
+      lastActiveDate: serverTimestamp(),
+      difficultyProgress: {
+        easy: { attempted: 0, solved: 0 },
+        medium: { attempted: 0, solved: 0 },
+        hard: { attempted: 0, solved: 0 }
+      }
+    });
+
     // Initialize empty collections
-    const collections = ['achievements', 'streak', 'progress', 'problemsSolved', 'bookmarks', 'activity'];
+    const collections = ['achievements', 'problemsSolved', 'bookmarks', 'activity'];
     
     for (const collectionName of collections) {
       const initRef = doc(db, 'users', username, collectionName, 'init');
@@ -87,15 +112,15 @@ export const updateUserStreak = async (username) => {
     const streakRef = doc(db, 'users', username.toLowerCase(), 'streak', 'current');
     const streakDoc = await getDoc(streakRef);
     
+    const today = new Date().toDateString();
+    
     if (streakDoc.exists()) {
       const streakData = streakDoc.data();
-      const today = new Date().toDateString();
       const lastActive = streakData.lastActiveDate ? new Date(streakData.lastActiveDate.toDate()).toDateString() : null;
       
       let newStreak = streakData.currentStreak;
       let newLongestStreak = streakData.longestStreak;
       let streakHistory = streakData.streakHistory || [];
-      let milestones = streakData.milestones || [];
       
       if (lastActive === today) {
         // Already active today, no change
@@ -121,10 +146,10 @@ export const updateUserStreak = async (username) => {
       
       // Check for milestones
       if (newStreak === 7 || newStreak === 30 || newStreak === 100 || newStreak === 365) {
+        const milestones = streakData.milestones || [];
         milestones.push({
           streak: newStreak,
-          achievedAt: serverTimestamp(),
-          badge: `${newStreak}-day-streak`
+          achievedAt: serverTimestamp()
         });
       }
       
@@ -132,18 +157,35 @@ export const updateUserStreak = async (username) => {
         currentStreak: newStreak,
         longestStreak: newLongestStreak,
         lastActiveDate: serverTimestamp(),
-        streakHistory: streakHistory,
-        milestones: milestones
+        streakHistory: streakHistory
       });
       
       return {
         currentStreak: newStreak,
         longestStreak: newLongestStreak,
-        isNewMilestone: milestones.length > streakData.milestones.length
+        isNewMilestone: streakData.milestones ? streakData.milestones.length < streakData.milestones.length + 1 : true
+      };
+    } else {
+      // Create streak document if it doesn't exist
+      const initialStreakData = {
+        currentStreak: 1,
+        longestStreak: 1,
+        lastActiveDate: serverTimestamp(),
+        streakHistory: [{
+          date: serverTimestamp(),
+          streak: 1
+        }],
+        milestones: []
+      };
+      
+      await setDoc(streakRef, initialStreakData);
+      
+      return {
+        currentStreak: 1,
+        longestStreak: 1,
+        isNewMilestone: false
       };
     }
-    
-    return null;
   } catch (error) {
     console.error('Error updating user streak:', error);
     throw error;
@@ -184,14 +226,50 @@ export const updateUserProgress = async (username, problemData, isSolved = false
         // Update difficulty progress
         const difficulty = problemData.difficulty || 'easy';
         updates[`difficultyProgress.${difficulty}.solved`] = increment(1);
+        updates[`difficultyProgress.${difficulty}.attempted`] = increment(1);
+        
+        // Level up every 100 XP
+        const currentXP = (progressData.xpEarned || 0) + (problemData.xp || 10);
+        const newLevel = Math.floor(currentXP / 100) + 1;
+        if (newLevel > (progressData.level || 1)) {
+          updates.level = newLevel;
+        }
+      } else {
+        // Update attempted count for difficulty
+        const difficulty = problemData.difficulty || 'easy';
+        updates[`difficultyProgress.${difficulty}.attempted`] = increment(1);
       }
       
       await updateDoc(progressRef, updates);
       
       return true;
+    } else {
+      // Create progress document if it doesn't exist
+      const initialData = {
+        totalProblemsSolved: isSolved ? 1 : 0,
+        problemsAttempted: 1,
+        xpEarned: isSolved ? (problemData.xp || 10) : 0,
+        level: isSolved ? Math.floor((problemData.xp || 10) / 100) + 1 : 1,
+        lastActiveDate: serverTimestamp(),
+        difficultyProgress: {
+          easy: { attempted: 0, solved: 0 },
+          medium: { attempted: 0, solved: 0 },
+          hard: { attempted: 0, solved: 0 }
+        }
+      };
+      
+      if (isSolved) {
+        const difficulty = problemData.difficulty || 'easy';
+        initialData.difficultyProgress[difficulty].solved = 1;
+        initialData.difficultyProgress[difficulty].attempted = 1;
+      } else {
+        const difficulty = problemData.difficulty || 'easy';
+        initialData.difficultyProgress[difficulty].attempted = 1;
+      }
+      
+      await setDoc(progressRef, initialData);
+      return true;
     }
-    
-    return false;
   } catch (error) {
     console.error('Error updating user progress:', error);
     throw error;

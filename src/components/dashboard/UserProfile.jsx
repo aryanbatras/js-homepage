@@ -27,7 +27,7 @@ export default function UserProfile({ isOpen, onClose }) {
             <FaCode />
           </div>
           <div className={styles.statContent}>
-            <div className={styles.statValue}>{progress?.totalProblemsSolved || 0}</div>
+            <div className={styles.statValue}>{solvedProblems?.length || 0}</div>
             <div className={styles.statLabel}>Problems Solved</div>
           </div>
         </div>
@@ -47,12 +47,21 @@ export default function UserProfile({ isOpen, onClose }) {
             <FaBook />
           </div>
           <div className={styles.statContent}>
-            <div className={styles.statValue}>{bookmarks.length}</div>
+            <div className={styles.statValue}>{bookmarks?.length || 0}</div>
             <div className={styles.statLabel}>Bookmarks</div>
           </div>
         </div>
       </div>
-
+      
+      {/* Streak Heatmap */}
+      <div className={styles.streakSection}>
+        <h3>Activity Heatmap</h3>
+        <div className={styles.heatmap}>
+          {generateHeatmap()}
+        </div>
+      </div>
+      
+      {/* Recent Activity */}
       <div className={styles.recentActivity}>
         <h3>Recent Activity</h3>
         <div className={styles.activityList}>
@@ -82,6 +91,34 @@ export default function UserProfile({ isOpen, onClose }) {
       </div>
     </div>
   );
+
+  const generateHeatmap = () => {
+    const days = [];
+    const today = new Date();
+    
+    // Generate last 30 days
+    for (let i = 29; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(date.getDate() - i);
+      
+      // Check if there's activity for this date
+      const hasActivity = activity.some(item => {
+        if (!item.timestamp) return false;
+        const activityDate = new Date(item.timestamp.toDate ? item.timestamp.toDate() : item.timestamp);
+        return activityDate.toDateString() === date.toDateString();
+      });
+      
+      days.push(
+        <div 
+          key={i} 
+          className={`${styles.heatmapDay} ${hasActivity ? styles.active : ''}`}
+          title={date.toLocaleDateString()}
+        />
+      );
+    }
+    
+    return days;
+  };
 
   const renderAchievements = () => (
     <div className={styles.achievements}>
@@ -156,24 +193,39 @@ export default function UserProfile({ isOpen, onClose }) {
   );
 
   const renderProgress = () => {
-    const totalProblems = 150; // This should come from your categories store
-    const solvedCount = progress?.totalProblemsSolved || 0;
-    const successRate = progress?.successRate || 0;
-    const difficultyProgress = progress?.difficultyProgress || { easy: { solved: 0, total: 0 }, medium: { solved: 0, total: 0 }, hard: { solved: 0, total: 0 } };
+    // Calculate dynamic values from actual data
+    const solvedCount = solvedProblems?.length || 0;
+    const attemptedCount = progress?.problemsAttempted || 0;
+    const totalXP = progress?.xpEarned || 0;
+    const currentLevel = progress?.level || 1;
+    
+    // Calculate success rate
+    const successRate = attemptedCount > 0 ? (solvedCount / attemptedCount) * 100 : 0;
+    
+    // Get difficulty progress from actual data
+    const difficultyProgress = progress?.difficultyProgress || { 
+      easy: { attempted: 0, solved: 0 }, 
+      medium: { attempted: 0, solved: 0 }, 
+      hard: { attempted: 0, solved: 0 } 
+    };
+
+    // Calculate XP needed for next level (simple formula: level * 100)
+    const xpNeeded = currentLevel * 100;
+    const xpProgress = (totalXP % xpNeeded) / xpNeeded * 100;
 
     return (
       <div className={styles.progress}>
         <div className={styles.progressOverview}>
           <div className={styles.progressCard}>
-            <h3>Overall Progress</h3>
+            <h3>Problems Solved</h3>
             <div className={styles.progressBar}>
               <div 
                 className={styles.progressFill} 
-                style={{ width: `${(solvedCount / totalProblems) * 100}%` }}
+                style={{ width: `${Math.min(successRate, 100)}%` }}
               />
             </div>
             <div className={styles.progressText}>
-              {solvedCount} / {totalProblems} problems solved ({Math.round((solvedCount / totalProblems) * 100)}%)
+              {solvedCount} problems solved • {attemptedCount} attempted
             </div>
           </div>
           
@@ -189,6 +241,19 @@ export default function UserProfile({ isOpen, onClose }) {
               {Math.round(successRate)}% success rate
             </div>
           </div>
+          
+          <div className={styles.progressCard}>
+            <h3>Level Progress</h3>
+            <div className={styles.progressBar}>
+              <div 
+                className={styles.progressFill} 
+                style={{ width: `${xpProgress}%` }}
+              />
+            </div>
+            <div className={styles.progressText}>
+              Level {currentLevel} • {totalXP} XP
+            </div>
+          </div>
         </div>
 
         <div className={styles.difficultyProgress}>
@@ -199,11 +264,11 @@ export default function UserProfile({ isOpen, onClose }) {
               <div className={styles.difficultyBar}>
                 <div 
                   className={`${styles.difficultyFill} ${styles.easy}`}
-                  style={{ width: `${difficultyProgress.easy.total > 0 ? (difficultyProgress.easy.solved / difficultyProgress.easy.total) * 100 : 0}%` }}
+                  style={{ width: `${difficultyProgress.easy.attempted > 0 ? (difficultyProgress.easy.solved / difficultyProgress.easy.attempted) * 100 : 0}%` }}
                 />
               </div>
               <div className={styles.difficultyText}>
-                {difficultyProgress.easy.solved} / {difficultyProgress.easy.total}
+                {difficultyProgress.easy.solved} solved • {difficultyProgress.easy.attempted} attempted
               </div>
             </div>
             
@@ -212,11 +277,11 @@ export default function UserProfile({ isOpen, onClose }) {
               <div className={styles.difficultyBar}>
                 <div 
                   className={`${styles.difficultyFill} ${styles.medium}`}
-                  style={{ width: `${difficultyProgress.medium.total > 0 ? (difficultyProgress.medium.solved / difficultyProgress.medium.total) * 100 : 0}%` }}
+                  style={{ width: `${difficultyProgress.medium.attempted > 0 ? (difficultyProgress.medium.solved / difficultyProgress.medium.attempted) * 100 : 0}%` }}
                 />
               </div>
               <div className={styles.difficultyText}>
-                {difficultyProgress.medium.solved} / {difficultyProgress.medium.total}
+                {difficultyProgress.medium.solved} solved • {difficultyProgress.medium.attempted} attempted
               </div>
             </div>
             
@@ -225,11 +290,11 @@ export default function UserProfile({ isOpen, onClose }) {
               <div className={styles.difficultyBar}>
                 <div 
                   className={`${styles.difficultyFill} ${styles.hard}`}
-                  style={{ width: `${difficultyProgress.hard.total > 0 ? (difficultyProgress.hard.solved / difficultyProgress.hard.total) * 100 : 0}%` }}
+                  style={{ width: `${difficultyProgress.hard.attempted > 0 ? (difficultyProgress.hard.solved / difficultyProgress.hard.attempted) * 100 : 0}%` }}
                 />
               </div>
               <div className={styles.difficultyText}>
-                {difficultyProgress.hard.solved} / {difficultyProgress.hard.total}
+                {difficultyProgress.hard.solved} solved • {difficultyProgress.hard.attempted} attempted
               </div>
             </div>
           </div>
