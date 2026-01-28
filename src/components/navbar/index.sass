@@ -12,7 +12,7 @@
   height: 80px
   padding: 0 3rem
   background: linear-gradient(135deg, #ffffff 0%, #fff9e6 100%)
-  border-bottom: 2px solid #f39c12
+  // border-bottom: 2px solid #f39c12
   margin: 0
   overflow: hidden
   position: sticky
@@ -40,6 +40,9 @@
     &:hover
       color: #fb9943
       transform: scale(1.05)
+
+.navbar__mobile-toggle
+  display: none
 
 .navbar__links
   display: flex
@@ -149,15 +152,90 @@
     height: 60px
     padding: 0 1rem
     
+  .navbar__mobile-toggle
+    display: flex
+    align-items: center
+    justify-content: center
+    background: none
+    border: none
+    color: #2c3e50
+    font-size: 1.5rem
+    cursor: pointer
+    padding: 0.5rem
+    border-radius: 4px
+    // transition: all 10s ease
+    // z-index: 1001
+
+    &:hover
+      color: #f39c12
+      background: rgba(243, 156, 18, 0.1)
+    
   .navbar__links
-    gap: 1rem
+    position: fixed
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    background: linear-gradient(135deg, #ffffff 0%, #fff9e6 100%)
+    flex-direction: column
+    gap: 0
+    padding: 5rem 1rem 1rem
+    max-height: 0
+    opacity: 0  
+    overflow: hidden
+    transition: all 0.3s ease-in-out
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1)
+    z-index: 1000
     
+    &--open
+      max-height: 100vh
+      overflow-y: auto
+      opacity: 1
+      
+  .navbar__mobile-close
+    display: flex
+    align-items: center
+    justify-content: center
+    position: absolute
+    top: 0.7rem
+    right: 1rem
+    background: none
+    border: none
+    color: #2c3e50
+    font-size: 1.5rem
+    cursor: pointer
+    padding: 0.5rem
+    border-radius: 4px
+    transition: all 0.3s ease
+    z-index: 1002
+    
+    &:hover
+      color: #f39c12
+      background: rgba(243, 156, 18, 0.1)
+      
   .navbar__link
-    padding: 0.5rem 0.75rem
-    font-size: 0.85rem
+    width: 100%
+    padding: 1.5rem 2rem
+    margin: 5px 10px
+    font-size: 1.2rem
+    border-bottom: 1px solid rgba(243, 156, 18, 0.1)
+    justify-content: center
+    text-align: center
+    border-radius: 8px
+    transition: all 0.3s ease
     
-    span
-      display: none
+    &:hover
+      background: rgba(243, 156, 18, 0.05)
+      transform: translateY(-2px)
+      
+    &--cta
+      margin: 1rem 10px
+      padding: 1.25rem 2rem
+      border-radius: 8px
+      text-align: center
+      justify-content: center
+      font-size: 1.3rem
+      font-weight: 600
       
   .navbar__jsicon
     height: 32px
