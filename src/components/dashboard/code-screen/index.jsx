@@ -126,11 +126,20 @@ export default function DashboardCodeScreen({ screenResizer, selectedProblem, ha
         
         setConsoleOutput(prev => [...prev, ...testConsoleOutput]);
         
+        // Check if any tests failed
+        const hasFailures = testConsoleOutput.some(log => 
+          log.type === 'error' || 
+          log.content.includes(`Can't find variable:`) || 
+          log.content.includes('Unexpected identifier') ||
+          log.content.includes('Test failed') ||
+          log.content.includes('Error')
+        );
+        
         // Emit code execution result for problem solving detection
         window.dispatchEvent(new CustomEvent('codeExecutionResult', {
           detail: {
-            success: true,
-            error: null,
+            success: !hasFailures,
+            error: hasFailures ? 'Tests failed' : null,
             output: testConsoleOutput.map(o => o.content)
           }
         }));
@@ -239,7 +248,23 @@ export default function DashboardCodeScreen({ screenResizer, selectedProblem, ha
 
   useEffect(() => {
     const handleRunCode = () => {
-      runCode();
+      // Check if files exist before running
+      if (!files || !Array.isArray(files) || files.length === 0) {
+        setConsoleOutput(['No files found to run. Please create a JavaScript file first.']);
+        
+        // Emit code execution result for problem solving detection
+        window.dispatchEvent(new CustomEvent('codeExecutionResult', {
+          detail: {
+            success: false,
+            error: 'No files found to run',
+            output: []
+          }
+        }));
+        return;
+      }
+      
+      // Call handleUnifiedRun directly instead of runCode
+      handleUnifiedRun();
     };
 
     const handleTogglePreview = () => {
