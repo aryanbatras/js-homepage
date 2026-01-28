@@ -61,6 +61,22 @@ export default function DashboardCodeScreen({ screenResizer, selectedProblem, ha
     setConsoleOutput([]);
 
     try {
+      // Check if files array exists and is not empty
+      if (!files || !Array.isArray(files) || files.length === 0) {
+        setConsoleOutput(['No files found to run. Please create a JavaScript file first.']);
+        setIsRunningTests(false);
+        
+        // Emit code execution result for problem solving detection
+        window.dispatchEvent(new CustomEvent('codeExecutionResult', {
+          detail: {
+            success: false,
+            error: 'No files found to run',
+            output: []
+          }
+        }));
+        return;
+      }
+
       // Check if tests.js exists and has EXECUTABLE code (not just comments/whitespace)
       const testsFile = files.find(file => file.name === 'tests.js');
       let hasExecutableTests = false;
@@ -83,6 +99,15 @@ export default function DashboardCodeScreen({ screenResizer, selectedProblem, ha
         const codeFiles = files.filter(file => file.name !== 'tests.js' && file.name.endsWith('.js'));
         if (codeFiles.length === 0) {
           setConsoleOutput([{ type: 'error', content: 'No JavaScript files found to test', timestamp: new Date().toLocaleTimeString() }]);
+          
+          // Emit code execution result for problem solving detection
+          window.dispatchEvent(new CustomEvent('codeExecutionResult', {
+            detail: {
+              success: false,
+              error: 'No JavaScript files found to test',
+              output: []
+            }
+          }));
           return;
         }
 
@@ -100,11 +125,29 @@ export default function DashboardCodeScreen({ screenResizer, selectedProblem, ha
         }));
         
         setConsoleOutput(prev => [...prev, ...testConsoleOutput]);
+        
+        // Emit code execution result for problem solving detection
+        window.dispatchEvent(new CustomEvent('codeExecutionResult', {
+          detail: {
+            success: true,
+            error: null,
+            output: testConsoleOutput.map(o => o.content)
+          }
+        }));
       } else {
         // Run individual file (no executable tests)
         const activeFile = files.find(file => file.active && file.name.endsWith('.js'));
         if (!activeFile) {
           setConsoleOutput([{ type: 'error', content: 'No active JavaScript file found', timestamp: new Date().toLocaleTimeString() }]);
+          
+          // Emit code execution result for problem solving detection
+          window.dispatchEvent(new CustomEvent('codeExecutionResult', {
+            detail: {
+              success: false,
+              error: 'No active JavaScript file found',
+              output: []
+            }
+          }));
           return;
         }
 
@@ -141,6 +184,16 @@ export default function DashboardCodeScreen({ screenResizer, selectedProblem, ha
           }
           
           setConsoleOutput(outputs);
+          
+          // Emit code execution result for problem solving detection
+          window.dispatchEvent(new CustomEvent('codeExecutionResult', {
+            detail: {
+              success: true,
+              error: null,
+              output: outputs.map(o => o.content)
+            }
+          }));
+          
         } catch (error) {
           if (error.message.includes('Unexpected token')) {
             setConsoleOutput([
@@ -150,6 +203,15 @@ export default function DashboardCodeScreen({ screenResizer, selectedProblem, ha
           } else {
             setConsoleOutput([{ type: 'error', content: `Error: ${error.message}`, timestamp: new Date().toLocaleTimeString() }]);
           }
+          
+          // Emit code execution result for problem solving detection
+          window.dispatchEvent(new CustomEvent('codeExecutionResult', {
+            detail: {
+              success: false,
+              error: error.message,
+              output: outputs.map(o => o.content)
+            }
+          }));
         } finally {
           console.log = originalLog;
         }
