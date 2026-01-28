@@ -51,6 +51,7 @@ export default function UserProfile({ isOpen, onClose }) {
             <div className={styles.statLabel}>Bookmarks</div>
           </div>
         </div>
+
       </div>
       
       {/* Streak Heatmap */}
@@ -218,7 +219,7 @@ export default function UserProfile({ isOpen, onClose }) {
       <div className={styles.progress}>
         <div className={styles.progressOverview}>
           <div className={`${styles.progressCard} ${styles.highlighted}`}>
-            <h3>🎯 Level Progress</h3>
+            <h3>Level Progress</h3>
             <div className={styles.progressBar}>
               <div 
                 className={`${styles.progressFill} ${styles.levelProgress}`} 
@@ -231,7 +232,7 @@ export default function UserProfile({ isOpen, onClose }) {
           </div>
           
           <div className={styles.progressCard}>
-            <h3>✅ Problems Solved</h3>
+            <h3>Problems Solved</h3>
             <div className={styles.progressBar}>
               <div 
                 className={`${styles.progressFill} ${styles.successProgress}`} 
@@ -244,7 +245,7 @@ export default function UserProfile({ isOpen, onClose }) {
           </div>
           
           <div className={styles.progressCard}>
-            <h3>📊 Overall Stats</h3>
+            <h3>Overall Stats</h3>
             <div className={styles.statsGrid}>
               <div className={styles.stat}>
                 <span className={styles.statValue}>{solvedCount}</span>
@@ -261,7 +262,7 @@ export default function UserProfile({ isOpen, onClose }) {
             </div>
           </div>
         </div>
-
+{/* 
         <div className={styles.difficultyProgress}>
           <h3>🎮 Progress by Difficulty</h3>
           <div className={styles.difficultyGrid}>
@@ -304,7 +305,9 @@ export default function UserProfile({ isOpen, onClose }) {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
+
+
       </div>
     );
   };
