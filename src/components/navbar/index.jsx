@@ -51,6 +51,7 @@ function Navbar() {
             setIsMobileMenuOpen(false);
             handleDashboardClick();
           }}
+          
         >
           <span>Get Started</span>
           {/* <IoIosArrowDown className="navbar__icon" /> */}
