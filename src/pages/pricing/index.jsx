@@ -66,8 +66,8 @@ function Pricing() {
                   Custom practice sessions
                 </li> */}
               </ul>
-              <button className="pricing__button pricing__button--outline">
-                Get Started
+              <button className="pricing__button pricing__button--outline" disabled>
+                Already Enrolled
               </button>
             </div>
 
@@ -112,8 +112,8 @@ function Pricing() {
                   Advanced analytics
                 </li>
               </ul>
-              <button className="pricing__button pricing__button--outline">
-                Start Free Trial
+              <button className="pricing__button pricing__button--outline" disabled>
+                Currently Unavailable
               </button>
             </div>
 
@@ -155,7 +155,7 @@ function Pricing() {
                   Bulk user management
                 </li>
               </ul>
-              <button className="pricing__button pricing__button--outline">
+              <button className="pricing__button pricing__button--outline" disabled>
                 Contact Sales
               </button>
             </div>
