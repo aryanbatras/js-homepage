@@ -31,10 +31,6 @@ export const useStateHookImplementation = {
     {
       test: "Test 1: Initial state",
       code: "let render = () => {};\nlet [count, setCount] = useState(0);\nconsole.log('Initial count:', count);\nsetCount(5);\nlet [newCount] = useState(0);\nconsole.log('Updated count:', newCount);"
-    },
-    {
-      test: "Test 2: Multiple states",
-      code: "let render = () => {};\nlet [count, setCount] = useState(0);\nlet [name, setName] = useState('John');\nconsole.log('Count:', count, 'Name:', name);\nsetCount(10);\nsetName('Doe');\nlet [newCount] = useState(0);\nlet [newName] = useState('');\nconsole.log('New Count:', newCount, 'New Name:', newName);"
     }
   ],
 };

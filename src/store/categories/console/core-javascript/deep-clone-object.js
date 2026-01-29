@@ -34,11 +34,11 @@ export const deepCloneObject = {
     },
     {
       test: "Test 2: Nested object",
-      code: "const obj = { a: 1, b: { c: 2 } };\nconst cloned = deepClone(obj);\nconsole.log('Original nested:', obj.b);\nconsole.log('Cloned nested:', cloned.b);\nconsole.log('Are nested objects different?', obj.b !== cloned.b);"
+      code: "const obj2 = { a: 1, b: { c: 2 } };\nconst cloned2 = deepClone(obj2);\nconsole.log('Original nested:', obj2.b);\nconsole.log('Cloned nested:', cloned2.b);\nconsole.log('Are nested objects different?', obj2.b !== cloned2.b);"
     },
     {
       test: "Test 3: Array cloning",
-      code: "const arr = [1, [2, 3], { a: 4 }];\nconst cloned = deepClone(arr);\nconsole.log('Original array:', arr);\nconsole.log('Cloned array:', cloned);\nconsole.log('Are arrays different?', arr !== cloned);\nconsole.log('Are nested arrays different?', arr[1] !== cloned[1]);"
+      code: "const arr = [1, [2, 3], { a: 4 }];\nconst clonedArr = deepClone(arr);\nconsole.log('Original array:', arr);\nconsole.log('Cloned array:', clonedArr);\nconsole.log('Are arrays different?', arr !== clonedArr);\nconsole.log('Are nested arrays different?', arr[1] !== clonedArr[1]);"
     }
   ],
 };

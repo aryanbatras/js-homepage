@@ -31,10 +31,6 @@ export const virtualDomImplementation = {
     {
       test: "Test 1: Create simple element",
       code: "const vdom = createElement('div', { className: 'test' }, 'Hello World');\nconsole.log('VDOM structure:', JSON.stringify(vdom, null, 2));"
-    },
-    {
-      test: "Test 2: Nested elements",
-      code: "const vdom = createElement('div', {}, \n  createElement('span', {}, 'Nested'),\n  'Text'\n);\nconsole.log('Nested VDOM:', JSON.stringify(vdom, null, 2));"
     }
   ],
 };

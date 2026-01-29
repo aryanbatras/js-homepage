@@ -31,7 +31,7 @@ export const CONFIG_FILES = [
 
 export const DEFAULT_FILES = [
   {
-    name: "index.jsx",
+    name: "index.js",
     language: "javascript",
     content: "const { createRoot } = ReactDOM;\nconst { useState } = React;\nfunction App() {\n  const [count, setCount] = useState(0);\n  return (\n    <div>\n      <h1>Hello World</h1>\n      <p>React is working in preview!</p>\n      <button onClick={() => setCount((e) => e + 1)}>Count {count}</button>\n    </div>\n  );\n}\n\nconst root = createRoot(document.getElementById(\"root\"));\nroot.render(<App />);",
     active: true,

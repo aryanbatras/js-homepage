@@ -25,6 +25,7 @@ export default function CategorySelector({ onCategorySelect, problemType, setPro
   ];
 
   const previewCategories = [
+    { id: 'react-js', name: 'React JS' },
     { id: 'html-css', name: 'HTML & CSS' },
     { id: 'dom-manipulation', name: 'DOM Manipulation' },
     { id: 'responsive-design', name: 'Responsive Design' },

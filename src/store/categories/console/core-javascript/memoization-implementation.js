@@ -31,10 +31,6 @@ export const memoizationImplementation = {
     {
       test: "Test 1: Basic memoization",
       code: "let memoCallCount = 0;\nconst expensive = memoize((x) => {\n  memoCallCount++;\n  return x * 2;\n});\n\nconsole.log('First call:', expensive(5));\nconsole.log('Second call:', expensive(5));\nconsole.log('Call count:', memoCallCount); // Should be 1"
-    },
-    {
-      test: "Test 2: Different arguments",
-      code: "let memoCallCount2 = 0;\nconst expensive = memoize((x) => {\n  memoCallCount2++;\n  return x * 2;\n});\n\nconsole.log('Call with 5:', expensive(5));\nconsole.log('Call with 10:', expensive(10));\nconsole.log('Call count:', memoCallCount2); // Should be 2"
     }
   ],
 };

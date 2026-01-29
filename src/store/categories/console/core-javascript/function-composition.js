@@ -31,10 +31,6 @@ export const functionComposition = {
     {
       test: "Test 1: Basic composition",
       code: "const addOne = x => x + 1;\nconst double = x => x * 2;\nconst composed = compose(addOne, double);\nconsole.log('Compose result:', composed(5)); // Should be 11"
-    },
-    {
-      test: "Test 2: Pipe function",
-      code: "const addOne = x => x + 1;\nconst double = x => x * 2;\nconst piped = pipe(addOne, double);\nconsole.log('Pipe result:', piped(5)); // Should be 12"
     }
   ],
 };

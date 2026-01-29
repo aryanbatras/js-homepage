@@ -21,6 +21,7 @@ import { database } from './console/database/index.js';
 
 // Preview Categories
 import { htmlCss } from './preview/html-css/index.js';
+import { reactJs as reactJsPreview } from './preview/react-js/index.js';
 import { domManipulation } from './preview/dom-manipulation/index.js';
 import { cssAnimations } from './preview/css-animations/index.js';
 import { javascriptUi } from './preview/javascript-ui/index.js';
@@ -55,6 +56,7 @@ export const problemsByCategory = {
   
   // Preview Categories
   'html-css': htmlCss,
+  'react-js': reactJsPreview,
   'dom-manipulation': domManipulation,
   'css-animations': cssAnimations,
   'javascript-ui': javascriptUi,

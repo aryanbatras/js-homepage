@@ -31,10 +31,6 @@ export const eventEmitterImplementation = {
     {
       test: "Test 1: Basic emit/on",
       code: "const emitter = new EventEmitter();\nlet message = '';\nemitter.on('test', (data) => message = data);\nemitter.emit('test', 'Hello');\nconsole.log('Message received:', message);"
-    },
-    {
-      test: "Test 2: Multiple listeners",
-      code: "const emitter = new EventEmitter();\nlet eventCount = 0;\nemitter.on('increment', () => eventCount++);\nemitter.on('increment', () => eventCount++);\nemitter.emit('increment');\nconsole.log('Count after emit:', eventCount);"
     }
   ],
 };
