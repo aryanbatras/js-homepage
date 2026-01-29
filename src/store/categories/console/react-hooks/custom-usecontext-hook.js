@@ -4,7 +4,7 @@ export const customUseContextHook = {
   code_examples: [
     {
       example: "Example 1:",
-      code: "const theme = useContext(ThemeContext);\nreturn <div style={{ color: theme }}>{children}</div>;",
+      code: "const theme = customUseContext(ThemeContext);\nreturn <div style={{ color: theme }}>{children}</div>;",
     },
   ],
   hints: [
@@ -18,19 +18,19 @@ export const customUseContextHook = {
   solution: [
     {
       approach: "Approach 1: Global Context Tracking",
-      code: "let currentContextValue = null;\n\nfunction useContext(context) {\n  return currentContextValue !== null ? currentContextValue : context.defaultValue;\n}\n\nfunction createContext(defaultValue) {\n  return {\n    defaultValue,\n    Provider: ({ value, children }) => {\n      currentContextValue = value;\n      return children;\n    }\n  };\n}",
+      code: "let currentContextValue = null;\n\nfunction customUseContext(context) {\n  return currentContextValue !== null ? currentContextValue : context.defaultValue;\n}\n\nfunction customCreateContext(defaultValue) {\n  return {\n    defaultValue,\n    Provider: ({ value, children }) => {\n      currentContextValue = value;\n      return children;\n    }\n  };\n}",
     },
   ],
   files: [
     {
       name: "useContext.js",
-      code: "let currentContextValue = null;\n\nfunction useContext(context) {\n  return currentContextValue !== null ? currentContextValue : context.defaultValue;\n}\n\nfunction createContext(defaultValue) {\n  return {\n    defaultValue,\n    Provider: ({ value, children }) => {\n      currentContextValue = value;\n      return children;\n    }\n  };\n}"
+      code: "let currentContextValue = null;\n\nfunction customUseContext(context) {\n  return currentContextValue !== null ? currentContextValue : context.defaultValue;\n}\n\nfunction customCreateContext(defaultValue) {\n  return {\n    defaultValue,\n    Provider: ({ value, children }) => {\n      currentContextValue = value;\n      return children;\n    }\n  };\n}"
     }
   ],
   tests: [
     {
       test: "Test 1: Context consumption",
-      code: "const ThemeContext = createContext('light');\nconst provider = ThemeContext.Provider({ value: 'dark', children: null });\nconst theme = useContext(ThemeContext);\nconsole.log('Theme:', theme);"
+      code: "const ThemeContext = customCreateContext('light');\nconst provider = ThemeContext.Provider({ value: 'dark', children: null });\nconst theme = customUseContext(ThemeContext);\nconsole.log('Theme:', theme);"
     }
   ],
 };

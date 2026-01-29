@@ -30,7 +30,7 @@ export const debouncedSearchInput = {
   tests: [
     {
       test: "Test 1: Debounce behavior",
-      code: "let value = 'initial';\nconst debounced = useDebounce('updated', 100);\nsetTimeout(() => console.log('Debounced value:', debounced), 150);"
+      code: "let searchValue = 'initial';\nconst debounced = useDebounce('updated', 100);\nsetTimeout(() => console.log('Debounced value:', debounced), 150);"
     }
   ],
 };

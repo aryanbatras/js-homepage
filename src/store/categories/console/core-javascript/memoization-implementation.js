@@ -18,23 +18,23 @@ export const memoizationImplementation = {
   solution: [
     {
       approach: "Approach 1: Simple Cache with JSON Key",
-      code: "function memoize(fn) {\n  const cache = new Map();\n  \n  return function(...args) {\n    const key = JSON.stringify(args);\n    \n    if (cache.has(key)) {\n      return cache.get(key);\n    }\n    \n    const result = fn.apply(this, args);\n    cache.set(key, result);\n    return result;\n  };\n}",
+      code: "function memoize(fn) {\n  const memoCache = new Map();\n  \n  return function(...args) {\n    const key = JSON.stringify(args);\n    \n    if (memoCache.has(key)) {\n      return memoCache.get(key);\n    }\n    \n    const result = fn.apply(this, args);\n    memoCache.set(key, result);\n    return result;\n  };\n}",
     },
   ],
   files: [
     {
       name: "memoize.js",
-      code: "function memoize(fn) {\n  const cache = new Map();\n  \n  return function(...args) {\n    const key = JSON.stringify(args);\n    \n    if (cache.has(key)) {\n      return cache.get(key);\n    }\n    \n    const result = fn.apply(this, args);\n    cache.set(key, result);\n    return result;\n  };\n}"
+      code: "function memoize(fn) {\n  const memoCache = new Map();\n  \n  return function(...args) {\n    const key = JSON.stringify(args);\n    \n    if (memoCache.has(key)) {\n      return memoCache.get(key);\n    }\n    \n    const result = fn.apply(this, args);\n    memoCache.set(key, result);\n    return result;\n  };\n}"
     }
   ],
   tests: [
     {
       test: "Test 1: Basic memoization",
-      code: "let callCount = 0;\nconst expensive = memoize((x) => {\n  callCount++;\n  return x * 2;\n});\n\nconsole.log('First call:', expensive(5));\nconsole.log('Second call:', expensive(5));\nconsole.log('Call count:', callCount); // Should be 1"
+      code: "let memoCallCount = 0;\nconst expensive = memoize((x) => {\n  memoCallCount++;\n  return x * 2;\n});\n\nconsole.log('First call:', expensive(5));\nconsole.log('Second call:', expensive(5));\nconsole.log('Call count:', memoCallCount); // Should be 1"
     },
     {
       test: "Test 2: Different arguments",
-      code: "let callCount = 0;\nconst expensive = memoize((x) => {\n  callCount++;\n  return x * 2;\n});\n\nconsole.log('Call with 5:', expensive(5));\nconsole.log('Call with 10:', expensive(10));\nconsole.log('Call count:', callCount); // Should be 2"
+      code: "let memoCallCount2 = 0;\nconst expensive = memoize((x) => {\n  memoCallCount2++;\n  return x * 2;\n});\n\nconsole.log('Call with 5:', expensive(5));\nconsole.log('Call with 10:', expensive(10));\nconsole.log('Call count:', memoCallCount2); // Should be 2"
     }
   ],
 };

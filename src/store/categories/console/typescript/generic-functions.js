@@ -30,7 +30,7 @@ export const genericFunctions = {
   tests: [
     {
       test: "Test 1: Generic functions",
-      code: "const result1 = identity('hello');\nconst user = { name: 'John', age: 30 };\nconst result2 = getProperty(user, 'name');\nconst result3 = merge({ a: 1 }, { b: 2 });\nconsole.log('Identity:', result1);\nconsole.log('Property:', result2);\nconsole.log('Merge:', result3);"
+      code: "const identityResult = identity('hello');\nconst user = { name: 'John', age: 30 };\nconst propertyResult = getProperty(user, 'name');\nconst mergeResult = merge({ a: 1 }, { b: 2 });\nconsole.log('Identity:', identityResult);\nconsole.log('Property:', propertyResult);\nconsole.log('Merge:', mergeResult);"
     }
   ],
 };

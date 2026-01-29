@@ -30,11 +30,11 @@ export const debounceFunction = {
   tests: [
     {
       test: "Test 1: Basic debouncing",
-      code: "let callCount = 0;\nconst debouncedFn = debounce(() => {\n  callCount++;\n  console.log('Function called', callCount, 'times');\n}, 100);\n\ndebouncedFn();\ndebouncedFn();\ndebouncedFn();\nconsole.log('Immediate call count:', callCount);\n\nsetTimeout(() => {\n  console.log('After delay - call count:', callCount);\n}, 200);"
+      code: "let debounceCallCount = 0;\nconst debouncedFn = debounce(() => {\n  debounceCallCount++;\n  console.log('Function called', debounceCallCount, 'times');\n}, 100);\n\ndebouncedFn();\ndebouncedFn();\ndebouncedFn();\nconsole.log('Immediate call count:', debounceCallCount);\n\nsetTimeout(() => {\n  console.log('After delay - call count:', debounceCallCount);\n}, 200);"
     },
     {
       test: "Test 2: Multiple rapid calls",
-      code: "let callCount = 0;\nconst debouncedFn = debounce(() => {\n  callCount++;\n  console.log('Debounced call', callCount);\n}, 50);\n\nfor(let i = 0; i < 5; i++) {\n  setTimeout(() => debouncedFn(), i * 10);\n}\n\nsetTimeout(() => {\n  console.log('Final call count:', callCount);\n}, 200);"
+      code: "let debounceCallCount2 = 0;\nconst debouncedFn = debounce(() => {\n  debounceCallCount2++;\n  console.log('Debounced call', debounceCallCount2);\n}, 50);\n\nfor(let i = 0; i < 5; i++) {\n  setTimeout(() => debouncedFn(), i * 10);\n}\n\nsetTimeout(() => {\n  console.log('Final call count:', debounceCallCount2);\n}, 200);"
     }
   ],
 };

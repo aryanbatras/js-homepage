@@ -18,13 +18,13 @@ export const xssPrevention = {
   solution: [
     {
       approach: "Approach 1: HTML Escaping",
-      code: "function escapeHTML(str) {\n  const div = document.createElement('div');\n  div.textContent = str;\n  return div.innerHTML;\n}\n\nfunction sanitizeInput(input) {\n  return input\n    .replace(/[<>]/g, '')\n    .replace(/javascript:/gi, '')\n    .replace(/on\\w+=/gi, '');\n}\n\nfunction createSafeElement(tag, content) {\n  const element = document.createElement(tag);\n  if (content) {\n    element.textContent = content;\n  }\n  return element;\n}",
+      code: "function escapeHTML(str) {\n  const div = document.createElement('div');\n  div.textContent = str;\n  return div.innerHTML;\n}\n\nfunction sanitizeInput(input) {\n  return input\n    .replace(/[<>]/g, '')\n    .replace(/javascript:/gi, '')\n    .replace(/on\\w+=/gi, '');\n}\n\nfunction createSafeElement(tag, content) {\n  const safeElement = document.createElement(tag);\n  if (content) {\n    safeElement.textContent = content;\n  }\n  return safeElement;\n}",
     },
   ],
   files: [
     {
       name: "security.js",
-      code: "function escapeHTML(str) {\n  const div = document.createElement('div');\n  div.textContent = str;\n  return div.innerHTML;\n}\n\nfunction sanitizeInput(input) {\n  return input\n    .replace(/[<>]/g, '')\n    .replace(/javascript:/gi, '')\n    .replace(/on\\w+=/gi, '');\n}\n\nfunction createSafeElement(tag, content) {\n  const element = document.createElement(tag);\n  if (content) {\n    element.textContent = content;\n  }\n  return element;\n}"
+      code: "function escapeHTML(str) {\n  const div = document.createElement('div');\n  div.textContent = str;\n  return div.innerHTML;\n}\n\nfunction sanitizeInput(input) {\n  return input\n    .replace(/[<>]/g, '')\n    .replace(/javascript:/gi, '')\n    .replace(/on\\w+=/gi, '');\n}\n\nfunction createSafeElement(tag, content) {\n  const safeElement = document.createElement(tag);\n  if (content) {\n    safeElement.textContent = content;\n  }\n  return safeElement;\n}"
     }
   ],
   tests: [

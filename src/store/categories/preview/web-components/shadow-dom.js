@@ -38,7 +38,7 @@ export const shadowDom = {
   tests: [
     {
       test: "Test 1: Shadow DOM creation",
-      code: "const element = document.createElement('shadow-card');\nconsole.log('Shadow root exists:', !!element.shadowRoot);"
+      code: "const shadowElement = document.createElement('shadow-card');\nconsole.log('Shadow root exists:', !!shadowElement.shadowRoot);"
     }
   ],
 };

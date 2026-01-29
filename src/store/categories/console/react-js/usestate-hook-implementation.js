@@ -18,13 +18,13 @@ export const useStateHookImplementation = {
   solution: [
     {
       approach: "Approach 1: Using Global State Array",
-      code: "let state = [];\nlet index = 0;\n\nfunction useState(initialValue) {\n  const currentIndex = index;\n  if (state[currentIndex] === undefined) {\n    state[currentIndex] = initialValue;\n  }\n  \n  const setState = (newValue) => {\n    state[currentIndex] = newValue;\n    index = 0;\n    render();\n  };\n  \n  index++;\n  return [state[currentIndex], setState];\n}",
+      code: "let state = [];\nlet stateIndex = 0;\n\nfunction useState(initialValue) {\n  const currentIndex = stateIndex;\n  if (state[currentIndex] === undefined) {\n    state[currentIndex] = initialValue;\n  }\n  \n  const setState = (newValue) => {\n    state[currentIndex] = newValue;\n    stateIndex = 0;\n    render();\n  };\n  \n  stateIndex++;\n  return [state[currentIndex], setState];\n}",
     },
   ],
   files: [
     {
       name: "useState.js",
-      code: "let state = [];\nlet index = 0;\n\nfunction useState(initialValue) {\n  const currentIndex = index;\n  if (state[currentIndex] === undefined) {\n    state[currentIndex] = initialValue;\n  }\n  \n  const setState = (newValue) => {\n    state[currentIndex] = newValue;\n    index = 0;\n    render();\n  };\n  \n  index++;\n  return [state[currentIndex], setState];\n}"
+      code: "let state = [];\nlet stateIndex = 0;\n\nfunction useState(initialValue) {\n  const currentIndex = stateIndex;\n  if (state[currentIndex] === undefined) {\n    state[currentIndex] = initialValue;\n  }\n  \n  const setState = (newValue) => {\n    state[currentIndex] = newValue;\n    stateIndex = 0;\n    render();\n  };\n  \n  stateIndex++;\n  return [state[currentIndex], setState];\n}"
     }
   ],
   tests: [

@@ -36,6 +36,16 @@ export class TestRunner {
         timestamp: new Date().toLocaleTimeString()
       });
     };
+
+    console.async = (...args) => {
+      this.logs.push({
+        type: 'async',
+        message: args.map(arg => 
+          typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+        ).join(' '),
+        timestamp: new Date().toLocaleTimeString()
+      });
+    };
   }
 
   restoreConsole() {

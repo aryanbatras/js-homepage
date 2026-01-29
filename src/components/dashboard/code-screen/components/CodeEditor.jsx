@@ -215,6 +215,7 @@ export function CodeEditor({
         'editorSuggestWidget.background': '#ffffff',
         'editorSuggestWidget.border': '#e5e7eb',
         'editorSuggestWidget.selectedBackground': '#ea580c20',
+        'editorSuggestWidget.selectedForeground': '#000000',
         'editorHoverWidget.background': '#ffffff',
         'editorHoverWidget.border': '#e5e7eb',
         'peekView.border': '#e5e7eb',
