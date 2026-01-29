@@ -10,7 +10,7 @@ import { CiMenuKebab } from "react-icons/ci";
 import { MdOpenWith } from "react-icons/md";
 import { useState, useEffect } from "react";
 import { problemsByCategory } from "../../components/dashboard/content-screen/store/categories";
-
+// import { useEffect } from "react";
 export default function Dashboard() {
   // console.log('🔍 Dashboard component rendering');
   
@@ -27,6 +27,7 @@ export default function Dashboard() {
   const { aiChatWidth, isResizing: isAIChatResizing, startResizing: startAIChatResizing } = useAIChatResizer();
   const { screenResizer, setScreenResizer, setIsDragging } = useScreenResizer(isAIChatVisible, aiChatWidth);
   const [problemType, setProblemType] = useState('console');
+  const [isNavigatingFromSearch, setIsNavigatingFromSearch] = useState(false);
 
   // // console.log('🔍 Dashboard state initialized');
   // console.log('🔍 Dashboard - hooks initialized:', {
@@ -111,6 +112,15 @@ export default function Dashboard() {
     setIsAIChatVisible(!isAIChatVisible);
   };
 
+  const handleSearchProblemSelect = (categoryId, problemIndex) => {
+    setIsNavigatingFromSearch(true); // Set flag to prevent problem index reset
+    setSelectedCategory(categoryId);
+    setSelectedProblemIndex(problemIndex);
+    if (!isProblemsPanelOpen) {
+      toggleProblemsPanel();
+    }
+  };
+
   // // Add useEffect to track re-renders
   // useEffect(() => {
   //   // console.log('🔍 Dashboard useEffect - component re-rendered');
@@ -119,7 +129,10 @@ export default function Dashboard() {
   // Update selectedProblem when index or category changes
   useEffect(() => {
     // console.log('🔍 Dashboard - category changed, resetting problem');
-    setSelectedProblemIndex(null); // Reset problem index when category changes
+    if (!isNavigatingFromSearch) {
+      setSelectedProblemIndex(null); // Reset problem index when category changes, but not from search
+    }
+    setIsNavigatingFromSearch(false); // Reset the flag
     setSelectedProblem(null);
     // Only reset GitHub files if we're not dealing with configuration files (no problem selected)
     if (selectedProblem) {
@@ -149,6 +162,21 @@ export default function Dashboard() {
     }
   }, [selectedProblemIndex, selectedCategory]);
 
+  // Global keyboard shortcut handler
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // Ctrl+K or Cmd+K for search
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        // Dispatch custom event to open search
+        window.dispatchEvent(new CustomEvent('openSearch'));
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   return (
     <div className={styles.dashboard}>
       <DashboardNavbar 
@@ -165,8 +193,10 @@ export default function Dashboard() {
         isTimerVisible={isTimerVisible}
         onToggleTimer={toggleTimer}
         setSelectedCategory={setSelectedCategory}
+        setSelectedProblemIndex={setSelectedProblemIndex}
         isAIChatVisible={isAIChatVisible}
         onToggleAIChatbot={toggleAIChat}
+        onSearchProblemSelect={handleSearchProblemSelect}
       />
       <div className={styles.container}>
         <DashboardContent 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./index.module.sass";
 import { IoLogoJavascript, IoShuffle } from "react-icons/io5";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
@@ -9,7 +9,9 @@ import { VscPreview } from "react-icons/vsc";
 import { VscRunCoverage } from "react-icons/vsc";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { IoSettings } from "react-icons/io5";
+import { FaSearch } from "react-icons/fa";
 import GitHubSync from "../GitHubSync";
+import Search from "../Search";
 import { Link } from "react-router-dom";
 import UserProfile from "../UserProfile";
 import { useAuth } from "../../../contexts/AuthContext";
@@ -28,12 +30,15 @@ export default function DashboardNavbar({
   isTimerVisible,
   onToggleTimer,
   setSelectedCategory,
+  setSelectedProblemIndex,
   isAIChatVisible,
   onToggleAIChatbot,
+  onSearchProblemSelect,
 }) {
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isProfileVisible, setIsProfileVisible] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { user } = useAuth();
 
   const handleRun = () => {
@@ -93,6 +98,31 @@ export default function DashboardNavbar({
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  const toggleSearch = () => {
+    setIsSearchOpen(!isSearchOpen);
+  };
+
+  const handleCategorySelect = (categoryId) => {
+    setSelectedCategory(categoryId);
+    if (!isProblemsPanelOpen) {
+      onToggleProblemsPanel();
+    }
+  };
+
+  const handleProblemSelect = (categoryId, problemIndex) => {
+    onSearchProblemSelect(categoryId, problemIndex);
+  };
+
+  // Listen for global search shortcut
+  useEffect(() => {
+    const handleOpenSearch = () => {
+      setIsSearchOpen(true);
+    };
+
+    window.addEventListener('openSearch', handleOpenSearch);
+    return () => window.removeEventListener('openSearch', handleOpenSearch);
+  }, []);
+
   const handleMobileMenuAction = (action) => {
     if (window.innerWidth <= 768) {
       setIsMobileMenuOpen(false);
@@ -111,6 +141,13 @@ export default function DashboardNavbar({
         </div>
         
         <div className={`${styles.navSections} ${isMobileMenuOpen ? styles.mobileMenuOpen : styles.mobileMenuClosed}`}>
+          <div className={styles.section}>
+            <div className={styles.searchContainer} onClick={() => handleMobileMenuAction(toggleSearch)}>
+              <FaSearch className={styles.searchIcon} />
+              <span className={styles.searchText}>Search categories...</span>
+              <span className={styles.searchShortcut}>Ctrl+K</span>
+            </div>
+          </div>
           <div className={styles.section}>
             <div className={styles.icon__small} onClick={() => handleMobileMenuAction(onToggleProblemsPanel)}>
               <CiMenuFries />
@@ -182,6 +219,13 @@ export default function DashboardNavbar({
           onClose={() => setIsProfileVisible(false)} 
         />
       )}
+      
+      <Search 
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+        onCategorySelect={handleCategorySelect}
+        onProblemSelect={handleProblemSelect}
+      />
     </nav>
   );
 }

@@ -27,7 +27,7 @@
     &::before
       opacity: 1
 
-@media (max-width: 768px)
+@media (max-width: 850px)
   .navbar
     height: auto
     min-height: 5vh
@@ -35,7 +35,7 @@
     position: relative
     overflow: hidden
     
-@media (max-width: 1024px)
+@media (max-width: 1330px)
   .navbar
     flex-direction: column
     // height: 25vh
@@ -142,6 +142,52 @@
     justify-content: space-around
     padding: 0.75rem
     margin: 0.5rem 0
+
+.searchContainer
+  display: flex
+  align-items: center
+  gap: 0.75rem
+  padding: 0.625rem 1rem
+  background: rgba(248, 248, 248, 0.8)
+  border: 2px solid transparent
+  border-radius: 2px
+  cursor: pointer
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+  min-width: 280px
+  position: relative
+  // &:hover
+    border-color: rgba(243, 156, 18, 0.3)
+    // background: rgba(250, 250, 250, 0.9)
+    // transform: translateY(-1px)
+    // box-shadow: 0 2px 8px rgba(243, 156, 18, 0.1)
+  &:active
+    transform: translateY(0)
+  
+  @media (max-width: 768px)
+    min-width: 200px
+    padding: 0.75rem
+    margin: 0.5rem 0
+
+.searchIcon
+  color: darkorange
+  font-size: 0.875rem
+  opacity: 0.8
+
+.searchText
+  flex: 1
+  font-size: 0.875rem
+  color: rgba(0, 0, 0, 0.6)
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+
+.searchShortcut
+  font-size: 0.75rem
+  color: darkorange
+  background: rgba(243, 156, 18, 0.1)
+  padding: 0.25rem 0.5rem
+  border-radius: 6px
+  font-family: monospace
+  font-weight: 500
+  border: 1px solid rgba(243, 156, 18, 0.2)
 
 @mixin icon
   font-family: "Material Icons"

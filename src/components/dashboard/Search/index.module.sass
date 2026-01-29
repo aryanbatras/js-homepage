@@ -1,0 +1,196 @@
+.searchOverlay
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  background: rgba(0, 0, 0, 0.4)
+  backdrop-filter: blur(4px)
+  display: flex
+  align-items: flex-start
+  justify-content: center
+  padding-top: 10vh
+  z-index: 10000
+  animation: fadeIn 0.2s ease-out
+
+  @keyframes fadeIn
+    from
+      opacity: 0
+    to
+      opacity: 1
+
+.searchModal
+  background: white
+  border-radius: 16px
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15)
+  width: 90%
+  max-width: 600px
+  max-height: 70vh
+  overflow: hidden
+  animation: slideUp 0.3s ease-out
+  border: 1px solid rgba(243, 156, 18, 0.1)
+
+  @keyframes slideUp
+    from
+      opacity: 0
+      transform: translateY(20px)
+    to
+      opacity: 1
+      transform: translateY(0)
+
+.searchHeader
+  display: flex
+  align-items: center
+  padding: 1.5rem
+  border-bottom: 1px solid rgba(243, 156, 18, 0.1)
+  gap: 1rem
+
+.searchInputContainer
+  flex: 1
+  display: flex
+  align-items: center
+  background: rgba(248, 248, 248, 0.8)
+  border: 2px solid transparent
+  border-radius: 12px
+  padding: 0.75rem 1rem
+  transition: all 0.3s ease
+  &:focus-within
+    border-color: darkorange
+    background: white
+    box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.1)
+
+.searchIcon
+  color: darkorange
+  margin-right: 0.75rem
+  font-size: 1rem
+  opacity: 0.8
+
+.searchInput
+  flex: 1
+  border: none
+  background: transparent
+  outline: none
+  font-size: 1rem
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+  color: rgba(0, 0, 0, 0.9)
+  &::placeholder
+    color: rgba(0, 0, 0, 0.4)
+
+.closeButton
+  background: none
+  border: none
+  font-size: 1.5rem
+  color: rgba(0, 0, 0, 0.4)
+  cursor: pointer
+  padding: 0.5rem
+  border-radius: 8px
+  transition: all 0.2s ease
+  &:hover
+    background: rgba(243, 156, 18, 0.1)
+    color: darkorange
+
+.searchResults
+  max-height: 400px
+  overflow-y: auto
+  padding: 0.5rem
+
+  &::-webkit-scrollbar
+    width: 6px
+  &::-webkit-scrollbar-track
+    background: rgba(248, 248, 248, 0.5)
+  &::-webkit-scrollbar-thumb
+    background: rgba(243, 156, 18, 0.3)
+    border-radius: 3px
+    &:hover
+      background: rgba(243, 156, 18, 0.5)
+
+.noResults
+  padding: 3rem 1.5rem
+  text-align: center
+  color: rgba(0, 0, 0, 0.4)
+  font-style: italic
+
+.resultItem
+  display: flex
+  align-items: flex-start
+  padding: 1rem 1.5rem
+  cursor: pointer
+  border-radius: 12px
+  margin: 0.25rem
+  transition: all 0.2s ease
+  border: 1px solid transparent
+  &:hover
+    background: rgba(243, 156, 18, 0.05)
+    border-color: rgba(243, 156, 18, 0.2)
+    transform: translateX(4px)
+
+.problemIcon
+  color: darkorange
+  font-size: 1.25rem
+  margin-right: 1rem
+  margin-top: 0.25rem
+  opacity: 0.8
+
+.problemInfo
+  flex: 1
+
+.problemTitle
+  font-size: 1rem
+  font-weight: 600
+  color: rgba(0, 0, 0, 0.9)
+  margin-bottom: 0.25rem
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+
+.problemDescription
+  font-size: 0.875rem
+  color: rgba(0, 0, 0, 0.6)
+  margin-bottom: 0.5rem
+  line-height: 1.4
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+  display: -webkit-box
+  -webkit-line-clamp: 2
+  line-clamp: 2
+  -webkit-box-orient: vertical
+  overflow: hidden
+
+.problemMeta
+  display: flex
+  align-items: center
+  gap: 1rem
+  font-size: 0.75rem
+
+.categoryInfo
+  display: flex
+  align-items: center
+  gap: 0.25rem
+  color: darkorange
+  font-weight: 500
+
+.problemType
+  color: rgba(0, 0, 0, 0.5)
+  text-transform: capitalize
+  background: rgba(248, 248, 248, 0.8)
+  padding: 0.125rem 0.5rem
+  border-radius: 12px
+  border: 1px solid rgba(0, 0, 0, 0.1)
+
+.searchFooter
+  padding: 1rem 1.5rem
+  border-top: 1px solid rgba(243, 156, 18, 0.1)
+  background: rgba(248, 248, 248, 0.5)
+
+.keyboardHint
+  font-size: 0.75rem
+  color: rgba(0, 0, 0, 0.4)
+  text-align: center
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+
+  kbd
+    background: white
+    border: 1px solid rgba(0, 0, 0, 0.1)
+    border-radius: 4px
+    padding: 2px 6px
+    font-size: 0.7rem
+    font-family: monospace
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1)
+    margin: 0 2px
